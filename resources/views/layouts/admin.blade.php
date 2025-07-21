@@ -42,12 +42,9 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: scale(1);
             }
-
             50% {
                 transform: scale(1.05);
             }
@@ -69,156 +66,86 @@
         .footer-gradient {
             background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
         }
+
+        /* Fix for scrollable content */
+        .main-content {
+            height: calc(100vh - 80px); /* Adjust based on header height */
+        }
+
+        .sidebar-content {
+            height: calc(100vh - 80px);
+        }
     </style>
 </head>
 
-<body class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-    <div class="flex flex-col h-screen">
-        <!-- Enhanced Header -->
-        <header class="gradient-bg text-white shadow-xl relative overflow-hidden">
+<body class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Header -->
+    @include('components.admin.header')
 
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-32 translate-x-32">
-                </div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full translate-y-16 -translate-x-16">
-                </div>
-            </div>
+    <div class="flex">
+        <!-- Sidebar -->
+        @include('components.admin.sidebar')
 
-            <div class="relative z-10 flex justify-between items-center px-6 py-4">
-
-                <div class="flex items-center space-x-4">
-                    <a href="{{ url('/admin/dashboard') }}" class="relative block">
-                        <!-- <img src="/image/satgas-logo.png" alt="SATGAS PPKS Logo" class="w-[250px] rounded shadow-lg"> -->
-                        <img src="{{ asset('/image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="w-[250px] rounded shadow-lg">
-                    </a>
-                </div>
-
-
-                <div class="flex items-center space-x-3">
-
-                    <div class="relative">
-                        <button class="relative p-3 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-                            <i class="fas fa-bell text-xl group-hover:scale-110 transition-transform duration-300"></i>
-                            <span
-                                class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-6 w-6 flex items-center justify-center font-semibold notification-pulse shadow-lg">3</span>
-                        </button>
-                    </div>
-
-
-                    <div class="relative">
-                        <button
-                            class="flex items-center space-x-3 p-2 rounded-xl hover:bg-white/10 transition-all duration-300 group">
-                            <div
-                                class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
-                                <i class="fas fa-user text-green-700 text-lg"></i>
-                            </div>
-                            <div class="hidden md:block text-left">
-                                <p class="text-sm font-semibold">Admin</p>
-                                <p class="text-xs text-green-100">Administrator</p>
-                            </div>
-                            <i
-                                class="fas fa-chevron-down text-sm group-hover:rotate-180 transition-transform duration-300"></i>
-                        </button>
-
-                        <!-- Enhanced Dropdown Menu -->
-                        <div class="absolute right-0 mt-3 w-56 glass-effect rounded-xl shadow-xl py-2 z-50 hidden border border-white/20"
-                            id="userDropdown">
-                            <div class="px-4 py-3 border-b border-gray-100">
-                                <p class="text-sm font-medium text-gray-900">Admin User</p>
-                                <p class="text-xs text-gray-500">admin@unu-jogja.ac.id</p>
-                            </div>
-                            <a href="#"
-                                class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
-                                <i class="fas fa-user-circle mr-3 text-green-600"></i>Profile Saya
-                            </a>
-                            <a href="#"
-                                class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
-                                <i class="fas fa-cog mr-3 text-green-600"></i>Pengaturan
-                            </a>
-                            <a href="#"
-                                class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
-                                <i class="fas fa-question-circle mr-3 text-green-600"></i>Bantuan
-                            </a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <a href="#"
-                                class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200">
-                                <i class="fas fa-sign-out-alt mr-3"></i>Keluar
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Enhanced Mobile Menu Button -->
-                    <button class="md:hidden p-3 rounded-xl hover:bg-white/10 transition-all duration-300"
-                        id="mobileMenuBtn">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <div class="flex flex-1 overflow-hidden">
-           <!-- Sidebar -->
-            <aside
-                class="w-72 bg-white sidebar-shadow flex flex-col transition-all duration-300 ease-in-out border-r border-gray-100"
-                id="sidebar">
-                @include('layouts.nav')
-            </aside>
-
-            <!-- Main Content -->
-            <main class="flex-1 p-6 overflow-y-auto">
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col main-content">
+            <main class="flex-1 p-6 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
                 @yield('content')
             </main>
 
-            <!-- footer -->
-            @include('layouts.footer')
-
+            <!-- Footer -->
+            <footer class="footer-gradient text-white text-center py-4 mt-auto">
+                <p class="text-sm">© {{ date('Y') }} SATGAS PPKS UNU Yogyakarta. All rights reserved.</p>
+            </footer>
         </div>
     </div>
 
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 hidden transition-opacity duration-300"
-        id="sidebarOverlay"></div>
+    <!-- Mobile Sidebar Overlay -->
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 hidden transition-opacity duration-300 md:hidden" id="sidebarOverlay"></div>
 
     <script>
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-        mobileMenuBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-            document.body.classList.toggle('overflow-hidden');
-        });
+        if (mobileMenuBtn && sidebar && sidebarOverlay) {
+            mobileMenuBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebarOverlay.classList.toggle('hidden');
+                document.body.classList.toggle('overflow-hidden');
+            });
 
-        sidebarOverlay.addEventListener('click', function() {
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        });
-
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            });
+        }
 
         const userDropdown = document.getElementById('userDropdown');
-        const userButton = userDropdown.previousElementSibling;
+        const userButton = userDropdown?.previousElementSibling;
 
-        userButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            userDropdown.classList.toggle('hidden');
-        });
+        if (userButton && userDropdown) {
+            userButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!userButton.contains(event.target) && !userDropdown.contains(event.target)) {
-                userDropdown.classList.add('hidden');
-            }
-        });
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userButton.contains(event.target) && !userDropdown.contains(event.target)) {
+                    userDropdown.classList.add('hidden');
+                }
+            });
+        }
 
         // Enhanced responsive handling
         function handleResize() {
             if (window.innerWidth >= 768) {
-                sidebar.classList.remove('-translate-x-full');
-                sidebarOverlay.classList.add('hidden');
+                sidebar?.classList.remove('-translate-x-full');
+                sidebarOverlay?.classList.add('hidden');
                 document.body.classList.remove('overflow-hidden');
             } else {
-                sidebar.classList.add('-translate-x-full');
+                sidebar?.classList.add('-translate-x-full');
             }
         }
 
