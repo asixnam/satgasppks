@@ -55,7 +55,7 @@
                                             class="text-blue-600 hover:text-blue-900 transition-colors" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('beritas.destroy', $berita) }}" method="POST"
+                                        <form action="{{ route('beritas.destroy', $berita->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
                                             @csrf
                                             @method('DELETE')

@@ -4,7 +4,7 @@
     <div class="max-w-4xl mx-auto">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Berita</h1>
 
-        <form action="#" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md space-y-6">
+      <form action="{{ route('beritas.update', $berita) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md space-y-6">
             @csrf
             @method('PUT')
 
