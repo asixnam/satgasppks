@@ -98,7 +98,7 @@
                 <p class="text-gray-600 text-sm mb-6 leading-relaxed line-clamp-3">
                     Informasi tentang layanan dukungan, proses pemulihan, dan cara memberikan bantuan kepada korban kekerasan seksual. Termasuk panduan untuk keluarga, teman, dan komunitas...
                 </p>
-                <a href=""{{ route('detail.edukasi') }}" class="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors duration-300 group/link">
+                <a href="{{ route('detail.edukasi') }}" class="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors duration-300 group/link">
                     Pelajari Lebih Lanjut
                     <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
