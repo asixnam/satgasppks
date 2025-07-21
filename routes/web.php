@@ -1,0 +1,180 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\InformasiPelakuController;
+use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
+use App\Http\Controllers\Admin\EdukasiController as AdminEdukasiController;
+use App\Http\Controllers\Admin\TentangKamiController;
+use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\TimController;
+
+
+//============== BAGIAN BACKEND==================////
+
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\BeritaController;
+
+
+//////// Bagian Frontend /////////
+use App\Http\Controllers\Frontend\Pages\PagesController;
+use App\Http\Controllers\Frontend\Pelapor\LaporController;
+use App\Http\Controllers\Frontend\Articel\ArticelController;
+use App\Http\Controllers\Frontend\About\AboutController;
+use App\Http\Controllers\Frontend\Edukasi\EdukasiController;
+use App\Http\Controllers\Frontend\Status\StatusController;
+
+
+
+
+// =====Bagian Route Frontend======//
+Route::get('/', [PagesController::class, 'home']);
+
+// Bagian Pelapor User
+Route::get('/lapor', [LaporController::class, 'index'])->name('lapor.form');
+Route::post('/lapor', [LaporController::class, 'store'])->name('lapor.post');
+
+Route::get('/lapor/step2', [LaporController::class, 'step2'])->name('lapor.step2');
+Route::post('/lapor/step2', [LaporController::class, 'storeStep2'])->name('lapor.step2.post');
+
+Route::get('/lapor/step3', [LaporController::class, 'step3'])->name('lapor.step3');
+Route::post('/lapor/step3', [LaporController::class, 'storeStep3'])->name('lapor.step3.post');
+
+Route::get('/step4', [LaporController::class, 'step4'])->name('lapor.step4');
+Route::post('/step4', [LaporController::class, 'storeStep4'])->name('lapor.step4.post');
+
+Route::get('/selesai', [LaporController::class, 'selesai'])->name('lapor.selesai');
+
+// Bagian Articel
+
+Route::get('/berita', [ArticelController::class, 'index'])->name('frontend.articel');
+Route::get('/detail-articel', [ArticelController::class, 'detail'])->name('detail.articel');
+
+Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-kami');
+
+// Bagian Cek Status
+Route::get('/cek-status', [StatusController::class, 'index'])->name('status');
+
+// Bagian Edukasi
+Route::get('/edukasi', [EdukasiController::class, 'index'])->name('frontend.edukasi');
+Route::get('/detail-edukasi', [EdukasiController::class, 'detail'])->name('detail-edukasi');
+
+Route::post('/informasi-pelaku/store', [InformasiPelakuController::class, 'store'])->name('informasi-pelaku.store');
+
+
+
+
+
+
+
+
+// ===================BAGIAN BACKEND=================///
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // URUTAN INI PENTING!
+    Route::get('/laporans/create', [LaporanController::class, 'create'])->name('admin.laporans.create');
+    Route::post('/laporans', [LaporanController::class, 'store'])->name('admin.laporans.store');
+    Route::get('/laporans/{id}/edit', [LaporanController::class, 'edit'])->name('admin.laporans.edit');
+    Route::put('/laporans/{id}', [LaporanController::class, 'update'])->name('admin.laporans.update');
+    Route::delete('/laporans/{id}', [LaporanController::class, 'destroy'])->name('admin.laporans.destroy');
+    Route::get('/laporans/{id}', [LaporanController::class, 'show'])->name('admin.laporans.show');
+    Route::get('/laporans', [LaporanController::class, 'index'])->name('laporans.index');
+});
+
+
+
+
+
+
+
+Route::get('/beritas', [BeritaController::class, 'index'])->name('beritas.index');
+Route::get('/beritas/create', [BeritaController::class, 'create'])->name('beritas.create');
+Route::post('/beritas', [BeritaController::class, 'store'])->name('beritas.store');
+Route::get('/beritas/{id}/edit', [BeritaController::class, 'edit'])->name('beritas.edit');
+Route::delete('/beritas/{id}', [BeritaController::class, 'destroy'])->name('beritas.destroy');
+Route::put('/beritas/{id}', [BeritaController::class, 'update'])->name('beritas.update');
+
+
+Route::get('/edukasis', [EdukasiController::class, 'index'])->name('edukasis.index');
+Route::get('/edukasis/create', [EdukasiController::class, 'create'])->name('edukasis.create');
+
+
+Route::get('/edukasi/lanjutan', [EdukasiController::class, 'lanjutan'])->name('edukasi.lanjutan');
+
+Route::get('/tims', [TimController::class, 'index'])->name('tims.index');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Admin
+
+// Route::prefix('admin')->middleware('auth')->group(function () {
+//     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+
+//     // Pastikan route resource menggunakan nama yang konsisten
+//     Route::resource('laporans', AdminLaporanController::class)->names([
+//         'index'   => 'admin.laporans.index',
+//         'create'  => 'admin.laporans.create',
+//         'store'   => 'admin.laporans.store',
+//         'show'    => 'admin.laporans.show',     // PENTING: Pastikan ini ada
+//         'edit'    => 'admin.laporans.edit',
+//         'update'  => 'admin.laporans.update',
+//         'destroy' => 'admin.laporans.destroy',
+//     ]);
+
+//     Route::resource('edukasis', AdminEdukasiController::class);
+//     Route::resource('tentangkami', TentangKamiController::class);
+//     Route::resource('beritas', BeritaController::class);
+//     Route::resource('hero', HeroController::class);
+//     Route::resource('tims', TimController::class);
+// });
+
+
+
+// Route::prefix('admin')->middleware('auth')->group(function () {
+//     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+//     Route::resource('laporans', AdminLaporanController::class)->names([
+//         'index'   => 'laporans.index',
+//         'create'  => 'admin.laporans.create',
+//         'store'   => 'admin.laporans.store',
+//         'show'    => 'admin.laporans.show',
+//         'edit'    => 'admin.laporans.edit',
+//         'update'  => 'admin.laporans.update',
+//         'destroy' => 'admin.laporans.destroy',
+
+//     ]);
+
+//     // Route::resource('visimisi', VisiMisiController::class);
+// });
+
+
+
+
+
+
+
+
+
+// Auth
+Route::middleware(['web'])->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login.submit', [AuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
