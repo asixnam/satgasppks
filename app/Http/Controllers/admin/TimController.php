@@ -42,6 +42,39 @@ class TimController extends Controller
    return redirect()->route('tims.index');
 }
 
+public function edit($id)
+{
+    $tim = Tim::findOrFail($id);
+    return view('admin.tims.edit', compact('tim'));
+}
+
+public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+        'jabatan' => 'required|string',
+        'foto' => 'nullable|image|max:2048',
+    ]);
+
+    $tim = Tim::findOrFail($id);
+
+    // Jika ada file baru, upload dan ganti
+    if ($request->hasFile('foto')) {
+        // Hapus foto lama jika ada
+        if ($tim->foto && \Storage::disk('public')->exists($tim->foto)) {
+            \Storage::disk('public')->delete($tim->foto);
+        }
+
+        $tim->foto = $request->file('foto')->store('tim', 'public');
+    }
+
+    $tim->nama = $validated['nama'];
+    $tim->jabatan = $validated['jabatan'];
+    $tim->save();
+
+    return redirect()->route('tims.index')->with('success', 'Data tim berhasil diperbarui.');
+}
+
 public function destroy($id)
 {
     $tim = Tim::findOrFail($id);

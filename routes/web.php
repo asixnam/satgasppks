@@ -91,7 +91,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
 
-
+//Berita
 
 Route::get('/beritas', [BeritaController::class, 'index'])->name('beritas.index');
 Route::get('/beritas/create', [BeritaController::class, 'create'])->name('beritas.create');
@@ -105,7 +105,7 @@ Route::put('/beritas/{id}', [BeritaController::class, 'update'])->name('beritas.
 // Route::get('/edukasis', [EdukasiController::class, 'index'])->name('edukasis.index');
 // Route::get('/edukasis/create', [EdukasiController::class, 'create'])->name('edukasis.create');
 
-
+//Edukasi
 Route::get('/edukasis', [AdminEdukasiController::class, 'index'])->name('edukasis.index');
 Route::get('/edukasis/create', [AdminEdukasiController::class, 'create'])->name('edukasis.create');
 Route::post('/edukasis', [AdminEdukasiController::class, 'store'])->name('edukasis.store');
@@ -113,7 +113,17 @@ Route::get('/edukasis/{id}/edit', [AdminEdukasiController::class, 'edit'])->name
 Route::delete('/edukasis/{id}', [AdminEdukasiController::class, 'destroy'])->name('edukasis.destroy');
 Route::put('/edukasis/{id}', [AdminEdukasiController::class, 'update'])->name('edukasis.update');
 
+
+
+
+//tim
 Route::get('/tims', [TimController::class, 'index'])->name('tims.index');
+Route::get('/tims/create', [TimController::class, 'create'])->name('tims.create');
+Route::post('/tims', [TimController::class, 'store'])->name('tims.store');
+Route::get('/tims/{id}/edit', [TimController::class, 'edit'])->name('tims.edit');
+Route::delete('/tims/{id}', [TimController::class, 'destroy'])->name('tims.destroy');
+Route::put('/tims/{id}', [TimController::class, 'update'])->name('tims.update');
+// Route::get('/tims', [TimController::class, 'index'])->name('tims.index');
 
 
 
