@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TimController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\VisiMisiController;
 
 
 
@@ -123,7 +124,13 @@ Route::post('/tims', [TimController::class, 'store'])->name('tims.store');
 Route::get('/tims/{id}/edit', [TimController::class, 'edit'])->name('tims.edit');
 Route::delete('/tims/{id}', [TimController::class, 'destroy'])->name('tims.destroy');
 Route::put('/tims/{id}', [TimController::class, 'update'])->name('tims.update');
-// Route::get('/tims', [TimController::class, 'index'])->name('tims.index');
+
+//Visi Misi
+Route::get('/visi-misi', [VisiMisiController::class, 'index'])->name('visi-misi.index');
+Route::get('/visi-misi/create', [VisiMisiController::class, 'create'])->name('visi-misi.create');
+Route::post('/visi-misi', [VisiMisiController::class, 'store'])->name('visi-misi.store');
+Route::get('/visi-misi/{visiMisi}/edit', [VisiMisiController::class, 'edit'])->name('visi-misi.edit');
+Route::put('/visi-misi/{visiMisi}', [VisiMisiController::class, 'update'])->name('visi-misi.update');
 
 
 

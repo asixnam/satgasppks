@@ -9,10 +9,6 @@
             <a href="{{ url('/admin/dashboard') }}" class="relative block">
                 <img src="{{ asset('/image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="h-12 w-auto rounded shadow-lg">
             </a>
-            <div class="hidden md:block">
-                <h1 class="text-xl font-bold">SATGAS PPKS</h1>
-                <p class="text-green-100 text-sm">Admin Panel</p>
-            </div>
         </div>
 
         <div class="flex items-center space-x-3">

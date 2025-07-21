@@ -52,7 +52,7 @@
                         </div>
                         <span>Edukasi</span>
                     </a>
-                    <a href="#"
+                    <a href="{{ route('visi-misi.index') }}"
                         class="nav-item flex items-center space-x-4 py-3 px-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-50/50 hover:text-green-700 transition-all duration-200 group">
                         <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-green-100 transition-colors duration-200">
                             <i class="fas fa-eye text-gray-600 group-hover:text-green-600"></i>
