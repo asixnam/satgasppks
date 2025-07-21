@@ -11,7 +11,7 @@
             </div>
         @endif
 
-        <a href="{{ route('edukasis.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">+ Tambah
+        <a href="{{ route('edukasis.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">+ Tambah
             Edukasi</a>
 
         <div class="bg-white shadow rounded">

@@ -14,6 +14,6 @@ class EdukasiController extends Controller
 
     public function detail()
     {
-        return view('Frontend.Edukasi.detail-edukasi');
+        return view('Frontend.Edukasi.detail.edukasi');
     }
 }

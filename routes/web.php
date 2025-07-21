@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\BeritaController;
 
 
+
 //////// Bagian Frontend /////////
 use App\Http\Controllers\Frontend\Pages\PagesController;
 use App\Http\Controllers\Frontend\Pelapor\LaporController;
@@ -60,7 +61,7 @@ Route::get('/cek-status', [StatusController::class, 'index'])->name('status');
 
 // Bagian Edukasi
 Route::get('/edukasi', [EdukasiController::class, 'index'])->name('frontend.edukasi');
-Route::get('/detail-edukasi', [EdukasiController::class, 'detail'])->name('detail-edukasi');
+Route::get('/detail-edukasi', [EdukasiController::class, 'detail'])->name('detail.edukasi');
 
 Route::post('/informasi-pelaku/store', [InformasiPelakuController::class, 'store'])->name('informasi-pelaku.store');
 
@@ -100,11 +101,17 @@ Route::delete('/beritas/{id}', [BeritaController::class, 'destroy'])->name('beri
 Route::put('/beritas/{id}', [BeritaController::class, 'update'])->name('beritas.update');
 
 
-Route::get('/edukasis', [EdukasiController::class, 'index'])->name('edukasis.index');
-Route::get('/edukasis/create', [EdukasiController::class, 'create'])->name('edukasis.create');
+
+// Route::get('/edukasis', [EdukasiController::class, 'index'])->name('edukasis.index');
+// Route::get('/edukasis/create', [EdukasiController::class, 'create'])->name('edukasis.create');
 
 
-Route::get('/edukasi/lanjutan', [EdukasiController::class, 'lanjutan'])->name('edukasi.lanjutan');
+Route::get('/edukasis', [AdminEdukasiController::class, 'index'])->name('edukasis.index');
+Route::get('/edukasis/create', [AdminEdukasiController::class, 'create'])->name('edukasis.create');
+Route::post('/edukasis', [AdminEdukasiController::class, 'store'])->name('edukasis.store');
+Route::get('/edukasis/{id}/edit', [AdminEdukasiController::class, 'edit'])->name('edukasis.edit');
+Route::delete('/edukasis/{id}', [AdminEdukasiController::class, 'destroy'])->name('edukasis.destroy');
+Route::put('/edukasis/{id}', [AdminEdukasiController::class, 'update'])->name('edukasis.update');
 
 Route::get('/tims', [TimController::class, 'index'])->name('tims.index');
 
