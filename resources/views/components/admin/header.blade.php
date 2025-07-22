@@ -20,10 +20,10 @@
                 </button>
             </div>
 
-            <!-- User Profile Dropdown -->
+            <!-- User Profile Dropdown - BAGIAN YANG DIPERBAIKI -->
             @php $user = Auth::user(); @endphp
             <div class="relative">
-                <button class="flex items-center space-x-3 p-2 rounded-xl hover:bg-white/10 transition-all duration-300 group">
+                <button id="userDropdownToggle" class="flex items-center space-x-3 p-2 rounded-xl hover:bg-white/10 transition-all duration-300 group">
                     <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-user text-green-700 text-lg"></i>
                     </div>
@@ -31,11 +31,13 @@
                         <p class="text-sm font-semibold">{{ $user->name ?? 'Admin' }}</p>
                         <p class="text-xs text-green-100">{{ $user->email ?? 'admin@example.com' }}</p>
                     </div>
-                    <i class="fas fa-chevron-down text-sm group-hover:rotate-180 transition-transform duration-300"></i>
+                    <i class="fas fa-chevron-down text-sm transition-transform duration-300" id="chevronIcon"></i>
                 </button>
 
-                <!-- Dropdown Menu -->
-                <div class="absolute right-0 mt-3 w-56 glass-effect rounded-xl shadow-xl py-2 z-50 hidden border border-white/20" id="userDropdown">
+                <!-- Dropdown Menu - ID DAN CLASS YANG DIPERBAIKI -->
+                <div id="userDropdown"
+                     class="absolute right-0 mt-3 w-56 glass-effect rounded-xl shadow-xl py-2 z-[9999] hidden border border-white/20 dropdown-enter origin-top-right"
+                     style="position: fixed; top: 70px; right: 20px;">
                     <div class="px-4 py-3 border-b border-gray-100">
                         <p class="text-sm font-medium text-gray-900">{{ $user->name ?? 'Admin User' }}</p>
                         <p class="text-xs text-gray-500">{{ $user->email ?? 'admin@example.com' }}</p>
