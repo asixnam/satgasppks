@@ -37,11 +37,9 @@ class LaporanController extends Controller
             $query->whereDate('created_at', '<=', $request->tanggal_sampai);
         }
 
-        $laporans = \App\Models\Pelapor::paginate(10);
+        $laporans = $query->paginate(10);
 
         $laporans->appends($request->query());
-
-
         return view('admin.laporans.index', compact('laporans'));
     }
 
@@ -57,6 +55,8 @@ class LaporanController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'judul' => 'required|string|max:255',
+             'isi' => 'nullable|string',
             'nama_pelapor' => 'nullable|string|max:255',
             'nama_pelaku' => 'nullable|string|max:255',
             'nama_klien' => 'nullable|string|max:255',

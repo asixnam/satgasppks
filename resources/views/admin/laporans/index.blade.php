@@ -14,7 +14,7 @@
             </a>
         </div>
 
-        <!-- Search and Filter Section -->
+        <!-- Search and Filter Section -->  
         <div class="bg-white rounded-lg shadow p-4 mb-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="w-full md:w-auto">

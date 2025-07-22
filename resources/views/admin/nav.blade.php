@@ -19,7 +19,7 @@
                    <div class="w-12 h-px bg-gradient-to-r from-gray-300 to-transparent"></div>
                </h4>
                <div class="space-y-1">
-                   <a href="{{ route('laporans.index') }}"
+                   <a href="{{ route('admin.laporans.index') }}"
                        class="nav-item flex items-center space-x-4 py-3 px-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-50/50 hover:text-green-700 transition-all duration-200 group">
                        <div
                            class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors duration-200">

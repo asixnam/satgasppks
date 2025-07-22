@@ -75,17 +75,18 @@ Route::post('/informasi-pelaku/store', [InformasiPelakuController::class, 'store
 
 // ===================BAGIAN BACKEND=================///
 
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // URUTAN INI PENTING!
-    Route::get('/laporans/create', [LaporanController::class, 'create'])->name('admin.laporans.create');
-    Route::post('/laporans', [LaporanController::class, 'store'])->name('admin.laporans.store');
-    Route::get('/laporans/{id}/edit', [LaporanController::class, 'edit'])->name('admin.laporans.edit');
-    Route::put('/laporans/{id}', [LaporanController::class, 'update'])->name('admin.laporans.update');
-    Route::delete('/laporans/{id}', [LaporanController::class, 'destroy'])->name('admin.laporans.destroy');
-    Route::get('/laporans/{id}', [LaporanController::class, 'show'])->name('admin.laporans.show');
     Route::get('/laporans', [LaporanController::class, 'index'])->name('laporans.index');
+    Route::get('/laporans/create', [LaporanController::class, 'create'])->name('laporans.create');
+    Route::post('/laporans', [LaporanController::class, 'store'])->name('laporans.store');
+    Route::get('/laporans/{id}/edit', [LaporanController::class, 'edit'])->name('laporans.edit');
+    Route::put('/laporans/{id}', [LaporanController::class, 'update'])->name('laporans.update');
+    Route::delete('/laporans/{id}', [LaporanController::class, 'destroy'])->name('laporans.destroy');
+    Route::get('/laporans/{id}', [LaporanController::class, 'show'])->name('laporans.show');
+    
 });
 
 

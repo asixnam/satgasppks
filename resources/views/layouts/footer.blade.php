@@ -217,7 +217,7 @@
                             <h3 class="text-sm font-medium text-gray-900">Lihat Pengaduan</h3>
                         </div>
                         <p class="text-gray-500 text-xs mb-4">Tinjau laporan dari masyarakat</p>
-                        <a href="{{ route('laporans.index') }}"
+                        <a href="{{ route('admin.laporans.index') }}"
                             class="inline-flex items-center text-yellow-600 text-xs font-medium">
                             <span>Lihat Pengaduan</span>
                             <svg class="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
