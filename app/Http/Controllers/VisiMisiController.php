@@ -10,12 +10,12 @@ class VisiMisiController extends Controller
     public function index()
     {
         $data = VisiMisi::first();
-        return view('admin.VisiMisi.index', compact('data'));
+        return view('admin.visi-misi.index', compact('data'));
     }
 
     public function create()
     {
-        return view('admin.VisiMisi.create');
+        return view('admin.visi-misi.create');
     }
 
     public function store(Request $request)
@@ -32,7 +32,7 @@ class VisiMisiController extends Controller
 
     public function edit(VisiMisi $visiMisi)
     {
-        return view('admin.VisiMisi.edit', compact('visiMisi'));
+        return view('admin.visi-misi.edit', compact('visiMisi'));
     }
 
     public function update(Request $request, VisiMisi $visiMisi)
