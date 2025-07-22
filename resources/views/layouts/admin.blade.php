@@ -75,6 +75,36 @@
         .sidebar-content {
             height: calc(100vh - 80px);
         }
+
+        /* Dropdown animation classes - TAMBAHKAN INI */
+        .dropdown-enter {
+            transform: scale(0.95) translateY(-10px);
+            opacity: 0;
+        }
+
+        .dropdown-show {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            transition: all 0.2s ease-out;
+        }
+
+        .dropdown-hide {
+            transform: scale(0.95) translateY(-10px);
+            opacity: 0;
+            transition: all 0.15s ease-in;
+        }
+
+        /* Ensure dropdown is always on top */
+        #userDropdown {
+            z-index: 9999 !important;
+            position: fixed !important;
+        }
+
+        /* Header should have high z-index too */
+        header {
+            z-index: 1000;
+            position: relative;
+        }
     </style>
 </head>
 
@@ -100,9 +130,10 @@
     </div>
 
     <!-- Mobile Sidebar Overlay -->
-    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 hidden transition-opacity duration-300 md:hidden" id="sidebarOverlay"></div>
+    <div class="fixed inset-0 hidden duration-300 md:hidden bg-black bg-opacity-50" id="sidebarOverlay"></div>
 
     <script>
+        // Mobile menu functionality
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -121,19 +152,88 @@
             });
         }
 
+        // User dropdown functionality - SCRIPT YANG DIPERBAIKI
+        const userButton = document.getElementById('userDropdownToggle');
         const userDropdown = document.getElementById('userDropdown');
-        const userButton = userDropdown?.previousElementSibling;
+        const chevronIcon = document.getElementById('chevronIcon');
 
         if (userButton && userDropdown) {
             userButton.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
-                userDropdown.classList.toggle('hidden');
+
+                const isHidden = userDropdown.classList.contains('hidden');
+
+                if (isHidden) {
+                    // Calculate position dynamically
+                    const buttonRect = userButton.getBoundingClientRect();
+                    const dropdownWidth = 224; // 56 * 4 = 224px (w-56)
+
+                    // Position dropdown
+                    userDropdown.style.position = 'fixed';
+                    userDropdown.style.top = (buttonRect.bottom + 8) + 'px';
+                    userDropdown.style.right = (window.innerWidth - buttonRect.right) + 'px';
+                    userDropdown.style.left = 'auto';
+                    userDropdown.style.zIndex = '9999';
+
+                    // Show dropdown
+                    userDropdown.classList.remove('hidden');
+                    userDropdown.classList.remove('dropdown-hide');
+                    userDropdown.classList.add('dropdown-enter');
+
+                    // Trigger animation
+                    requestAnimationFrame(() => {
+                        userDropdown.classList.remove('dropdown-enter');
+                        userDropdown.classList.add('dropdown-show');
+                    });
+
+                    // Rotate chevron
+                    if (chevronIcon) {
+                        chevronIcon.style.transform = 'rotate(180deg)';
+                    }
+                } else {
+                    // Hide dropdown
+                    hideDropdown();
+                }
             });
+
+            // Function to hide dropdown with animation
+            function hideDropdown() {
+                userDropdown.classList.remove('dropdown-show');
+                userDropdown.classList.add('dropdown-hide');
+
+                // Reset chevron
+                if (chevronIcon) {
+                    chevronIcon.style.transform = 'rotate(0deg)';
+                }
+
+                setTimeout(() => {
+                    userDropdown.classList.add('hidden');
+                    userDropdown.classList.remove('dropdown-hide');
+                    userDropdown.classList.add('dropdown-enter');
+                }, 150);
+            }
 
             // Close dropdown when clicking outside
             document.addEventListener('click', function(event) {
                 if (!userButton.contains(event.target) && !userDropdown.contains(event.target)) {
-                    userDropdown.classList.add('hidden');
+                    if (!userDropdown.classList.contains('hidden')) {
+                        hideDropdown();
+                    }
+                }
+            });
+
+            // Prevent dropdown from closing when clicking inside
+            userDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Reposition dropdown on window resize
+            window.addEventListener('resize', function() {
+                if (!userDropdown.classList.contains('hidden')) {
+                    const buttonRect = userButton.getBoundingClientRect();
+                    userDropdown.style.top = (buttonRect.bottom + 8) + 'px';
+                    userDropdown.style.right = (window.innerWidth - buttonRect.right) + 'px';
                 }
             });
         }
@@ -167,6 +267,10 @@
 
         // Add smooth scrolling behavior
         document.documentElement.classList.add('smooth-scroll');
+
+        // Debug logging
+        console.log('Laravel Admin Layout loaded');
+        console.log('User dropdown elements:', { userButton, userDropdown, chevronIcon });
     </script>
 </body>
 
