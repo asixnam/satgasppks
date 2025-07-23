@@ -21,6 +21,7 @@ use App\Http\Controllers\VisiMisiController;
 
 
 
+
 //////// Bagian Frontend /////////
 use App\Http\Controllers\Frontend\Pages\PagesController;
 use App\Http\Controllers\Frontend\Pelapor\LaporController;
@@ -134,6 +135,13 @@ Route::get('/visi-misi/{visiMisi}/edit', [VisiMisiController::class, 'edit'])->n
 Route::put('/visi-misi/{visiMisi}', [VisiMisiController::class, 'update'])->name('visi-misi.update');
 
 
+//Hero
+Route::get('/hero/create', [HeroController::class, 'create'])->name('hero.create');
+Route::post('/hero', [HeroController::class, 'store'])->name('hero.store');
+Route::get('/hero/{id}/edit', [HeroController::class, 'edit'])->name('hero.edit');
+Route::put('/hero/{id}', [HeroController::class, 'update'])->name('hero.update');
+Route::get('/hero', [HeroController::class, 'index'])->name('hero.index');
+Route::delete('/hero/{hero}', [HeroController::class, 'destroy'])->name('hero.destroy');
 
 
 
