@@ -23,7 +23,7 @@ class BeritaController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'gambar' => 'nullable|image|max:2048'
+            'gambar' => 'nullable|image|max:5000'
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -49,7 +49,7 @@ class BeritaController extends Controller
     $validated = $request->validate([
         'judul' => 'required|string|max:255',
         'isi' => 'required|string',
-        'gambar' => 'nullable|image|max:2048'
+        'gambar' => 'nullable|image|max:5000'
     ]);
 
     if ($request->hasFile('gambar')) {

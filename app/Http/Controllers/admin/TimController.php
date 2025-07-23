@@ -25,7 +25,7 @@ class TimController extends Controller
     $validated = $request->validate([
         'nama' => 'required|string|max:255',
         'jabatan' => 'required|string',
-        'foto' => 'nullable|image|max:2048',
+        'foto' => 'nullable|image|max:5000',
     ]);
 
     // Upload foto jika ada
@@ -53,7 +53,7 @@ public function update(Request $request, $id)
     $validated = $request->validate([
         'nama' => 'required|string|max:255',
         'jabatan' => 'required|string',
-        'foto' => 'nullable|image|max:2048',
+        'foto' => 'nullable|image|max:5000',
     ]);
 
     $tim = Tim::findOrFail($id);

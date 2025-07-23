@@ -24,7 +24,7 @@ class HeroController extends Controller
     {
         $validated = $request->validate([
             'nama_gambar' => 'required|string|max:255',
-            'gambar' => 'required|image|max:2048',
+            'gambar' => 'required|image|max:5000',
         ]);
 
         $path = $request->file('gambar')->store('heroes', 'public');
@@ -47,7 +47,7 @@ class HeroController extends Controller
     {
         $request->validate([
             'nama_gambar' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
         ]);
 
         $hero = Hero::findOrFail($id);

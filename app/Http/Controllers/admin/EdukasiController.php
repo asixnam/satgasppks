@@ -28,7 +28,7 @@ public function store(Request $request)
     $validated = $request->validate([
         'judul' => 'required|string|max:255',
         'konten' => 'required|string',
-        'gambar' => 'nullable|image|max:2048',
+        'gambar' => 'nullable|image|max:5000',
     ]);
 
     $data = [
@@ -62,7 +62,7 @@ public function store(Request $request)
         $data = $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|max:5000',
         ]);
 
         if ($request->hasFile('gambar')) {
