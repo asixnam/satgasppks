@@ -52,9 +52,12 @@ Route::post('/step4', [LaporController::class, 'storeStep4'])->name('lapor.step4
 Route::get('/selesai', [LaporController::class, 'selesai'])->name('lapor.selesai');
 
 // Bagian Articel
-
-Route::get('/berita', [ArticelController::class, 'index'])->name('frontend.articel');
-Route::get('/detail-articel', [ArticelController::class, 'detail'])->name('detail.articel');
+Route::prefix('berita')->name('berita.')->group(function() {
+    Route::get('/', [ArticelController::class, 'index'])->name('index');
+    Route::get('/{id}', [ArticelController::class, 'show'])->name('show');
+});
+// Route::get('/berita', [ArticelController::class, 'index'])->name('frontend.articel');
+// Route::get('/detail-articel', [ArticelController::class, 'detail'])->name('detail.articel');
 
 Route::get('/tentang-kami', [AboutController::class, 'index'])->name('tentang-kami');
 
@@ -63,7 +66,7 @@ Route::get('/cek-status', [StatusController::class, 'index'])->name('status');
 
 // Bagian Edukasi
 Route::get('/edukasi', [EdukasiController::class, 'index'])->name('frontend.edukasi');
-Route::get('/detail-edukasi', [EdukasiController::class, 'detail'])->name('detail.edukasi');
+Route::get('/detail-edukasi/{id}', [EdukasiController::class, 'show'])->name('detail.edukasi');
 
 Route::post('/informasi-pelaku/store', [InformasiPelakuController::class, 'store'])->name('informasi-pelaku.store');
 
