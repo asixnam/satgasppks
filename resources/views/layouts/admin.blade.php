@@ -106,6 +106,9 @@
             position: relative;
         }
     </style>
+
+    <!-- {{-- Tempat jika halaman ingin menyisipkan style tambahan --}} -->
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased bg-gradient-to-br from-gray-50 to-gray-100">
@@ -272,6 +275,12 @@
         console.log('Laravel Admin Layout loaded');
         console.log('User dropdown elements:', { userButton, userDropdown, chevronIcon });
     </script>
+
+    <!-- {{-- Tempat halaman menyisipkan JS khusus --}} -->
+    @stack('scripts')
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>
