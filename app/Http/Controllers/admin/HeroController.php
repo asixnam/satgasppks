@@ -34,7 +34,7 @@ class HeroController extends Controller
             'gambar' => $path,
         ]);
 
-        return redirect()->route('hero.index')->with('success', 'Hero berhasil ditambahkan');
+        return redirect()->route('admin.hero.index')->with('success', 'Hero berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -68,7 +68,7 @@ class HeroController extends Controller
 
         $hero->save();
 
-        return redirect()->route('hero.index')->with('success', 'Hero berhasil diupdate!');
+        return redirect()->route('admin.hero.index')->with('success', 'Hero berhasil diupdate!');
     }
 
     public function destroy(Hero $hero)
@@ -76,6 +76,6 @@ class HeroController extends Controller
         Storage::disk('public')->delete($hero->gambar);
         $hero->delete();
 
-        return redirect()->route('hero.index')->with('success', 'Hero berhasil dihapus');
+        return redirect()->route('admin.hero.index')->with('success', 'Hero berhasil dihapus');
     }
 }

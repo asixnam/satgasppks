@@ -39,7 +39,7 @@ class TimController extends Controller
         'foto' => $path,
     ]);
 
-   return redirect()->route('tims.index');
+   return redirect()->route('admin.tims.index');
 }
 
 public function edit($id)
@@ -72,7 +72,7 @@ public function update(Request $request, $id)
     $tim->jabatan = $validated['jabatan'];
     $tim->save();
 
-    return redirect()->route('tims.index')->with('success', 'Data tim berhasil diperbarui.');
+    return redirect()->route('admin.tims.index')->with('success', 'Data tim berhasil diperbarui.');
 }
 
 public function destroy($id)
@@ -86,7 +86,7 @@ public function destroy($id)
 
     $tim->delete();
 
-    return redirect()->route('tims.index')->with('success', 'Data tim berhasil dihapus.');
+    return redirect()->route('admin.tims.index')->with('success', 'Data tim berhasil dihapus.');
 }
 
 }

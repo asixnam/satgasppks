@@ -27,7 +27,7 @@ class VisiMisiController extends Controller
 
         VisiMisi::create($request->all());
 
-        return redirect()->route('visi-misi.index')->with('success', 'Visi & Misi berhasil ditambahkan.');
+        return redirect()->route('admin.visi-misi.index')->with('success', 'Visi & Misi berhasil ditambahkan.');
     }
 
     public function edit(VisiMisi $visiMisi)
@@ -44,7 +44,7 @@ class VisiMisiController extends Controller
 
         $visiMisi->update($request->all());
 
-        return redirect()->route('visi-misi.index')->with('success', 'Visi & Misi berhasil diperbarui.');
+        return redirect()->route('admin.visi-misi.index')->with('success', 'Visi & Misi berhasil diperbarui.');
     }
 }
 

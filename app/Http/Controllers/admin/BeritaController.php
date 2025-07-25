@@ -33,7 +33,7 @@ class BeritaController extends Controller
 
         Berita::create($validated);
 
-        return redirect()->route('beritas.index')->with('success', 'Berita berhasil ditambahkan!');
+        return redirect()->route('admin.beritas.index')->with('success', 'Berita berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -65,7 +65,7 @@ class BeritaController extends Controller
 
     $berita->update($validated);
 
-    return redirect()->route('beritas.index')->with('success', 'Berita berhasil diperbarui!');
+    return redirect()->route('admin.beritas.index')->with('success', 'Berita berhasil diperbarui!');
 }
 
     public function destroy($id)
@@ -73,11 +73,11 @@ class BeritaController extends Controller
         $berita = Berita::find($id);
 
     if (!$berita) {
-        return redirect()->route('beritas.index')->with('error', 'Data tidak ditemukan.');
+        return redirect()->route('admin.beritas.index')->with('error', 'Data tidak ditemukan.');
     }
 
     $berita->delete();
 
-    return redirect()->route('beritas.index')->with('success', 'Berita berhasil dihapus!');
+    return redirect()->route('admin.beritas.index')->with('success', 'Berita berhasil dihapus!');
     }
 }

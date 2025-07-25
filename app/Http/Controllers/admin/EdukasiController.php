@@ -44,7 +44,7 @@ public function store(Request $request)
 
     Edukasi::create($data);
 
-    return redirect()->route('edukasis.index')->with('success', 'Data edukasi berhasil ditambahkan.');
+    return redirect()->route('admin.edukasis.index')->with('success', 'Data edukasi berhasil ditambahkan.');
 }
 
 
@@ -71,7 +71,7 @@ public function store(Request $request)
 
         $edukasi->update($data);
 
-        return redirect()->route('edukasis.index')->with('success', 'Edukasi berhasil diperbarui!');
+        return redirect()->route('admin.edukasis.index')->with('success', 'Edukasi berhasil diperbarui!');
     }
 
 
@@ -84,6 +84,6 @@ public function store(Request $request)
         $edukasi = Edukasi::findOrFail($id);
         $edukasi->delete();
 
-        return redirect()->route('edukasis.index')->with('success', 'Edukasi berhasil dihapus!');
+        return redirect()->route('admin.edukasis.index')->with('success', 'Edukasi berhasil dihapus!');
     }
 }

@@ -5,7 +5,7 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold text-gray-800">Kelola Hero</h1>
-        <a href="{{ route('hero.create') }}" 
+        <a href="{{ route('admin.hero.create') }}" 
            class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200 shadow-sm">
             + Tambah Hero
         </a>
@@ -28,12 +28,12 @@
                     
                     <!-- Action Buttons - Aligned Right -->
                     <div class="flex justify-end gap-2">
-                        <a href="{{ route('hero.edit', $hero->id) }}" 
+                        <a href="{{ route('admin.hero.edit', $hero->id) }}" 
                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-sm font-medium transition duration-200">
                             Edit
                         </a>
                         
-                        <form action="{{ route('hero.destroy', $hero->id) }}" 
+                        <form action="{{ route('admin.hero.destroy', $hero->id) }}" 
                               method="POST" 
                               class="inline" 
                               onsubmit="return confirm('Yakin ingin menghapus hero ini?')">
@@ -61,7 +61,7 @@
             </div>
             <h3 class="text-lg font-medium text-gray-600 mb-2">Belum ada hero</h3>
             <p class="text-gray-500 mb-4">Mulai dengan menambahkan hero pertama Anda.</p>
-            <a href="{{ route('hero.create') }}" 
+            <a href="{{ route('admin.hero.create') }}" 
                class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200">
                 + Tambah Hero Pertama
             </a>

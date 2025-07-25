@@ -5,7 +5,7 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold text-gray-800">Edit Hero</h1>
-        <a href="{{ route('hero.index') }}" 
+        <a href="{{ route('admin.hero.index') }}" 
            class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200 shadow-sm">
             ← Kembali
         </a>
@@ -73,7 +73,7 @@
                 
                 <!-- Action Buttons -->
                 <div class="flex justify-end gap-3 pt-6 border-t border-gray-200">
-                    <a href="{{ route('hero.index') }}" 
+                    <a href="{{ route('admin.hero.index') }}" 
                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200">
                         Batal
                     </a>

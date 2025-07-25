@@ -4,7 +4,7 @@
     <div class="max-w-xl mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200">
         <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tambah Anggota Tim</h1>
         
-        <form action="{{ route('tims.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="{{ route('admin.tims.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             
             <div class="space-y-2">

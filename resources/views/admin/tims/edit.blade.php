@@ -10,7 +10,7 @@
                         <h1 class="text-3xl font-bold text-gray-900">Edit Anggota Tim</h1>
                         <p class="text-gray-600 mt-1">Perbarui informasi anggota tim</p>
                     </div>
-                    <a href="{{ route('tims.index') }}" 
+                    <a href="{{ route('admin.tims.index') }}" 
                        class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -26,7 +26,7 @@
                     <h2 class="text-xl font-semibold text-white">Informasi Anggota</h2>
                 </div>
                 
-                <form action="{{ route('tims.update', $tim->id) }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+                <form action="{{ route('admin.tims.update', $tim->id) }}" method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
                     @csrf
                     @method('PUT')
                     
@@ -144,7 +144,7 @@
                             </div>
                         </button>
                         
-                        <a href="{{ route('tims.index') }}" 
+                        <a href="{{ route('admin.tims.index') }}" 
                            class="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg transition-all duration-200 text-center">
                             Batal
                         </a>

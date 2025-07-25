@@ -11,7 +11,7 @@
 
         <!-- Form Card -->
         <div class="bg-white rounded-lg shadow-sm p-6">
-            <form action="{{ route('visi-misi.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.visi-misi.store') }}" method="POST" class="space-y-6">
                 @csrf
                 
                 <!-- Visi Section -->
@@ -46,7 +46,7 @@
 
                 <!-- Submit Button -->
                 <div class="flex justify-end space-x-3">
-                    <a href="{{ route('visi-misi.index') }}" 
+                    <a href="{{ route('admin.visi-misi.index') }}" 
                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-200">
                         Batal
                     </a>

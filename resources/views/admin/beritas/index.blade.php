@@ -8,7 +8,7 @@
                 <h1 class="text-2xl font-bold text-gray-800">Daftar Berita</h1>
                 <p class="text-gray-600 mt-1">Kelola semua berita yang telah dipublikasikan</p>
             </div>
-            <a href="{{ route('beritas.create') }}"
+            <a href="{{ route('admin.beritas.create') }}"
                 class="flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
                 <i class="fas fa-plus-circle mr-2"></i> Tambah Berita
             </a>
@@ -51,11 +51,11 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-4">
-                                        <a href="{{ route('beritas.edit', $berita) }}"
+                                        <a href="{{ route('admin.beritas.edit', $berita) }}"
                                             class="text-blue-600 hover:text-blue-900 transition-colors" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('beritas.destroy', $berita->id) }}" method="POST"
+                                        <form action="{{ route('admin.beritas.destroy', $berita->id) }}" method="POST"
                                             onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')">
                                             @csrf
                                             @method('DELETE')

@@ -10,7 +10,7 @@
                     <p class="text-gray-600">Kelola konten edukasi untuk aplikasi</p>
                 </div>
                 <div>
-                    <a href="{{ route('edukasis.create') }}" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg inline-flex items-center transition duration-200 shadow-sm">
+                    <a href="{{ route('admin.edukasis.create') }}" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg inline-flex items-center transition duration-200 shadow-sm">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -71,14 +71,14 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex items-center justify-center space-x-2">
-                                            <a href="{{ route('edukasis.edit', $edukasi->id) }}" 
+                                            <a href="{{ route('admin.edukasis.edit', $edukasi->id) }}" 
                                                class="bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200 inline-flex items-center">
                                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                 </svg>
                                                 Edit
                                             </a>
-                                            <form action="{{ route('edukasis.destroy', $edukasi->id) }}" method="POST" class="inline"
+                                            <form action="{{ route('admin.edukasis.destroy', $edukasi->id) }}" method="POST" class="inline"
                                                   onsubmit="return confirm('Yakin hapus edukasi ini?')">
                                                 @csrf
                                                 @method('DELETE')

@@ -6,7 +6,7 @@
             <!-- Header Section -->
             <div class="flex justify-between items-center mb-6 border-b pb-4">
                 <h1 class="text-3xl font-bold text-gray-800">Profil Tim</h1>
-                <a href="{{ route('tims.create') }}" 
+                <a href="{{ route('admin.tims.create') }}" 
                    class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200 shadow-md hover:shadow-lg">
                     Tambah Anggota
                 </a>
@@ -41,11 +41,11 @@
                                 </td>
                                 <td class="px-6 py-4 border-b border-gray-200 text-right">
                                     <div class="flex justify-end space-x-2">
-                                        <a href="{{ route('tims.edit', $tim->id) }}" 
+                                        <a href="{{ route('admin.tims.edit', $tim->id) }}" 
                                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
                                             Edit
                                         </a>
-                                        <form action="{{ route('tims.destroy', $tim->id) }}" method="POST" class="inline"
+                                        <form action="{{ route('admin.tims.destroy', $tim->id) }}" method="POST" class="inline"
                                               onsubmit="return confirm('Yakin hapus anggota {{ $tim->nama }}?')">
                                             @csrf
                                             @method('DELETE')

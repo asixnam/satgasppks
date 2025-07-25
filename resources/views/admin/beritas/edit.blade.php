@@ -4,7 +4,7 @@
     <div class="max-w-4xl mx-auto">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Berita</h1>
 
-      <form action="{{ route('beritas.update', $berita) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md space-y-6">
+      <form action="{{ route('admin.beritas.update', $berita) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md space-y-6">
             @csrf
             @method('PUT')
 
@@ -63,7 +63,7 @@
 
             <!-- Action Buttons -->
             <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
-                <a href="{{ route('beritas.index') }}"
+                <a href="{{ route('admin.beritas.index') }}"
                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition">
                     Batal
                 </a>
