@@ -138,7 +138,7 @@
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-2 gap-4">
-                    <a href="{{ route('beritas.create') }}" 
+                    <a href="{{ route('admin.beritas.create') }}" 
                        class="flex flex-col items-center p-4 bg-blue-50 rounded-lg border border-blue-100 hover:bg-blue-100 transition-colors duration-200 group">
                         <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors duration-200">
                             <i class="fas fa-plus text-blue-600"></i>
@@ -146,7 +146,7 @@
                         <span class="text-sm font-medium text-blue-700 mt-2">Tambah Berita</span>
                     </a>
 
-                    <a href="{{ route('edukasis.create') }}" 
+                    <a href="{{ route('admin.edukasis.create') }}" 
                        class="flex flex-col items-center p-4 bg-purple-50 rounded-lg border border-purple-100 hover:bg-purple-100 transition-colors duration-200 group">
                         <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors duration-200">
                             <i class="fas fa-book text-purple-600"></i>
@@ -154,7 +154,7 @@
                         <span class="text-sm font-medium text-purple-700 mt-2">Buat Edukasi</span>
                     </a>
 
-                    <a href="{{ route('tims.create') }}" 
+                    <a href="{{ route('admin.tims.create') }}" 
                        class="flex flex-col items-center p-4 bg-orange-50 rounded-lg border border-orange-100 hover:bg-orange-100 transition-colors duration-200 group">
                         <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-200">
                             <i class="fas fa-user-plus text-orange-600"></i>
