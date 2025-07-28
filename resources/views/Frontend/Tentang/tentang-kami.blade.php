@@ -7,11 +7,11 @@
     <div class="text-center mb-16">
         <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-24 mb-8 drop-shadow-lg">
         <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Tentang SATGAS PPKS
+            Tentang SATGAS PPKPT
         </h1>
         <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8"></div>
         <p class="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-            Satuan Tugas Penanganan dan Pencegahan Kekerasan Seksual Universitas Nahdlatul Ulama Yogyakarta
+            Satuan Tugas Pencegahan dan Penanganan Kekerasan Perguruan Tinggi Universitas Nahdlatul Ulama Yogyakarta
             merupakan layanan pengaduan, penanganan, dan pencegahan kekerasan seksual di
             tingkat kampus bagi Civitas Akademika (mahasiswa, dosen, dan tenaga pendidik)
         </p>
