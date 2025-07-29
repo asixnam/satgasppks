@@ -38,7 +38,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        <span class="text-sm font-medium">Notifikasi akan dikirim via email</span>
+                        <span class="text-sm font-medium">Notifikasi akan dikirim via WhatsApp</span>
                     </div>
                 </div>
             </div>
@@ -50,9 +50,9 @@
                     Kembali ke Beranda
                 </a>
                 
-                <a href="{{ url('/lapor') }}" 
+                <a href="{{ url('/cek-status') }}" 
                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-200 inline-block">
-                    Buat Laporan Baru
+                    Ceks Status Pelaporan
                 </a>
             </div>
         </div>
@@ -70,7 +70,7 @@
 </div>
 
 <!-- Optional: Add some animation styles -->
-<style>
+<!-- <style>
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -85,12 +85,5 @@
     .animate-fade-in-up {
         animation: fadeInUp 0.6s ease-out;
     }
-</style>
-
-<script>
-    // Add animation class when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.bg-white').classList.add('animate-fade-in-up');
-    });
-</script>
+</style> -->
 @show 

@@ -372,13 +372,13 @@
             color: #FCD34D;
         }
         
-        /* Footer */
+        /* Footer Styles */
         .footer {
             background: linear-gradient(135deg, #00492C 0%, #8B5CF6 100%);
             position: relative;
-            margin-top: 2rem;
+            margin-top: auto;
         }
-        
+
         .footer::before {
             content: '';
             position: absolute;
@@ -386,70 +386,141 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.15);
         }
-        
+
         .footer-content {
             position: relative;
             z-index: 10;
-            max-width: 1440px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
+            padding: 3rem 1.5rem 2rem;
         }
-        
+
         .footer-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 2.5rem;
+            margin-bottom: 2rem;
         }
-        
+
+        /* Desktop layout */
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 2fr 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .footer-section h3 {
+            color: #FCD34D;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Contact Section */
         .contact-section {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1rem;
         }
-        
+
+        @media (min-width: 640px) {
+            .contact-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .contact-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .contact-item {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
-        
+
         .contact-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(252, 211, 77, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(252, 211, 77, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
-        
+
         .contact-item i {
             color: #FCD34D;
-            font-size: 1rem;
+            font-size: 1.25rem;
             margin-top: 0.125rem;
             flex-shrink: 0;
+            width: 24px;
+            text-align: center;
         }
-        
+
         .contact-text {
-            color: white;
-            font-size: 0.875rem;
-            line-height: 1.5;
+            flex: 1;
         }
-        
+
+        .contact-text strong {
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-text a {
+            color: #ffffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            word-break: break-all;
+        }
+
+        .contact-text a:hover {
+            color: #ffffffff;
+            text-decoration: underline;
+        }
+
+        .contact-text a.whatsapp:hover {
+            color: #ffffffff;
+        }
+
+        /* Address Section */
+        .address-section .contact-item {
+            grid-column: 1 / -1;
+        }
+
+        .address-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer Bottom */
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 2rem;
             padding-top: 2rem;
             text-align: center;
         }
-        
+
         .footer-bottom p {
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.875rem;
+            font-weight: 400;
         }
+
         
         /* Responsive Design */
         
@@ -819,49 +890,56 @@
         <!-- Konten utama akan ditambahkan di sini -->
     </main>
 
-    <!-- Footer -->
     <footer class="footer" role="contentinfo">
         <div class="footer-content">
             <div class="footer-grid">
-                
                 <!-- Contact Information -->
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Kontak Kami</h3>
+                <div class="footer-section">
+                    <h3>Kontak Kami</h3>
                     <div class="contact-section">
                         <div class="contact-item">
                             <i class="fab fa-instagram" aria-hidden="true"></i>
                             <div class="contact-text">
-                                <strong>Instagram</strong><br>
-                                @satgasppks.unuyogya
+                                <strong>Instagram</strong>
+                                <a href="https://www.instagram.com/satgasppks.unuyo" target="_blank" rel="noopener noreferrer">
+                                    @satgasppks.unuyo
+                                </a>
                             </div>
                         </div>
                         
                         <div class="contact-item">
                             <i class="fas fa-envelope" aria-hidden="true"></i>
                             <div class="contact-text">
-                                <strong>Email</strong><br>
-                                satgasppks@unu-jogja.ac.id
+                                <strong>Email</strong>
+                                <a href="gmail:satgasppks@unu-jogja.ac.id">
+                                    satgasppks@unu-jogja.ac.id
+                                </a>
                             </div>
                         </div>
                         
                         <div class="contact-item">
                             <i class="fas fa-phone" aria-hidden="true"></i>
                             <div class="contact-text">
-                                <strong>Telepon</strong><br>
-                                085156900844
+                                <strong>Telepon</strong>
+                                <a href="https://wa.me/6281323596022" target="_blank" rel="noopener noreferrer" class="whatsapp">
+                                    0813-2359-6022
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Address -->
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Alamat</h3>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                        <div class="contact-text">
-                            Jl. Ringroad Barat, Dowangan, Banyuraden, Gamping, Sleman, Yogyakarta
-                        </div>
+                <div class="footer-section address-section">
+                <h3>Alamat</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                    <div class="address-text">
+                        <a href="https://www.google.com/maps?9FvWyDk5Fdpjt9PN9"
+                        target="_blank" 
+                        class="text-whaite-400 hover:underline">
+                            Universitas Nahdlatul Ulama Yogyakarta Jl. Ringroad Barat, Dowangan, Banyuraden, Kec. Gamping, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55293
+                        </a>
                     </div>
                 </div>
             </div>
