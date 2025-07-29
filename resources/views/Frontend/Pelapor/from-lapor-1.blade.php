@@ -8,17 +8,21 @@
             <div class="flex justify-center items-center">
                 <div class="flex items-center">
                     <div class="progress-step completed">1</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Informasi Klien</span>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelapor</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="flex items-center">
                     <div class="progress-step active-step">2</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Informasi Pelapor</span>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Klien(Korban)</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="progress-step completed">3</div>
+                    <span class="ml-2 text-xs sm:text-sm text-green-400 font-medium hidden sm:inline">Kekerasan</span>
                 </div>
                 <div class="progress-line"></div>
                  <div class="flex items-center">
-                    <div class="progress-step active-step">3</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Selesai</span>
+                    <div class="progress-step active-step">4</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelaku</span>
                 </div>
             </div>
         </div>

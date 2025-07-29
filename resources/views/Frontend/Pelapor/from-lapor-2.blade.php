@@ -8,17 +8,21 @@
             <div class="flex justify-center items-center">
                 <div class="flex items-center">
                     <div class="progress-step completed">1</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Informasi Klien</span>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelapor</span>
                 </div>
                 <div class="progress-line"></div>
                 <div class="flex items-center">
-                    <div class="progress-step completed">2</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Informasi Pelapor</span>
+                    <div class="progress-step active-step">2</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Klien(Korban)</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="progress-step completed">3</div>
+                    <span class="ml-2 text-xs sm:text-sm text-green-400 font-medium hidden sm:inline">Kekerasan</span>
                 </div>
                 <div class="progress-line"></div>
                  <div class="flex items-center">
-                    <div class="progress-step active-step">3</div>
-                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Selesai</span>
+                    <div class="progress-step active-step">4</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelaku</span>
                 </div>
             </div>
         </div>
@@ -29,7 +33,7 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-4">
                     <i class="fas fa-user-edit text-2xl text-white"></i>
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">Informasi Klien</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">Informasi Klien (Korban)</h1>
                 <p class="text-white text-opacity-90 text-sm sm:text-base">Silakan lengkapi informasi klien di bawah ini</p>
             </div>
 

@@ -273,26 +273,29 @@
 <div class="form-container">
     <div class="container mx-auto px-2 py-4">
         <div class="max-w-4xl mx-auto p-14">
-            <!-- Progress Indicator -->
-            <div class="progress-indicator">
-                <div class="flex justify-center items-center space-x-2 sm:space-x-4">
-                    <div class="flex items-center">
-                        <div class="progress-step completed">1</div>
-                        <span class="ml-1 sm:ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Informasi Klien</span>
-                    </div>
-                    <div class="progress-line"></div>
-                    <div class="flex items-center">
-                        <div class="progress-step active-step">2</div>
-                        <span class="ml-1 sm:ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Detail Laporan</span>
-                    </div>
-                    <div class="progress-line"></div>
-                    <div class="flex items-center">
-                        <div class="progress-step inactive">3</div>
-                        <span class="ml-1 sm:ml-2 text-xs sm:text-sm text-blue-600 text-opacity-70 hidden sm:inline">Konfirmasi</span>
-                    </div>
+           <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="flex justify-center items-center">
+                <div class="flex items-center">
+                    <div class="progress-step completed">1</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelapor</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="flex items-center">
+                    <div class="progress-step active-step">2</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Klien(Korban)</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="progress-step completed">3</div>
+                    <span class="ml-2 text-xs sm:text-sm text-green-400 font-medium hidden sm:inline">Kekerasan</span>
+                </div>
+                <div class="progress-line"></div>
+                 <div class="flex items-center">
+                    <div class="progress-step active-step">4</div>
+                    <span class="ml-2 text-xs sm:text-sm text-blue-600 font-medium hidden sm:inline">Pelaku</span>
                 </div>
             </div>
-
+        </div>
             <div class="form-card">
                 <!-- Header Section -->
                 <div class="header-section">
