@@ -944,9 +944,9 @@
                 </div>
             </div>
             
-            <div class="footer-bottom">
+            <!-- <div class="footer-bottom">
                 <p>© 2023 SATGAS PPKS UNU Yogyakarta. Semua hak dilindungi.</p>
-            </div>
+            </div> -->
         </div>
     </footer>
 
