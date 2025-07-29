@@ -122,8 +122,11 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col main-content">
             <main class="flex-1 p-6 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
-                @yield('content')
+                <div class="w-full overflow-x-auto">
+                    @yield('content')
+                </div>
             </main>
+
 
             <!-- Footer -->
             <footer class="footer-gradient text-white text-center py-4 mt-auto">

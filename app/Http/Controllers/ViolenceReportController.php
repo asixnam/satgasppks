@@ -69,93 +69,99 @@ class ViolenceReportController extends Controller
 
     // Buat laporan baru
     public function store(Request $request)
-    {
-        // Validasi data client
-        $clientRules = [
-            'client_data.nama_lengkap' => 'required|string|max:255',
-            'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'client_data.status_korban' => ['required', Rule::in(['Disable', 'Tidak'])],
-            'client_data.kategori_disable' => 'nullable|string|max:255',
-            'client_data.status' => 'required|string|max:255',
-            'client_data.sumber_informasi' => 'nullable|string'
-        ];
+{
+    // Validasi data client
+    $clientRules = [
+        'client_data.nama_lengkap' => 'required|string|max:255',
+        'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
+        'client_data.status_korban' => ['required', Rule::in(['Disable', 'Tidak'])],
+        'client_data.kategori_disable' => 'nullable|string|max:255',
+        'client_data.status' => 'required|string|max:255',
+        'client_data.sumber_informasi' => 'nullable|string'
+    ];
 
-        // Validasi data reporter
-        $reporterRules = [
-            'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
-            'reporter_data.nama_lengkap' => 'required|string|max:255',
-            'reporter_data.tempat_lahir' => 'required|string|max:255',
-            'reporter_data.tanggal_lahir' => 'required|date',
-            'reporter_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'reporter_data.usia' => 'required|integer|min:1|max:120',
-            'reporter_data.status_pelapor' => 'required|string|max:255',
-            'reporter_data.no_telepon' => 'required|string|max:20',
-            'reporter_data.alamat' => 'required|string',
-            'reporter_data.keterangan_tambahan' => 'nullable|string'
-        ];
+    // Validasi data reporter
+    $reporterRules = [
+        'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
+        'reporter_data.nama_lengkap' => 'required|string|max:255',
+        'reporter_data.tempat_lahir' => 'required|string|max:255',
+        'reporter_data.tanggal_lahir' => 'required|date',
+        'reporter_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
+        'reporter_data.usia' => 'required|integer|min:1|max:120',
+        'reporter_data.status_pelapor' => 'required|string|max:255',
+        'reporter_data.no_telepon' => 'required|string|max:20',
+        'reporter_data.alamat' => 'required|string',
+        'reporter_data.keterangan_tambahan' => 'nullable|string'
+    ];
 
-        // Validasi data perpetrator
-        $perpetratorRules = [
-            'perpetrator_data.hubungan_dengan_korban' => 'required|string|max:255',
-            'perpetrator_data.nama' => 'required|string|max:255',
-            'perpetrator_data.telepon' => 'nullable|string|max:20',
-            'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'perpetrator_data.keterangan' => 'required|string',
-            'perpetrator_data.upload_bukti' => 'nullable|array',
-            'perpetrator_data.upload_bukti.*' => 'string'
-        ];
+    // Validasi data perpetrator
+    $perpetratorRules = [
+        'perpetrator_data.hubungan_dengan_korban' => 'required|string|max:255',
+        'perpetrator_data.nama' => 'required|string|max:255',
+        'perpetrator_data.telepon' => 'nullable|string|max:20',
+        'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
+        'perpetrator_data.keterangan' => 'required|string',
+        'perpetrator_data.upload_bukti' => 'nullable|array',
+        'perpetrator_data.upload_bukti.*' => 'string'
+    ];
 
-        // Validasi data violance
-        $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|string|max:255',
-            'violance_data.bentuk_kekerasan' => 'required|array',
-            'violance_data.bentuk_kekerasan.*' => 'string',
-            'violance_data.lokasi_kejadian' => 'required|string|max:255',
-            'violance_data.waktu_kejadian' => 'required|date',
-            'violance_data.deskripsi_kekerasan' => 'required|string'
-        ];
+    // Validasi data violance
+    $violanceRules = [
+        'violance_data.jenis_kekerasan' => 'required|string|max:255',
+        'violance_data.bentuk_kekerasan' => 'required|array',
+        'violance_data.bentuk_kekerasan.*' => 'string',
+        'violance_data.lokasi_kejadian' => 'required|string|max:255',
+        'violance_data.waktu_kejadian' => 'required|date',
+        'violance_data.deskripsi_kekerasan' => 'required|string'
+    ];
 
-        $validated = $request->validate(array_merge(
-            $clientRules,
-            $reporterRules,
-            $perpetratorRules,
-            $violanceRules
-        ));
+    $validated = $request->validate(array_merge(
+        $clientRules,
+        $reporterRules,
+        $perpetratorRules,
+        $violanceRules
+    ));
 
-        DB::beginTransaction();
-        
-        try {
-            // Buat client
-            $client = Client::create($validated['client_data']);
-            
-            // Buat reporter
-            $reporter = Reporter::create($validated['reporter_data']);
-            
-            // Buat perpetrator
-            $perpetrator = Perpetrator::create($validated['perpetrator_data']);
-            
-            // Buat violance
-            $violance = Violance::create($validated['violance_data']);
+    DB::beginTransaction();
 
-            // Buat violence report
-            $violenceReport = ViolenceReport::create([
-                'id_client' => $client->id,
-                'id_reporter' => $reporter->id,
-                'id_perpetrator' => $perpetrator->id,
-                'id_violance' => $violance->id
-            ]);
+    try {
+        // Simpan data client
+        $client = Client::create($validated['client_data']);
 
-            DB::commit();
+        // Simpan data reporter
+        $reporter = Reporter::create($validated['reporter_data']);
 
-            return redirect()->route('admin.violence-reports.index')
-                           ->with('success', 'Laporan kekerasan berhasil dibuat.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()
-                           ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                           ->withInput();
-        }
+        // Simpan data perpetrator
+        $perpetrator = Perpetrator::create($validated['perpetrator_data']);
+
+        // Simpan data kekerasan (violance), dengan bentuk_kekerasan diubah ke JSON
+        $violanceData = $validated['violance_data'];
+        $violanceData['bentuk_kekerasan'] = json_encode($violanceData['bentuk_kekerasan']);
+
+        $violance = Violance::create($violanceData);
+
+        // Simpan relasi laporan kekerasan
+        $violenceReport = ViolenceReport::create([
+            'id_client' => $client->id,
+            'id_reporter' => $reporter->id,
+            'id_perpetrator' => $perpetrator->id,
+            'id_violance' => $violance->id,
+        ]);
+
+        DB::commit();
+
+        return redirect()->route('admin.violence-reports.index')
+            ->with('success', 'Laporan kekerasan berhasil dibuat.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+
+        return redirect()->back()
+            ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+            ->withInput();
     }
+}
+    // Tampilkan form edit laporan
 
     public function edit($id)
     {

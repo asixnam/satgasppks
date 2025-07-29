@@ -180,6 +180,10 @@
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Keterangan:</span>
                                 <span class="flex-1 text-sm text-gray-900">{{ $report->perpetrator->keterangan ?? '-' }}</span>
                             </div>
+                            <div class="flex">
+                                <span class="w-2/5 text-sm font-medium text-gray-700">Bukti:</span>
+                                <span class="flex-1 text-sm text-gray-900">{{ $report->perpetrator->upload_bukti ?? '-' }}</span>
+                            </div>
                             @if($report->perpetrator->upload_bukti && is_array($report->perpetrator->upload_bukti) && count($report->perpetrator->upload_bukti) > 0)
                             <div class="flex">
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Upload Bukti:</span>

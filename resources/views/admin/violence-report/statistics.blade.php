@@ -8,12 +8,14 @@
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Statistik Laporan Kekerasan</h2>
         <div class="flex gap-3">
-            <a href="{{ route('admin.violence-reports.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                ← Kembali
-            </a>
-            <button onclick="exportStatistics()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+            <a href="{{ route('admin.violence-reports.index') }}" 
+                           class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Kembali
+                        </a>
+            <!-- <button onclick="exportStatistics()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
                 ↓ Export
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -236,9 +238,9 @@ var monthlyChart = new Chart(ctx3, {
 });
 @endif
 
-function exportStatistics() {
-    window.location.href = "{{ route('admin.violence-reports.export-statistics') }}";
-}
+// function exportStatistics() {
+//     window.location.href = "{{ route('admin.violence-reports.export-statistics') }}";
+// }
 </script>
 @endpush
 @endsection
