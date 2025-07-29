@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('Frontend.Home.home')
 
 @section('content')
+
 <div class="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
-    <div class="max-w-md w-full">
+    <div class="max-w-md w-full mt-24"> 
         <!-- Success Card -->
         <div class="bg-white rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:scale-105">
             <!-- Success Icon -->
@@ -86,4 +87,3 @@
         animation: fadeInUp 0.6s ease-out;
     }
 </style> -->
-@show 

@@ -788,7 +788,9 @@
                             <i class="fab fa-instagram" aria-hidden="true"></i>
                             <div class="contact-text">
                                 <strong>Instagram</strong><br>
+                                <a href="https://www.instagram.com/satgasppks.unuyo" target="_blank" rel="noopener noreferrer">
                                 @satgasppks.unuyogya
+                                </a>
                             </div>
                         </div>
 
@@ -796,7 +798,9 @@
                             <i class="fas fa-envelope" aria-hidden="true"></i>
                             <div class="contact-text">
                                 <strong>Email</strong><br>
+                                <a href="gmail:satgasppks@unu-jogja.ac.id">
                                 satgasppks@unu-jogja.ac.id
+                                </a>
                             </div>
                         </div>
 
@@ -804,7 +808,9 @@
                             <i class="fas fa-phone" aria-hidden="true"></i>
                             <div class="contact-text">
                                 <strong>Telepon</strong><br>
-                                085156900844
+                                <a href="https://wa.me/6281323596022" target="_blank" rel="noopener noreferrer" class="whatsapp">
+                                    0813-2359-6022
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -816,7 +822,9 @@
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                         <div class="contact-text">
-                            Jl. Ringroad Barat, Dowangan, Banyuraden, Gamping, Sleman, Yogyakarta
+                            <a href="https://maps.app.goo.gl/WmNDYcVEAgo1jvfR7">
+                            Universitas Nahdlatul Ulama Yogyakarta Jl. Ringroad Barat, Dowangan, Banyuraden, Kec. Gamping, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55293
+                            </a>
                         </div>
                     </div>
                 </div>
