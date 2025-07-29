@@ -12,12 +12,11 @@ class Violance extends Model
 
     protected $fillable = [
         'jenis_kekerasan',
-        'lokus_kejadian',
-        'waktu_kejadian',
-        'keterangan_pihak_ke3',
-        'kategori_pidana',
         'bentuk_kekerasan',
-        'narasi_kronologis'
+        'lokasi_kejadian',
+        'waktu_kejadian',
+        'deskripsi_kekerasan'
+
     ];
 
     protected $casts = [

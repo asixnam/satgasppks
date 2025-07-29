@@ -10,16 +10,14 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->uuid('id')->primary();
+
             $table->string('nama_lengkap');
-            $table->string('nim');
-            $table->string('program_studi');
-            $table->string('fakultas');
-            $table->string('angkatan');
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->string('agama');
-            $table->string('status_perkawinan');
-            $table->string('sumber_rujukan');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->enum('status_korban', ['Disable', 'Tidak']);
+            $table->string('kategori_disable')->nullable(); // hanya diisi jika status_korban = Disable
+            $table->string('status'); // Mahasiswa, Dosen, Masyarakat, dll
+            $table->text('sumber_informasi')->nullable(); // optional field
+
             $table->timestamps();
         });
     }

@@ -76,19 +76,11 @@ Route::post('/informasi-pelaku/store', [InformasiPelakuController::class, 'store
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // URUTAN INI PENTING!
-    Route::get('/laporans', [LaporanController::class, 'index'])->name('laporans.index');
-    Route::get('/laporans/create', [LaporanController::class, 'create'])->name('laporans.create');
-    Route::post('/laporans', [LaporanController::class, 'store'])->name('laporans.store');
-    Route::get('/laporans/{id}/edit', [LaporanController::class, 'edit'])->name('laporans.edit');
-    Route::put('/laporans/{id}', [LaporanController::class, 'update'])->name('laporans.update');
-    Route::delete('/laporans/{id}', [LaporanController::class, 'destroy'])->name('laporans.destroy');
-    Route::get('/laporans/{id}', [LaporanController::class, 'show'])->name('laporans.show');
     
     // Violence Reports (dipindahkan ke dalam admin group)
     Route::prefix('violence-reports')->name('violence-reports.')->group(function () {
         Route::get('/', [ViolenceReportController::class, 'index'])->name('index');
+        Route::get('/bulk-delete', [ViolenceReportController::class, 'bulk-delete'])->name('bulk-delete');
         Route::get('/create', [ViolenceReportController::class, 'create'])->name('create');
         Route::post('/store', [ViolenceReportController::class, 'store'])->name('store');
         Route::get('/{id}', [ViolenceReportController::class, 'show'])->name('show');
@@ -97,10 +89,23 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::delete('/{id}', [ViolenceReportController::class, 'destroy'])->name('destroy');
 
         // Additional routes
+       // Routes baru untuk statistik dan fitur tambahan
+        Route::get('/statistics/dashboard', [ViolenceReportController::class, 'statistics'])->name('statistics');
+        Route::get('/statistics/export', [ViolenceReportController::class, 'exportStatistics'])->name('export-statistics');
+        Route::get('/statistics/chart-data', [ViolenceReportController::class, 'getChartData'])->name('chart-data');
+        
+        Route::get('/export', [ViolenceReportController::class, 'export'])->name('export');
         Route::get('/details/all', [ViolenceReportController::class, 'reportsWithDetails'])->name('details.all');
         Route::get('/filter/violence-type/{type}', [ViolenceReportController::class, 'filterByViolenceType'])->name('filter.violence-type');
         Route::get('/filter/faculty/{faculty}', [ViolenceReportController::class, 'filterByFaculty'])->name('filter.faculty');
     });
+    Route::get('/laporans', [LaporanController::class, 'index'])->name('laporans.index');
+    Route::get('/laporans/create', [LaporanController::class, 'create'])->name('laporans.create');
+    Route::post('/laporans', [LaporanController::class, 'store'])->name('laporans.store');
+    Route::get('/laporans/{id}/edit', [LaporanController::class, 'edit'])->name('laporans.edit');
+    Route::put('/laporans/{id}', [LaporanController::class, 'update'])->name('laporans.update');
+    Route::delete('/laporans/{id}', [LaporanController::class, 'destroy'])->name('laporans.destroy');
+    Route::get('/laporans/{id}', [LaporanController::class, 'show'])->name('laporans.show');
 
     //Berita
     Route::get('/beritas', [BeritaController::class, 'index'])->name('beritas.index');

@@ -21,6 +21,11 @@
                             <i class="fas fa-list mr-2"></i>
                             View Details
                         </a>
+                        <a href="{{ route('admin.violence-reports.statistics') }}" 
+                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            Statistik
+                        </a>
                     </div>
                 </div>
             </div>
@@ -28,7 +33,7 @@
             <!-- Filter Section -->
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <form id="filterForm" method="GET" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
                             <label for="filter-violence-type" class="block text-sm font-medium text-gray-700 mb-2">
                                 Jenis Kekerasan
@@ -36,25 +41,36 @@
                             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
                                     id="filter-violence-type" name="violence_type">
                                 <option value="">Semua Jenis</option>
-                                <option value="Fisik" {{ request('violence_type') == 'Fisik' ? 'selected' : '' }}>Fisik</option>
-                                <option value="Psikis" {{ request('violence_type') == 'Psikis' ? 'selected' : '' }}>Psikis</option>
-                                <option value="Seksual" {{ request('violence_type') == 'Seksual' ? 'selected' : '' }}>Seksual</option>
-                                <option value="Ekonomi" {{ request('violence_type') == 'Ekonomi' ? 'selected' : '' }}>Ekonomi</option>
+                                <option value="Kekerasan Fisik" {{ request('violence_type') == 'Kekerasan Fisik' ? 'selected' : '' }}>Kekerasan Fisik</option>
+                                <option value="Kekerasan Psikis" {{ request('violence_type') == 'Kekerasan Psikis' ? 'selected' : '' }}>Kekerasan Psikis</option>
+                                <option value="Kekerasan Seksual" {{ request('violence_type') == 'Kekerasan Seksual' ? 'selected' : '' }}>Kekerasan Seksual</option>
+                                <option value="Kekerasan Ekonomi" {{ request('violence_type') == 'Kekerasan Ekonomi' ? 'selected' : '' }}>Kekerasan Ekonomi</option>
                             </select>
                         </div>
                         
                         <div>
-                            <label for="filter-faculty" class="block text-sm font-medium text-gray-700 mb-2">
-                                Fakultas
+                            <label for="filter-status" class="block text-sm font-medium text-gray-700 mb-2">
+                                Status Korban
                             </label>
                             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
-                                    id="filter-faculty" name="faculty">
-                                <option value="">Semua Fakultas</option>
-                                <option value="FMIPA" {{ request('faculty') == 'FMIPA' ? 'selected' : '' }}>FMIPA</option>
-                                <option value="FEB" {{ request('faculty') == 'FEB' ? 'selected' : '' }}>FEB</option>
-                                <option value="FH" {{ request('faculty') == 'FH' ? 'selected' : '' }}>FH</option>
-                                <option value="FK" {{ request('faculty') == 'FK' ? 'selected' : '' }}>FK</option>
-                                <option value="FT" {{ request('faculty') == 'FT' ? 'selected' : '' }}>FT</option>
+                                    id="filter-status" name="status">
+                                <option value="">Semua Status</option>
+                                <option value="Mahasiswa" {{ request('status') == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                <option value="Dosen" {{ request('status') == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                                <option value="Tendik" {{ request('status') == 'Tendik' ? 'selected' : '' }}>Tendik</option>
+                                <option value="Masyarakat" {{ request('status') == 'Masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="filter-gender" class="block text-sm font-medium text-gray-700 mb-2">
+                                Jenis Kelamin
+                            </label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                                    id="filter-gender" name="gender">
+                                <option value="">Semua</option>
+                                <option value="Laki-laki" {{ request('gender') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ request('gender') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                         </div>
                         
@@ -81,47 +97,26 @@
                         <button type="submit" 
                                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-filter mr-2"></i>
-                            Filter
+                            Jalankan Filter
                         </button>
                         <a href="{{ route('admin.violence-reports.index') }}" 
                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-refresh mr-2"></i>
                             Reset
                         </a>
-                        <button type="button" onclick="exportData()" 
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
-                            <i class="fas fa-download mr-2"></i>
-                            Export
+                        <form method="POST" action="{{ route('admin.violence-reports.bulk-delete') }}" id="bulk-delete-form" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="selected_reports" id="selected-reports">
+                        </form>
+                        <button type="button" onclick="bulkDelete()" 
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm"
+                                id="bulk-delete-btn" style="display: none;">
+                            <i class="fas fa-trash mr-2"></i>
+                            Hapus Terpilih
                         </button>
                     </div>
                 </form>
             </div>
-
-            <!-- Active Filter Info -->
-            @if(isset($filter_type) && isset($filter_value))
-            <div class="px-6 py-3 bg-green-50 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center text-green-700">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        <span class="text-sm">
-                            Filter aktif: 
-                            @if($filter_type == 'violence_type')
-                                Jenis Kekerasan = {{ $filter_value }}
-                            @elseif($filter_type == 'faculty')
-                                Fakultas = {{ $filter_value }}
-                            @elseif($filter_type == 'date_range')
-                                Periode = {{ $filter_value }}
-                            @endif
-                        </span>
-                    </div>
-                    <a href="{{ route('admin.violence-reports.index') }}" 
-                       class="text-green-600 hover:text-green-800 text-sm inline-flex items-center">
-                        <i class="fas fa-times mr-1"></i>
-                        Hapus Filter
-                    </a>
-                </div>
-            </div>
-            @endif
 
             <!-- Alerts -->
             <div class="px-6">
@@ -160,10 +155,14 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-green-600">
                                 <tr>
+                                    <th class="px-4 py-3 text-left">
+                                        <input type="checkbox" id="select-all" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                    </th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">No</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Klien</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">NIM</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Fakultas</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis Kelamin</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status Korban</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelapor</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelaku</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis Kekerasan</th>
@@ -174,20 +173,64 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($reports as $index => $report)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->client->nama_lengkap ?? '-' }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->client->nim ?? '-' }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->client->fakultas ?? '-' }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->reporter->nama ?? '-' }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->perpetrator->nama_pelaku ?? '-' }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <input type="checkbox" class="report-checkbox rounded border-gray-300 text-green-600 focus:ring-green-500" 
+                                               value="{{ $report->id }}">
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $loop->iteration + (($reports->currentPage() - 1) * $reports->perPage()) }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium">{{ $report->client->nama_lengkap ?? '-' }}</span>
+                                            @if($report->client && $report->client->status_korban == 'Disable')
+                                                <span class="text-xs text-orange-600 font-medium">
+                                                    <i class="fas fa-wheelchair mr-1"></i>
+                                                    {{ $report->client->kategori_disable ?? 'Disable' }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        @if($report->client && $report->client->jenis_kelamin == 'Laki-laki')
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                <i class="fas fa-mars mr-1"></i>
+                                                Laki-laki
+                                            </span>
+                                        @elseif($report->client && $report->client->jenis_kelamin == 'Perempuan')
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
+                                                <i class="fas fa-venus mr-1"></i>
+                                                Perempuan
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            {{ $report->client->status ?? '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        @if($report->client && $report->client->status_korban == 'Disable')
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                                <i class="fas fa-wheelchair mr-1"></i>
+                                                Disable
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                Normal
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->reporter->nama_lengkap ?? '-' }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->perpetrator->nama ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                         @if($report->violance && $report->violance->jenis_kekerasan)
                                             @php
                                                 $badgeClasses = match($report->violance->jenis_kekerasan) {
-                                                    'Fisik' => 'bg-red-100 text-red-800',
-                                                    'Psikis' => 'bg-yellow-100 text-yellow-800',
-                                                    'Seksual' => 'bg-purple-100 text-purple-800',
-                                                    'Ekonomi' => 'bg-blue-100 text-blue-800',
+                                                    'Kekerasan Fisik' => 'bg-red-100 text-red-800',
+                                                    'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
+                                                    'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
+                                                    'Kekerasan Ekonomi' => 'bg-blue-100 text-blue-800',
                                                     default => 'bg-gray-100 text-gray-800'
                                                 };
                                             @endphp
@@ -200,7 +243,10 @@
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         @if($report->violance && $report->violance->waktu_kejadian)
-                                            {{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('d/m/Y H:i') }}
+                                            <div class="flex flex-col">
+                                                <span class="font-medium">{{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('d/m/Y') }}</span>
+                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('H:i') }}</span>
+                                            </div>
                                         @else
                                             -
                                         @endif
@@ -228,7 +274,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="9" class="px-4 py-12 text-center text-gray-500">
+                                    <td colspan="11" class="px-4 py-12 text-center text-gray-500">
                                         <div class="flex flex-col items-center">
                                             <i class="fas fa-inbox text-4xl mb-4 text-gray-400"></i>
                                             <p class="text-lg font-medium mb-2">Tidak ada data laporan kekerasan</p>
@@ -245,7 +291,7 @@
                 <!-- Pagination -->
                 @if(method_exists($reports, 'links'))
                     <div class="mt-6 flex justify-center">
-                        {{ $reports->links() }}
+                        {{ $reports->appends(request()->query())->links() }}
                     </div>
                 @endif
             </div>
@@ -273,53 +319,48 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => alert.remove(), 500);
         });
     }, 5000);
+
+    // Setup checkbox functionality
+    setupCheckboxes();
 });
 
-// Enhanced filter function
-function filterReports() {
-    const form = document.getElementById('filterForm');
-    const violenceType = document.getElementById('filter-violence-type').value;
-    const faculty = document.getElementById('filter-faculty').value;
-    const startDate = document.getElementById('start-date').value;
-    const endDate = document.getElementById('end-date').value;
+// Setup checkbox functionality
+function setupCheckboxes() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.report-checkbox');
+    const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
 
-    // Validate date range
-    if ((startDate && !endDate) || (!startDate && endDate)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Harap isi kedua tanggal (mulai dan akhir) untuk filter berdasarkan periode!',
-            confirmButtonColor: '#059669'
+    if (selectAll && checkboxes.length > 0) {
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            toggleBulkDeleteButton();
         });
-        return false;
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedBoxes = document.querySelectorAll('.report-checkbox:checked');
+                selectAll.checked = checkedBoxes.length === checkboxes.length;
+                selectAll.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < checkboxes.length;
+                toggleBulkDeleteButton();
+            });
+        });
     }
 
-    if (startDate && endDate && startDate > endDate) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir!',
-            confirmButtonColor: '#059669'
-        });
-        return false;
+    function toggleBulkDeleteButton() {
+        const checkedBoxes = document.querySelectorAll('.report-checkbox:checked');
+        if (bulkDeleteBtn) {
+            if (checkedBoxes.length > 0) {
+                bulkDeleteBtn.style.display = 'inline-flex';
+            } else {
+                bulkDeleteBtn.style.display = 'none';
+            }
+        }
     }
-
-    form.submit();
 }
 
-// Export function
-function exportData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let exportUrl = '{{ route("admin.violence-reports.index") }}/export';
-    
-    if (urlParams.toString()) {
-        exportUrl += '?' + urlParams.toString();
-    }
-    
-    window.location.href = exportUrl;
-}
-
-// Enhanced delete function
+// Delete function
 function deleteReport(id) {
     Swal.fire({
         title: 'Konfirmasi Hapus',
@@ -333,58 +374,45 @@ function deleteReport(id) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            // Show loading
-            Swal.fire({
-                title: 'Menghapus...',
-                text: 'Sedang memproses penghapusan data',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                willOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            // Perform delete with fetch
-            fetch(`/admin/violence-reports/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Data laporan berhasil dihapus',
-                    timer: 2000,
-                    showConfirmButton: false,
-                    confirmButtonColor: '#059669'
-                }).then(() => {
-                    location.reload();
-                });
-            })
-            .catch(error => {
-                console.error('Delete error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Gagal menghapus data. Silakan coba lagi.',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#059669'
-                });
-            });
+            const form = document.getElementById('deleteForm');
+            form.action = `/admin/violence-reports/${id}`;
+            form.submit();
         }
     });
 }
 
-// Handle form submission for filters
-document.getElementById('filterForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    filterReports();
-});
+// Bulk delete function
+function bulkDelete() {
+    const checkedBoxes = document.querySelectorAll('.report-checkbox:checked');
+    const selectedIds = Array.from(checkedBoxes).map(cb => cb.value);
+
+    if (selectedIds.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan',
+            text: 'Pilih minimal satu laporan untuk dihapus!',
+            confirmButtonColor: '#059669'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Konfirmasi Hapus Massal',
+        text: `Apakah Anda yakin ingin menghapus ${selectedIds.length} laporan yang dipilih?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#059669',
+        confirmButtonText: 'Ya, Hapus Semua!',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.getElementById('bulk-delete-form');
+            document.getElementById('selected-reports').value = JSON.stringify(selectedIds);
+            form.submit();
+        }
+    });
+}
 </script>
 @endsection

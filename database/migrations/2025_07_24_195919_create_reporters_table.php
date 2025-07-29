@@ -10,16 +10,18 @@ return new class extends Migration
     {
         Schema::create('reporters', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('hubungan');
-            $table->string('nama');
+
+            $table->string('hubungan_pelapor_dengan_pelaku'); // dropdown dengan "lainnya" bisa diketik
+            $table->string('nama_lengkap');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->integer('usia');
-            $table->string('pekerjaan')->nullable();
-            $table->string('no_telepon')->nullable();
+            $table->string('status_pelapor'); // Teman, Masyarakat, Tendik, Dosen, dll
+            $table->string('no_telepon'); // bisa nullable kalau mau, tapi di data wajib
             $table->text('alamat');
-            $table->text('keterangan')->nullable();
+            $table->text('keterangan_tambahan')->nullable(); // opsional
+
             $table->timestamps();
         });
     }

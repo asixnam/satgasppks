@@ -12,15 +12,11 @@ class Client extends Model
 
     protected $fillable = [
         'nama_lengkap',
-        'nim',
-        'program_studi',
-        'fakultas',
-        'angkatan',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'agama',
-        'status_perkawinan',
-        'sumber_rujukan'
+        'jenis_kelamin',
+        'status_korban',
+        'kategori_disable',
+        'status',
+        'sumber_informasi'
     ];
 
     protected $casts = [

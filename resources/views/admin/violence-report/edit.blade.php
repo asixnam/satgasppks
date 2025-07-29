@@ -3,441 +3,396 @@
 @section('title', 'Edit Laporan Kekerasan')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="card-title">Edit Laporan Kekerasan</h3>
-                        <a href="{{ url('/admin/violence-reports/' . $report->id) }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Kembali
-                        </a>
-                    </div>
-                </div>
+<!-- Error Messages -->
+@if ($errors->any())
+    <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+        <div class="flex items-center mb-2">
+            <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
+            <h4 class="text-red-800 font-medium">Terdapat kesalahan dalam form:</h4>
+        </div>
+        <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-                <form id="reportForm" action="{{ url('/admin/violence-reports/' . $report->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="card-body">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="client-tab" data-bs-toggle="tab" data-bs-target="#client" type="button" role="tab">
-                                    <i class="fas fa-user"></i> Data Klien
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="reporter-tab" data-bs-toggle="tab" data-bs-target="#reporter" type="button" role="tab">
-                                    <i class="fas fa-user-tie"></i> Data Pelapor
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="perpetrator-tab" data-bs-toggle="tab" data-bs-target="#perpetrator" type="button" role="tab">
-                                    <i class="fas fa-user-times"></i> Data Pelaku
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="violence-tab" data-bs-toggle="tab" data-bs-target="#violence" type="button" role="tab">
-                                    <i class="fas fa-exclamation-triangle"></i> Data Kekerasan
-                                </button>
-                            </li>
-                        </ul>
-
-                        <!-- Tab panes with pre-filled data -->
-                        <div class="tab-content mt-4">
-                            <!-- Client Tab -->
-                            <div class="tab-pane active" id="client" role="tabpanel">
-                                <h5 class="mb-3">Informasi Klien (Korban)</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="nama_lengkap">Nama Lengkap <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="client_data[nama_lengkap]" 
-                                                   value="{{ $report->client->nama_lengkap ?? '' }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="nim">NIM <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="client_data[nim]" 
-                                                   value="{{ $report->client->nim ?? '' }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="program_studi">Program Studi</label>
-                                            <input type="text" class="form-control" name="client_data[program_studi]" 
-                                                   value="{{ $report->client->program_studi ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="fakultas">Fakultas</label>
-                                            <select class="form-control" name="client_data[fakultas]">
-                                                <option value="">Pilih Fakultas</option>
-                                                <option value="FMIPA" {{ ($report->client->fakultas ?? '') == 'FMIPA' ? 'selected' : '' }}>FMIPA</option>
-                                                <option value="FEB" {{ ($report->client->fakultas ?? '') == 'FEB' ? 'selected' : '' }}>FEB</option>
-                                                <option value="FH" {{ ($report->client->fakultas ?? '') == 'FH' ? 'selected' : '' }}>FH</option>
-                                                <option value="FK" {{ ($report->client->fakultas ?? '') == 'FK' ? 'selected' : '' }}>FK</option>
-                                                <option value="FT" {{ ($report->client->fakultas ?? '') == 'FT' ? 'selected' : '' }}>FT</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="angkatan">Angkatan</label>
-                                            <input type="number" class="form-control" name="client_data[angkatan]" 
-                                                   value="{{ $report->client->angkatan ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tempat_lahir">Tempat Lahir</label>
-                                            <input type="text" class="form-control" name="client_data[tempat_lahir]" 
-                                                   value="{{ $report->client->tempat_lahir ?? '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tanggal_lahir">Tanggal Lahir</label>
-                                            <input type="date" class="form-control" name="client_data[tanggal_lahir]" 
-                                                   value="{{ $report->client->tanggal_lahir ? $report->client->tanggal_lahir->format('Y-m-d') : '' }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="agama">Agama</label>
-                                            <select class="form-control" name="client_data[agama]">
-                                                <option value="">Pilih Agama</option>
-                                                <option value="Islam" {{ ($report->client->agama ?? '') == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                                <option value="Kristen" {{ ($report->client->agama ?? '') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                                <option value="Katolik" {{ ($report->client->agama ?? '') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                                                <option value="Hindu" {{ ($report->client->agama ?? '') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                                <option value="Buddha" {{ ($report->client->agama ?? '') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                                                <option value="Konghucu" {{ ($report->client->agama ?? '') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="status_perkawinan">Status Perkawinan</label>
-                                            <select class="form-control" name="client_data[status_perkawinan]">
-                                                <option value="">Pilih Status</option>
-                                                <option value="Belum Menikah" {{ old('client_data.status_perkawinan') == 'Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
-                                                <option value="Menikah" {{ old('client_data.status_perkawinan') == 'Menikah' ? 'selected' : '' }}>Menikah</option>
-                                                <option value="Cerai" {{ old('client_data.status_perkawinan') == 'Cerai' ? 'selected' : '' }}>Cerai</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="sumber_rujukan">Sumber Rujukan</label>
-                                            <input type="text" class="form-control" name="client_data[sumber_rujukan]" 
-                                                   value="{{ old('client_data.sumber_rujukan') }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Reporter Tab -->
-                            <div class="tab-pane" id="reporter" role="tabpanel">
-                                <h5 class="mb-3">Informasi Pelapor</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="reporter_nama">Nama Pelapor <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control @error('reporter_data.nama') is-invalid @enderror" 
-                                                   name="reporter_data[nama]" value="{{ old('reporter_data.nama') }}" required>
-                                            @error('reporter_data.nama')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="hubungan">Hubungan dengan Korban</label>
-                                            <input type="text" class="form-control" name="reporter_data[hubungan]" 
-                                                   value="{{ old('reporter_data.hubungan') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tempat_lahir_reporter">Tempat Lahir</label>
-                                            <input type="text" class="form-control" name="reporter_data[tempat_lahir]" 
-                                                   value="{{ old('reporter_data.tempat_lahir') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tanggal_lahir_reporter">Tanggal Lahir</label>
-                                            <input type="date" class="form-control" name="reporter_data[tanggal_lahir]" 
-                                                   value="{{ old('reporter_data.tanggal_lahir') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="jenis_kelamin">Jenis Kelamin</label>
-                                            <select class="form-control" name="reporter_data[jenis_kelamin]">
-                                                <option value="">Pilih Jenis Kelamin</option>
-                                                <option value="L" {{ old('reporter_data.jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                                <option value="P" {{ old('reporter_data.jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="usia">Usia</label>
-                                            <input type="number" class="form-control" name="reporter_data[usia]" 
-                                                   value="{{ old('reporter_data.usia') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="pekerjaan">Pekerjaan</label>
-                                            <input type="text" class="form-control" name="reporter_data[pekerjaan]" 
-                                                   value="{{ old('reporter_data.pekerjaan') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="no_telepon">No. Telepon</label>
-                                            <input type="text" class="form-control" name="reporter_data[no_telepon]" 
-                                                   value="{{ old('reporter_data.no_telepon') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group mb-3">
-                                            <label for="alamat">Alamat</label>
-                                            <textarea class="form-control" name="reporter_data[alamat]" rows="3">{{ old('reporter_data.alamat') }}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group mb-3">
-                                            <label for="keterangan">Keterangan</label>
-                                            <textarea class="form-control" name="reporter_data[keterangan]" rows="3">{{ old('reporter_data.keterangan') }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Perpetrator Tab -->
-                            <div class="tab-pane" id="perpetrator" role="tabpanel">
-                                <h5 class="mb-3">Informasi Pelaku</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="nama_pelaku">Nama Pelaku <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control @error('perpetrator_data.nama_pelaku') is-invalid @enderror" 
-                                                   name="perpetrator_data[nama_pelaku]" value="{{ old('perpetrator_data.nama_pelaku') }}" required>
-                                            @error('perpetrator_data.nama_pelaku')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="hubungan_dengan_korban">Hubungan dengan Korban</label>
-                                            <input type="text" class="form-control" name="perpetrator_data[hubungan_dengan_korban]" 
-                                                   value="{{ old('perpetrator_data.hubungan_dengan_korban') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="nik_pelaku">NIK Pelaku</label>
-                                            <input type="text" class="form-control" name="perpetrator_data[nik_pelaku]" 
-                                                   value="{{ old('perpetrator_data.nik_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="jenis_kelamin_pelaku">Jenis Kelamin</label>
-                                            <select class="form-control" name="perpetrator_data[jenis_kelamin_pelaku]">
-                                                <option value="">Pilih Jenis Kelamin</option>
-                                                <option value="L" {{ old('perpetrator_data.jenis_kelamin_pelaku') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                                <option value="P" {{ old('perpetrator_data.jenis_kelamin_pelaku') == 'P' ? 'selected' : '' }}>Perempuan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="umur_pelaku">Umur</label>
-                                            <input type="number" class="form-control" name="perpetrator_data[umur_pelaku]" 
-                                                   value="{{ old('perpetrator_data.umur_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tempat_lahir_pelaku">Tempat Lahir</label>
-                                            <input type="text" class="form-control" name="perpetrator_data[tempat_lahir_pelaku]" 
-                                                   value="{{ old('perpetrator_data.tempat_lahir_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="tanggal_lahir_pelaku">Tanggal Lahir</label>
-                                            <input type="date" class="form-control" name="perpetrator_data[tanggal_lahir_pelaku]" 
-                                                   value="{{ old('perpetrator_data.tanggal_lahir_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="agama_pelaku">Agama</label>
-                                            <select class="form-control" name="perpetrator_data[agama_pelaku]">
-                                                <option value="">Pilih Agama</option>
-                                                <option value="Islam" {{ old('perpetrator_data.agama_pelaku') == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                                <option value="Kristen" {{ old('perpetrator_data.agama_pelaku') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                                <option value="Katolik" {{ old('perpetrator_data.agama_pelaku') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                                                <option value="Hindu" {{ old('perpetrator_data.agama_pelaku') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                                <option value="Buddha" {{ old('perpetrator_data.agama_pelaku') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                                                <option value="Konghucu" {{ old('perpetrator_data.agama_pelaku') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="pekerjaan_pelaku">Pekerjaan</label>
-                                            <input type="text" class="form-control" name="perpetrator_data[pekerjaan_pelaku]" 
-                                                   value="{{ old('perpetrator_data.pekerjaan_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="telepon_pelaku">No. Telepon</label>
-                                            <input type="text" class="form-control" name="perpetrator_data[telepon_pelaku]" 
-                                                   value="{{ old('perpetrator_data.telepon_pelaku') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group mb-3">
-                                            <label for="alamat_pelaku">Alamat Pelaku</label>
-                                            <textarea class="form-control" name="perpetrator_data[alamat_pelaku]" rows="3">{{ old('perpetrator_data.alamat_pelaku') }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Violence Tab -->
-                            <div class="tab-pane" id="violence" role="tabpanel">
-                                <h5 class="mb-3">Informasi Kekerasan</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="jenis_kekerasan">Jenis Kekerasan <span class="text-danger">*</span></label>
-                                            <select class="form-control @error('violance_data.jenis_kekerasan') is-invalid @enderror" 
-                                                    name="violance_data[jenis_kekerasan]" required>
-                                                <option value="">Pilih Jenis Kekerasan</option>
-                                                <option value="Fisik" {{ old('violance_data.jenis_kekerasan') == 'Fisik' ? 'selected' : '' }}>Fisik</option>
-                                                <option value="Psikis" {{ old('violance_data.jenis_kekerasan') == 'Psikis' ? 'selected' : '' }}>Psikis</option>
-                                                <option value="Seksual" {{ old('violance_data.jenis_kekerasan') == 'Seksual' ? 'selected' : '' }}>Seksual</option>
-                                                <option value="Ekonomi" {{ old('violance_data.jenis_kekerasan') == 'Ekonomi' ? 'selected' : '' }}>Ekonomi</option>
-                                            </select>
-                                            @error('violance_data.jenis_kekerasan')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="waktu_kejadian">Waktu Kejadian</label>
-                                            <input type="datetime-local" class="form-control" name="violance_data[waktu_kejadian]" 
-                                                   value="{{ old('violance_data.waktu_kejadian') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="lokus_kejadian">Lokasi Kejadian</label>
-                                            <input type="text" class="form-control" name="violance_data[lokus_kejadian]" 
-                                                   value="{{ old('violance_data.lokus_kejadian') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="kategori_pidana">Kategori Pidana</label>
-                                            <input type="text" class="form-control" name="violance_data[kategori_pidana]" 
-                                                   value="{{ old('violance_data.kategori_pidana') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="bentuk_kekerasan">Bentuk Kekerasan</label>
-                                            <input type="text" class="form-control" name="violance_data[bentuk_kekerasan]" 
-                                                   value="{{ old('violance_data.bentuk_kekerasan') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mb-3">
-                                            <label for="keterangan_pihak_ke3">Keterangan Pihak Ke-3</label>
-                                            <input type="text" class="form-control" name="violance_data[keterangan_pihak_ke3]" 
-                                                   value="{{ old('violance_data.keterangan_pihak_ke3') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group mb-3">
-                                            <label for="narasi_kronologis">Narasi Kronologis</label>
-                                            <textarea class="form-control" name="violance_data[narasi_kronologis]" rows="5">{{ old('violance_data.narasi_kronologis') }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ url('/admin/violence-reports') }}" class="btn btn-secondary">
-                                <i class="fas fa-times"></i> Batal
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Simpan Laporan
-                            </button>
-                        </div>
-                    </div>
-                </form>
+<!-- Success Message -->
+@if (session('success'))
+    <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <span class="text-green-800 font-medium">{{ session('success') }}</span>
             </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="text-green-500 hover:text-green-700">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
+@endif
+
+<!-- Error Message -->
+@if (session('error'))
+    <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                <span class="text-red-800 font-medium">{{ session('error') }}</span>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="text-red-500 hover:text-red-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+@endif
+
+<div class="container mx-auto p-6">
+    <div class="bg-white rounded-lg shadow-lg">
+        <!-- Header -->
+        <div class="border-b px-6 py-4 flex justify-between items-center">
+            <h3 class="text-xl font-semibold text-gray-800">Edit Laporan Kekerasan</h3>
+            <a href="{{ route('admin.violence-reports.show', $report->id) }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition text-sm">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali
+            </a>
+        </div>
+
+        <form action="{{ route('admin.violence-reports.update', $report->id) }}" method="POST" class="p-6">
+            @csrf
+            @method('PUT')
+            
+            <!-- Tab Navigation -->
+            <div class="border-b mb-6">
+                <nav class="flex space-x-8">
+                    <button type="button" onclick="showTab('client')" class="tab-btn py-2 px-1 border-b-2 border-blue-500 text-blue-600 font-medium text-sm">
+                        <i class="fas fa-user mr-2"></i>Data Klien
+                    </button>
+                    <button type="button" onclick="showTab('reporter')" class="tab-btn py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-user-tie mr-2"></i>Data Pelapor
+                    </button>
+                    <button type="button" onclick="showTab('perpetrator')" class="tab-btn py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-user-times mr-2"></i>Data Pelaku
+                    </button>
+                    <button type="button" onclick="showTab('violence')" class="tab-btn py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Data Kekerasan
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Client Tab -->
+            <div id="client" class="tab-content">
+                <h5 class="text-lg font-medium mb-4">Informasi Klien (Korban)</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="client_data[nama_lengkap]" value="{{ $report->client->nama_lengkap ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('client_data.nama_lengkap')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <select name="client_data[jenis_kelamin]" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="Laki-laki" {{ ($report->client->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ ($report->client->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('client_data.jenis_kelamin')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status Korban <span class="text-red-500">*</span></label>
+                        <select name="client_data[status_korban]" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="">Pilih Status</option>
+                            <option value="Disable" {{ ($report->client->status_korban ?? '') == 'Disable' ? 'selected' : '' }}>Disable</option>
+                            <option value="Tidak" {{ ($report->client->status_korban ?? '') == 'Tidak' ? 'selected' : '' }}>Tidak</option>
+                        </select>
+                        @error('client_data.status_korban')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Kategori Disable</label>
+                        <input type="text" name="client_data[kategori_disable]" value="{{ $report->client->kategori_disable ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        @error('client_data.kategori_disable')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status <span class="text-red-500">*</span></label>
+                        <input type="text" name="client_data[status]" value="{{ $report->client->status ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('client_data.status')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Sumber Informasi</label>
+                        <textarea name="client_data[sumber_informasi]" rows="3" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ $report->client->sumber_informasi ?? '' }}</textarea>
+                        @error('client_data.sumber_informasi')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reporter Tab -->
+            <div id="reporter" class="tab-content hidden">
+                <h5 class="text-lg font-medium mb-4">Informasi Pelapor</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hubungan Pelapor dengan Pelaku <span class="text-red-500">*</span></label>
+                        <input type="text" name="reporter_data[hubungan_pelapor_dengan_pelaku]" value="{{ $report->reporter->hubungan_pelapor_dengan_pelaku ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.hubungan_pelapor_dengan_pelaku')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="reporter_data[nama_lengkap]" value="{{ $report->reporter->nama_lengkap ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.nama_lengkap')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir <span class="text-red-500">*</span></label>
+                        <input type="text" name="reporter_data[tempat_lahir]" value="{{ $report->reporter->tempat_lahir ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.tempat_lahir')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir <span class="text-red-500">*</span></label>
+                        <input type="date" name="reporter_data[tanggal_lahir]" value="{{ $report->reporter->tanggal_lahir ? $report->reporter->tanggal_lahir->format('Y-m-d') : '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.tanggal_lahir')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <select name="reporter_data[jenis_kelamin]" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="Laki-laki" {{ ($report->reporter->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ ($report->reporter->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('reporter_data.jenis_kelamin')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Usia <span class="text-red-500">*</span></label>
+                        <input type="number" name="reporter_data[usia]" value="{{ $report->reporter->usia ?? '' }}" min="1" max="120" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.usia')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status Pelapor <span class="text-red-500">*</span></label>
+                        <input type="text" name="reporter_data[status_pelapor]" value="{{ $report->reporter->status_pelapor ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.status_pelapor')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">No. Telepon <span class="text-red-500">*</span></label>
+                        <input type="text" name="reporter_data[no_telepon]" value="{{ $report->reporter->no_telepon ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('reporter_data.no_telepon')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat <span class="text-red-500">*</span></label>
+                        <textarea name="reporter_data[alamat]" rows="3" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>{{ $report->reporter->alamat ?? '' }}</textarea>
+                        @error('reporter_data.alamat')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Tambahan</label>
+                        <textarea name="reporter_data[keterangan_tambahan]" rows="3" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ $report->reporter->keterangan_tambahan ?? '' }}</textarea>
+                        @error('reporter_data.keterangan_tambahan')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perpetrator Tab -->
+            <div id="perpetrator" class="tab-content hidden">
+                <h5 class="text-lg font-medium mb-4">Informasi Pelaku</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hubungan dengan Korban <span class="text-red-500">*</span></label>
+                        <input type="text" name="perpetrator_data[hubungan_dengan_korban]" value="{{ $report->perpetrator->hubungan_dengan_korban ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('perpetrator_data.hubungan_dengan_korban')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pelaku <span class="text-red-500">*</span></label>
+                        <input type="text" name="perpetrator_data[nama]" value="{{ $report->perpetrator->nama ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('perpetrator_data.nama')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">No. Telepon</label>
+                        <input type="text" name="perpetrator_data[telepon]" value="{{ $report->perpetrator->telepon ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        @error('perpetrator_data.telepon')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <select name="perpetrator_data[jenis_kelamin]" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                            <option value="">Pilih Jenis Kelamin</option>
+                            <option value="Laki-laki" {{ ($report->perpetrator->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ ($report->perpetrator->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('perpetrator_data.jenis_kelamin')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan <span class="text-red-500">*</span></label>
+                        <textarea name="perpetrator_data[keterangan]" rows="4" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>{{ $report->perpetrator->keterangan ?? '' }}</textarea>
+                        @error('perpetrator_data.keterangan')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Bukti</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                            <div class="text-center">
+                                <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
+                                <p class="text-gray-500 text-sm">Upload file bukti (optional)</p>
+                                <input type="file" name="perpetrator_data[upload_bukti][]" multiple class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            </div>
+                        </div>
+                        @if(isset($report->perpetrator->upload_bukti) && is_array($report->perpetrator->upload_bukti))
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-600">File yang sudah diupload:</p>
+                                <ul class="list-disc list-inside text-sm text-gray-600">
+                                    @foreach($report->perpetrator->upload_bukti as $file)
+                                        <li>{{ $file }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @error('perpetrator_data.upload_bukti')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- Violence Tab -->
+            <div id="violence" class="tab-content hidden">
+                <h5 class="text-lg font-medium mb-4">Informasi Kekerasan</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kekerasan <span class="text-red-500">*</span></label>
+                        <input type="text" name="violance_data[jenis_kekerasan]" value="{{ $report->violance->jenis_kekerasan ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('violance_data.jenis_kekerasan')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lokasi Kejadian <span class="text-red-500">*</span></label>
+                        <input type="text" name="violance_data[lokasi_kejadian]" value="{{ $report->violance->lokasi_kejadian ?? '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('violance_data.lokasi_kejadian')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Waktu Kejadian <span class="text-red-500">*</span></label>
+                        <input type="date" name="violance_data[waktu_kejadian]" value="{{ $report->violance->waktu_kejadian ? $report->violance->waktu_kejadian->format('Y-m-d') : '' }}" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                        @error('violance_data.waktu_kejadian')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Bentuk Kekerasan <span class="text-red-500">*</span></label>
+                        <div class="space-y-2">
+                            @php
+                                $bentukKekerasan = $report->violance->bentuk_kekerasan ?? [];
+                                if (is_string($bentukKekerasan)) {
+                                    $bentukKekerasan = json_decode($bentukKekerasan, true) ?? [];
+                                }
+                            @endphp
+                            <div class="flex items-center">
+                                <input type="checkbox" name="violance_data[bentuk_kekerasan][]" value="Fisik" 
+                                       {{ in_array('Fisik', $bentukKekerasan) ? 'checked' : '' }}
+                                       class="mr-2">
+                                <label class="text-sm">Fisik</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" name="violance_data[bentuk_kekerasan][]" value="Psikis" 
+                                       {{ in_array('Psikis', $bentukKekerasan) ? 'checked' : '' }}
+                                       class="mr-2">
+                                <label class="text-sm">Psikis</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" name="violance_data[bentuk_kekerasan][]" value="Seksual" 
+                                       {{ in_array('Seksual', $bentukKekerasan) ? 'checked' : '' }}
+                                       class="mr-2">
+                                <label class="text-sm">Seksual</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" name="violance_data[bentuk_kekerasan][]" value="Ekonomi" 
+                                       {{ in_array('Ekonomi', $bentukKekerasan) ? 'checked' : '' }}
+                                       class="mr-2">
+                                <label class="text-sm">Ekonomi</label>
+                            </div>
+                        </div>
+                        @error('violance_data.bentuk_kekerasan')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Kekerasan <span class="text-red-500">*</span></label>
+                        <textarea name="violance_data[deskripsi_kekerasan]" rows="6" class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>{{ $report->violance->deskripsi_kekerasan ?? '' }}</textarea>
+                        @error('violance_data.deskripsi_kekerasan')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="border-t pt-6 mt-6 flex justify-between">
+                <a href="{{ route('admin.violence-reports.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition text-sm">
+                    <i class="fas fa-times mr-2"></i>Batal
+                </a>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition text-sm">
+                    <i class="fas fa-save mr-2"></i>Update Laporan
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-@endsection
 
-@section('scripts')
 <script>
-$('#reportForm').on('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const data = {};
-    
-    // Organize data by categories
-    for (let [key, value] of formData.entries()) {
-        const keys = key.split(/[\[\]]+/).filter(k => k);
-        if (keys.length === 2) {
-            if (!data[keys[0]]) data[keys[0]] = {};
-            data[keys[0]][keys[1]] = value;
-        }
-    }
-    
-    $.ajax({
-        url: '/admin/violence-reports',
-        method: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            Swal.fire('Berhasil!', 'Laporan berhasil disimpan', 'success')
-                .then(() => window.location.href = '/admin/violence-reports');
-        },
-        error: function(xhr) {
-            let message = 'Terjadi kesalahan';
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                message = xhr.responseJSON.message;
-            }
-            Swal.fire('Error!', message, 'error');
-        }
+function showTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
     });
-});
+    
+    // Remove active state from all tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-blue-500', 'text-blue-600');
+        btn.classList.add('border-transparent', 'text-gray-500');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName).classList.remove('hidden');
+    
+    // Add active state to clicked button
+    event.target.classList.remove('border-transparent', 'text-gray-500');
+    event.target.classList.add('border-blue-500', 'text-blue-600');
+}
 </script>
-@endsection
 
+@endsection

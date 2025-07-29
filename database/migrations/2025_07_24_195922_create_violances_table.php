@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('violances', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('jenis_kekerasan');
-            $table->string('lokus_kejadian');
+
+            $table->string('jenis_kekerasan'); // seksual, psikis, fisik, dll
+            $table->json('bentuk_kekerasan'); // bentuk spesifik dalam jenis, misal: "Tatapan seksual", "Pemaksaan seksual"
+            $table->string('lokasi_kejadian'); // rumah, kos, kampus, dll
             $table->dateTime('waktu_kejadian');
-            $table->string('keterangan_pihak_ke3');
-            $table->string('kategori_pidana');
-            $table->string('bentuk_kekerasan');
-            $table->text('narasi_kronologis');
+            $table->text('deskripsi_kekerasan'); // narasi kronologis dari pelapor
+
             $table->timestamps();
         });
     }

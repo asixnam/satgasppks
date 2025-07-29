@@ -12,29 +12,14 @@ class Perpetrator extends Model
 
     protected $fillable = [
         'hubungan_dengan_korban',
-        'nik_pelaku',
-        'nama_pelaku',
-        'jenis_kelamin_pelaku',
-        'umur_pelaku',
-        'tempat_lahir_pelaku',
-        'tanggal_lahir_pelaku',
-        'agama_pelaku',
-        'status_perkawinan_pelaku',
-        'pendidikan_pelaku',
-        'pekerjaan_pelaku',
-        'alamat_pelaku',
-        'telepon_pelaku',
-        'jenis_kekerasan',
-        'waktu_kejadian',
-        'tempat_kejadian',
-        'kronologi',
-        'keterangan_tambahan',
+        'nama',
+        'telepon',
+        'jenis_kelamin',
+        'keterangan',
         'upload_bukti'
     ];
 
     protected $casts = [
-        'tanggal_lahir_pelaku' => 'date',
-        'waktu_kejadian' => 'datetime',
         'upload_bukti' => 'array'
     ];
 

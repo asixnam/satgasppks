@@ -11,16 +11,16 @@ class Reporter extends Model
     use HasFactory, HasUuid;
 
     protected $fillable = [
-        'hubungan',
-        'nama',
+        'hubungan_pelapor_dengan_pelaku',
+        'nama_lengkap',
         'tempat_lahir',
         'tanggal_lahir',
         'jenis_kelamin',
         'usia',
-        'pekerjaan',
+        'status_pelapor',
         'no_telepon',
         'alamat',
-        'keterangan'
+        'keterangan_tambahan'
     ];
 
     protected $casts = [
