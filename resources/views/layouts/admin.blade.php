@@ -280,9 +280,7 @@
     </script>
 
     <!-- {{-- Tempat halaman menyisipkan JS khusus --}} -->
-    @stack('scripts')
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('scripts')    
 
 </body>
 

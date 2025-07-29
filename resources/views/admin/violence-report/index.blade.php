@@ -263,12 +263,16 @@
                                                title="Edit">
                                                 <i class="fas fa-edit text-xs"></i>
                                             </a>
-                                            <button type="button" 
-                                                    onclick="deleteReport('{{ $report->id }}')" 
+                                            <form action="{{ route('admin.violence-reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')" class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
                                                     class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors duration-200"
                                                     title="Hapus">
                                                 <i class="fas fa-trash text-xs"></i>
-                                            </button>
+                                                </button>
+                                            </form>
+                                            
                                         </div>
                                     </td>
                                 </tr>
@@ -299,11 +303,6 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal (Hidden Form) -->
-<form id="deleteForm" method="POST" style="display: none;">
-    @csrf
-    @method('DELETE')
-</form>
 @endsection
 
 @section('scripts')
