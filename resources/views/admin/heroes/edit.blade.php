@@ -14,7 +14,7 @@
     <!-- Form Card -->
     <div class="max-w-2xl mx-auto">
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-8">
-            <form action="{{ route('hero.update', $hero->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('admin.hero.update', $hero->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
                 
