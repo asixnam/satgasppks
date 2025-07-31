@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AppController extends Controller
 {
@@ -134,7 +135,7 @@ class AppController extends Controller
             'client_data.status_korban' => ['required', Rule::in(['Disable', 'Tidak'])],
             'client_data.kategori_disable' => 'nullable|string|max:255',
             'client_data.status' => 'required|string|max:255',
-            'client_data.sumber_informasi' => 'nullable|string'
+            'client_data.sumber_informasi' => 'nullable|string|max:1000'
         ];
 
         // Validation rules for reporter data
@@ -158,6 +159,7 @@ class AppController extends Controller
             'perpetrator_data.telepon' => 'nullable|string|max:20|regex:/^[0-9+\-\s]*$/',
             'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
             'perpetrator_data.keterangan' => 'required|string|max:2000',
+            'perpetrator_data.upload_bukti' => 'nullable|array|max:5',
             'perpetrator_data.upload_bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
         ];
 
@@ -201,9 +203,10 @@ class AppController extends Controller
         }
 
         DB::beginTransaction();
+        $uploadedFiles = [];
 
         try {
-            // Save client data
+            // Save client data with proper null coalescing
             $client = Client::create([
                 'nama_lengkap' => $validated['client_data']['nama_lengkap'],
                 'jenis_kelamin' => $validated['client_data']['jenis_kelamin'],
@@ -213,7 +216,7 @@ class AppController extends Controller
                 'sumber_informasi' => $validated['client_data']['sumber_informasi'] ?? null,
             ]);
 
-            // Save reporter data
+            // Save reporter data with proper null coalescing
             $reporter = Reporter::create([
                 'hubungan_pelapor_dengan_pelaku' => $validated['reporter_data']['hubungan_pelapor_dengan_pelaku'],
                 'nama_lengkap' => $validated['reporter_data']['nama_lengkap'],
@@ -227,33 +230,58 @@ class AppController extends Controller
                 'keterangan_tambahan' => $validated['reporter_data']['keterangan_tambahan'] ?? null,
             ]);
 
-            // Handle file uploads and save perpetrator data
-            $perpetratorData = $validated['perpetrator_data'];
-            $uploadedFiles = [];
-
+            // Handle file uploads with improved error handling
             if ($request->hasFile('perpetrator_data.upload_bukti')) {
-                foreach ($request->file('perpetrator_data.upload_bukti') as $file) {
-                    if ($file->isValid()) {
-                        // Generate unique filename
-                        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                        $path = $file->storeAs('violence-reports/evidence', $filename, 'public');
-                        $uploadedFiles[] = $path;
+                $files = $request->file('perpetrator_data.upload_bukti');
+                
+                foreach ($files as $index => $file) {
+                    if ($file && $file->isValid()) {
+                        try {
+                            // Validate file size and type again for security
+                            $allowedMimes = ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'];
+                            $extension = strtolower($file->getClientOriginalExtension());
+                            
+                            if (!in_array($extension, $allowedMimes)) {
+                                throw new \Exception("File type tidak diizinkan: {$extension}");
+                            }
+
+                            if ($file->getSize() > 5120 * 1024) { // 5MB in bytes
+                                throw new \Exception("File terlalu besar (maksimal 5MB)");
+                            }
+
+                            // Generate secure filename
+                            $filename = 'evidence_' . time() . '_' . $index . '_' . Str::random(10) . '.' . $extension;
+                            
+                            // Store file
+                            $path = $file->storeAs('violence-reports/evidence', $filename, 'public');
+                            
+                            if ($path) {
+                                $uploadedFiles[] = $path;
+                            }
+                        } catch (\Exception $fileException) {
+                            // Log file upload error but continue with process
+                            Log::warning('File upload failed', [
+                                'file_index' => $index,
+                                'error' => $fileException->getMessage()
+                            ]);
+                        }
                     }
                 }
             }
 
+            // Save perpetrator data
+            $perpetratorData = $validated['perpetrator_data'];
             $perpetrator = Perpetrator::create([
                 'hubungan_dengan_korban' => $perpetratorData['hubungan_dengan_korban'],
                 'nama' => $perpetratorData['nama'],
                 'telepon' => $perpetratorData['telepon'] ?? null,
                 'jenis_kelamin' => $perpetratorData['jenis_kelamin'],
                 'keterangan' => $perpetratorData['keterangan'],
-                'upload_bukti' => json_encode($uploadedFiles),
+                'upload_bukti' => !empty($uploadedFiles) ? json_encode($uploadedFiles) : null,
             ]);
 
             // Save violence data
             $violanceData = $validated['violance_data'];
-            
             $violance = Violance::create([
                 'jenis_kekerasan' => $violanceData['jenis_kekerasan'],
                 'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
@@ -279,6 +307,7 @@ class AppController extends Controller
                 'report_id' => $violenceReport->id,
                 'client_name' => $client->nama_lengkap,
                 'reporter_name' => $reporter->nama_lengkap,
+                'uploaded_files_count' => count($uploadedFiles)
             ]);
 
             return redirect()->route('home')
@@ -287,16 +316,27 @@ class AppController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             
-            // Delete uploaded files if error occurs
+            // Clean up uploaded files on error
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $file) {
-                    Storage::disk('public')->delete($file);
+                    try {
+                        if (Storage::disk('public')->exists($file)) {
+                            Storage::disk('public')->delete($file);
+                        }
+                    } catch (\Exception $deleteException) {
+                        Log::warning('Failed to delete uploaded file after error', [
+                            'file' => $file,
+                            'error' => $deleteException->getMessage()
+                        ]);
+                    }
                 }
             }
 
-            // Log error
+            // Log detailed error information
             Log::error('Failed to create violence report', [
                 'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
                 'request_data' => $request->except(['_token', 'perpetrator_data.upload_bukti'])
             ]);
