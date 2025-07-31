@@ -1,4 +1,4 @@
-@extends('Frontend.Home.home')
+@extends('Layouts.app')
 
 @section('content')
 
@@ -153,7 +153,7 @@
                             <p class="text-sm text-gray-600 mb-3">
                                 Jika Anda belum melaporkan kasus, silakan buat laporan terlebih dahulu.
                             </p>
-                            <a href="/lapor" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                            <a href={{ route('lapor-kekerasan.create') }} class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
                                 <i class="fas fa-plus mr-2"></i>
                                 Buat Laporan Baru
                             </a>

@@ -1,4 +1,4 @@
-@extends('Frontend.Home.home')
+@extends('Layouts.app')
 
 @section('content')
     <div class="container mx-auto px-4 py-8 mt-16">

@@ -82,7 +82,7 @@
             <div class="p-6 border-b border-gray-100">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">Laporan Terbaru</h2>
-                    <a href="{{ route('admin.laporans.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
+                    <a href="{{ route('admin.dashboard') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
                         Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
@@ -162,7 +162,7 @@
                         <span class="text-sm font-medium text-orange-700 mt-2">Tambah Tim</span>
                     </a>
 
-                    <a href="{{ route('admin.laporans.index') }}" 
+                    <a href="{{ route('admin.dashboard') }}" 
                        class="flex flex-col items-center p-4 bg-red-50 rounded-lg border border-red-100 hover:bg-red-100 transition-colors duration-200 group">
                         <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors duration-200">
                             <i class="fas fa-clipboard-list text-red-600"></i>

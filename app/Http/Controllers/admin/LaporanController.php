@@ -40,7 +40,7 @@ class LaporanController extends Controller
         $laporans = $query->paginate(10);
 
         $laporans->appends($request->query());
-        return view('admin.laporans.index', compact('laporans'));
+        return view('admin.dashboard', compact('laporans'));
     }
 
 
@@ -81,7 +81,7 @@ class LaporanController extends Controller
 
         Laporan::create($validatedData);
 
-        return redirect()->route('admin.laporans.index')
+        return redirect()->route('admin.dashboard')
             ->with('success', 'Laporan berhasil ditambahkan');
     }
 
@@ -134,7 +134,7 @@ class LaporanController extends Controller
         $laporan = Laporan::findOrFail($id);
     $laporan->update($request->all());
 
-        return redirect()->route('admin.laporans.index')
+        return redirect()->route('admin.dashboard')
             ->with('success', 'Laporan berhasil diperbarui');
     }
 
@@ -142,10 +142,10 @@ class LaporanController extends Controller
     {
         try {
             $laporan->delete();
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('success', 'Laporan berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('error', 'Gagal menghapus laporan');
         }
     }
@@ -162,10 +162,10 @@ class LaporanController extends Controller
 
         try {
             Laporan::whereIn('id', $request->selected_ids)->delete();
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('success', count($request->selected_ids) . ' laporan berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('error', 'Gagal menghapus laporan terpilih');
         }
     }
@@ -185,10 +185,10 @@ class LaporanController extends Controller
             Laporan::whereIn('id', $request->selected_ids)
                 ->update(['status' => $request->status]);
 
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('success', 'Status ' . count($request->selected_ids) . ' laporan berhasil diperbarui');
         } catch (\Exception $e) {
-            return redirect()->route('admin.laporans.index')
+            return redirect()->route('admin.dashboard')
                 ->with('error', 'Gagal memperbarui status laporan');
         }
     }

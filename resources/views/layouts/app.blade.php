@@ -20,208 +20,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'inter': ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: {
-                            50: '#f0f9f4',
-                            100: '#dcf2e4',
-                            200: '#bce4cd',
-                            300: '#8cd0a8',
-                            400: '#57b67c',
-                            500: '#00492C',
-                            600: '#004026',
-                            700: '#003620',
-                            800: '#002d1a',
-                            900: '#002515'
-                        },
-                        secondary: {
-                            50: '#fffbeb',
-                            100: '#fef3c7',
-                            200: '#fde68a',
-                            300: '#fcd34d',
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            700: '#b45309',
-                            800: '#92400e',
-                            900: '#78350f'
-                        },
-                        accent: {
-                            50: '#faf5ff',
-                            100: '#f3e8ff',
-                            200: '#e9d5ff',
-                            300: '#d8b4fe',
-                            400: '#c084fc',
-                            500: '#8B5CF6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                            800: '#5b21b6',
-                            900: '#4c1d95'
-                        }
-                    },
-                    screens: {
-                        'xs': '320px',
-                        'sm': '640px',
-                        'md': '768px',
-                        'lg': '1024px',
-                        'xl': '1280px',
-                        '2xl': '1536px',
-                        '3xl': '1920px'
-                    },
-                    spacing: {
-                        '18': '4.5rem',
-                        '88': '22rem',
-                        '128': '32rem'
-                    }
-                }
-            }
-        }
-    </script>
     
     <style>
-        /* Base Styles */
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-        
+        /* Custom CSS untuk efek yang tidak bisa dicapai dengan Tailwind saja */
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
         }
         
-        /* Prevent iOS zoom on input focus */
-        input, select, textarea {
-            font-size: 16px;
+        .navbar-gradient {
+            background: linear-gradient(135deg, #065f46 0%, #7c3aed 100%);
         }
         
-        /* Navigation Styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #00492C 0%, #8B5CF6 100%);
+        .navbar-scrolled {
+            background: linear-gradient(135deg, rgba(6, 95, 70, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .navbar.scrolled {
-            background: linear-gradient(135deg, rgba(0, 73, 44, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        .footer-gradient {
+            background: linear-gradient(135deg, #065f46 0%, #7c3aed 100%);
         }
         
-        .navbar-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        .mobile-menu-gradient {
+            background: linear-gradient(180deg, rgba(6, 95, 70, 0.98) 0%, rgba(124, 58, 237, 0.95) 100%);
+            backdrop-filter: blur(20px);
         }
         
-        .navbar-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 4rem;
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-shrink: 0;
-        }
-        
-        .logo-img {
-            height: 2.5rem;
-            width: auto;
-            object-fit: contain;
-        }
-        
-        .logo-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: white;
-            line-height: 1.2;
-            letter-spacing: -0.025em;
-        }
-        
-        .logo-subtitle {
-            font-size: 0.75rem;
-            opacity: 0.9;
-            font-weight: 500;
-        }
-        
-        /* Desktop Navigation */
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1rem;
-            border-radius: 0.5rem;
-            color: white;
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            border: 1px solid transparent;
-            white-space: nowrap;
-        }
-        
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(252, 211, 77, 0.3);
-            color: #FCD34D;
-            transform: translateY(-1px);
-        }
-        
-        .nav-link.active {
-            background: rgba(252, 211, 77, 0.15);
-            border-color: rgba(252, 211, 77, 0.4);
-            color: #FCD34D;
-        }
-        
-        .nav-link i {
-            font-size: 0.875rem;
-            color: #FCD34D;
-        }
-        
-        .badge {
-            background: linear-gradient(45deg, #FCD34D, #F59E0B);
-            color: #000;
-            font-size: 0.625rem;
-            font-weight: 600;
-            padding: 0.125rem 0.375rem;
-            border-radius: 9999px;
-            margin-left: 0.25rem;
+        .badge-pulse {
             animation: pulse 2s infinite;
         }
         
@@ -230,590 +57,68 @@
             50% { opacity: 0.7; }
         }
         
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: none;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .glass-effect {
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
-        .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #FCD34D;
-            transform: scale(1.05);
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
         }
         
-        /* Mobile Menu */
-        .mobile-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 85%;
-            max-width: 320px;
-            height: 100vh;
-            background: linear-gradient(180deg, rgba(0, 73, 44, 0.98) 0%, rgba(139, 92, 246, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            overflow-y: auto;
-            border-radius: 0 1.5rem 1.5rem 0;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .mobile-menu.show {
-            transform: translateX(0);
-        }
-        
-        .mobile-menu-header {
-            padding: 1.5rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .mobile-menu-logo {
-            width: 4rem;
-            height: 4rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .mobile-menu-title {
-            color: white;
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .mobile-menu-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-        
-        .mobile-menu-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.75rem;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .mobile-menu-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #FCD34D;
-            transform: scale(1.1);
-        }
-        
-        .mobile-menu-nav {
-            padding: 1rem;
-        }
-        
-        .mobile-menu-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            margin: 0.25rem 0;
-            border-radius: 0.75rem;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-        
-        .mobile-menu-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(252, 211, 77, 0.3);
-            transform: translateX(0.25rem);
-        }
-        
-        .mobile-menu-item i {
-            width: 1.5rem;
-            text-align: center;
-            margin-right: 0.75rem;
-            color: #FCD34D;
-        }
-        
-        /* Footer Styles */
-        .footer {
-            background: linear-gradient(135deg, #00492C 0%, #8B5CF6 100%);
-            position: relative;
-            margin-top: auto;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
-        }
-
-        .footer-content {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Desktop layout */
-        @media (min-width: 768px) {
-            .footer-grid {
-                grid-template-columns: 2fr 1fr;
-                gap: 3rem;
-            }
-        }
-
-        .footer-section h3 {
-            color: #FCD34D;
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-            .contact-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .contact-section {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(252, 211, 77, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .contact-item i {
-            color: #FCD34D;
-            font-size: 1.25rem;
-            margin-top: 0.125rem;
-            flex-shrink: 0;
-            width: 24px;
-            text-align: center;
-        }
-
-        .contact-text {
-            flex: 1;
-        }
-
-        .contact-text strong {
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .contact-text a {
-            color: #ffffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease;
-            word-break: break-all;
-        }
-
-        .contact-text a:hover {
-            color: #ffffffff;
-            text-decoration: underline;
-        }
-
-        .contact-text a.whatsapp:hover {
-            color: #ffffffff;
-        }
-
-        /* Address Section */
-        .address-section .contact-item {
-            grid-column: 1 / -1;
-        }
-
-        .address-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Footer Bottom */
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 2rem;
-            text-align: center;
-        }
-
-        .footer-bottom p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.875rem;
-            font-weight: 400;
-        }
-
-        
-        /* Responsive Design */
-        
-        /* Extra Small Devices (320px+) */
-        @media (min-width: 320px) {
-            .navbar-content {
-                height: 3.5rem;
-            }
-            
-            .logo-img {
-                height: 2rem;
-            }
-            
-            .logo-text {
-                font-size: 0.8rem;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-                padding: 0.5rem;
-            }
-            
-            .nav-menu {
-                display: none;
-            }
-            
-            .mobile-menu {
-                width: 100%;
-                border-radius: 0;
-            }
-        }
-        
-        /* Small Devices (640px+) */
-        @media (min-width: 640px) {
-            .navbar-content {
-                height: 4rem;
-            }
-            
-            .logo-img {
-                height: 2.25rem;
-            }
-            
-            .logo-text {
-                font-size: 0.875rem;
-            }
-            
-            .mobile-menu {
-                width: 85%;
-                max-width: 320px;
-                border-radius: 0 1.5rem 1.5rem 0;
-            }
-            
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-            
-            .contact-section {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Medium Devices (768px+) */
-        @media (min-width: 768px) {
-            .navbar-content {
-                height: 4.5rem;
-            }
-            
-            .logo-img {
-                height: 2.5rem;
-            }
-            
-            .logo-text {
-                font-size: 0.9rem;
-            }
-            
-            .mobile-menu-btn {
-                display: none;
-            }
-            
-            .nav-menu {
-                display: flex;
-                gap: 0.5rem;
-            }
-            
-            .nav-link {
-                padding: 0.625rem 1rem;
-                font-size: 0.875rem;
-            }
-            
-            .footer-grid {
-                grid-template-columns: 2fr 1fr;
-                gap: 3rem;
-            }
-            
-            .contact-section {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        /* Large Devices (1024px+) */
-        @media (min-width: 1024px) {
-            .navbar-content {
-                height: 5rem;
-            }
-            
-            .logo-img {
-                height: 3rem;
-            }
-            
-            .logo-text {
-                font-size: 1rem;
-            }
-            
-            .nav-menu {
-                gap: 0.75rem;
-            }
-            
-            .nav-link {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
-            }
-            
-            .badge {
-                display: inline-block;
-            }
-            
-            .footer-grid {
-                grid-template-columns: 2fr 1fr;
-                gap: 4rem;
-            }
-            
-            .contact-section {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        /* Extra Large Devices (1280px+) */
-        @media (min-width: 1280px) {
-            .navbar-container {
-                padding: 0 2rem;
-            }
-            
-            .logo-img {
-                height: 3.25rem;
-            }
-            
-            .logo-text {
-                font-size: 1.1rem;
-            }
-            
-            .nav-menu {
-                gap: 1rem;
-            }
-            
-            .nav-link {
-                padding: 0.875rem 1.5rem;
-                font-size: 0.95rem;
-            }
-            
-            .footer-content {
-                padding: 3rem 2rem;
-            }
-        }
-        
-        /* 2X Large Devices (1536px+) */
-        @media (min-width: 1536px) {
-            .navbar-container {
-                padding: 0 3rem;
-            }
-            
-            .logo-img {
-                height: 3.5rem;
-            }
-            
-            .logo-text {
-                font-size: 1.125rem;
-            }
-            
-            .nav-menu {
-                gap: 1.25rem;
-            }
-            
-            .nav-link {
-                padding: 1rem 1.75rem;
-                font-size: 1rem;
-            }
-            
-            .footer-content {
-                padding: 4rem 3rem;
-            }
-        }
-        
-        /* Touch Device Optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .nav-link,
-            .mobile-menu-item,
-            .contact-item {
-                min-height: 44px;
-            }
-            
-            .mobile-menu-btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-        }
-        
-        /* High DPI Displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .logo-img {
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-            }
-        }
-        
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-        
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            .navbar {
-                border-bottom-color: rgba(255, 255, 255, 0.15);
-            }
-            
-            .mobile-menu {
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-            }
-        }
-        
-        /* Print Styles */
-        @media print {
-            .navbar,
-            .mobile-menu,
-            .mobile-overlay {
-                display: none !important;
-            }
-            
-            body {
-                margin: 0;
-                padding: 0;
-            }
+        /* Prevent iOS zoom on input focus */
+        input, select, textarea {
+            font-size: 16px;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-gray-50 font-inter overflow-x-hidden">
     <!-- Mobile Overlay -->
-    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+    <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-40 opacity-0 invisible transition-all duration-300" aria-hidden="true"></div>
 
     <!-- Navigation -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-        <div class="navbar-container">
-            <div class="navbar-content">
+    <nav class="navbar-gradient fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-lg border-b border-white border-opacity-10" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
                 
                 <!-- Logo Section -->
-                <div class="logo-container">
-                    <a href="/" class="flex items-center" aria-label="SATGAS PPKS UNU Yogyakarta Home">
-                        <img src="/image/satgas-logo.png" alt="SATGAS PPKS Logo" class="logo-img">
+                <div class="flex items-center space-x-3 flex-shrink-0">
+                    <a href="{{ route('home') }}" class="flex items-center space-x-3" aria-label="SATGAS PPKS UNU Yogyakarta Home">
+                        <img src="{{ asset('image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="h-8 md:h-10 lg:h-12 w-auto object-contain">
+                        <div class="hidden sm:block">
+                            <h1 class="text-white font-bold text-sm md:text-base lg:text-lg leading-tight">SATGAS PPKS</h1>
+                            <p class="text-yellow-300 text-xs md:text-sm font-medium opacity-90">UNU Yogyakarta</p>
+                        </div>
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
-                <div class="nav-menu">
-                    <a href="/" class="nav-link" aria-label="Beranda">
-                        <i class="fas fa-home" aria-hidden="true"></i>
+                <div class="hidden md:flex items-center space-x-2 lg:space-x-4">
+                    <a href="{{ route('home') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Beranda">
+                        <i class="fas fa-home text-yellow-300" aria-hidden="true"></i>
                         <span>Beranda</span>
                     </a>
-                    <a href="/lapor" class="nav-link" aria-label="Lapor Kasus">
-                        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                    <a href="{{ route('lapor-kekerasan.create') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Lapor Kasus">
+                        <i class="fas fa-exclamation-triangle text-yellow-300" aria-hidden="true"></i>
                         <span>Lapor Kasus</span>
                     </a>
-                    <a href="/cek-status" class="nav-link" aria-label="Cek Status">
-                        <i class="fas fa-search" aria-hidden="true"></i>
+                    <a href="{{ route('cek-status') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Cek Status">
+                        <i class="fas fa-search text-yellow-300" aria-hidden="true"></i>
                         <span>Cek Status</span>
-                        <span class="badge hidden lg:inline" aria-label="Segera hadir">Soon</span>
+                        <span class="hidden lg:inline bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full ml-1 badge-pulse" aria-label="Segera hadir">Soon</span>
                     </a>
-                    <a href="/berita" class="nav-link" aria-label="Berita">
-                        <i class="fas fa-newspaper" aria-hidden="true"></i>
+                    <a href="{{ route('berita') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Berita">
+                        <i class="fas fa-newspaper text-yellow-300" aria-hidden="true"></i>
                         <span>Berita</span>
                     </a>
-                    <a href="/edukasi" class="nav-link" aria-label="Edukasi">
-                        <i class="fas fa-book-open" aria-hidden="true"></i>
+                    <a href="{{ route('edukasi') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Edukasi">
+                        <i class="fas fa-book-open text-yellow-300" aria-hidden="true"></i>
                         <span>Edukasi</span>
                     </a>
-                    <a href="/tentang-kami" class="nav-link" aria-label="Tentang Kami">
-                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    <a href="{{ route('tentang-kami') }}" class="flex items-center space-x-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Tentang Kami">
+                        <i class="fas fa-info-circle text-yellow-300" aria-hidden="true"></i>
                         <span>Tentang</span>
                     </a>
                 </div>
@@ -821,7 +126,7 @@
                 <!-- Mobile Menu Button -->
                 <button 
                     id="mobile-menu-btn" 
-                    class="mobile-menu-btn" 
+                    class="md:hidden bg-white bg-opacity-10 border border-white border-opacity-20 text-white p-3 rounded-lg transition-all duration-300 hover:bg-opacity-20 hover:text-yellow-300 hover:scale-105 glass-effect" 
                     aria-label="Open mobile menu"
                     aria-expanded="false"
                     aria-controls="mobile-menu"
@@ -836,160 +141,191 @@
     <!-- Mobile Menu -->
     <div 
         id="mobile-menu" 
-        class="mobile-menu"
+        class="fixed top-0 left-0 w-full max-w-sm h-full mobile-menu-gradient transform -translate-x-full transition-transform duration-500 ease-out z-50 overflow-y-auto rounded-r-3xl shadow-2xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="mobile-menu-title"
     >
         <button 
             id="mobile-menu-close" 
-            class="mobile-menu-close"
+            class="absolute top-4 right-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white p-3 rounded-full transition-all duration-300 hover:bg-opacity-20 hover:text-yellow-300 hover:scale-110 glass-effect"
             aria-label="Close mobile menu"
         >
             <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         
-        <div class="mobile-menu-header">
-            <div class="mobile-menu-logo">
+        <div class="p-6 text-center border-b border-white border-opacity-10">
+            <div class="w-16 h-16 bg-white bg-opacity-10 rounded-2xl flex items-center justify-center mx-auto mb-4 glass-effect border border-white border-opacity-20">
                 <i class="fas fa-shield-alt text-yellow-300 text-2xl" aria-hidden="true"></i>
             </div>
-            <h2 id="mobile-menu-title" class="mobile-menu-title">SATGAS PPKS</h2>
-            <p class="mobile-menu-subtitle">UNU Yogyakarta</p>
+            <h2 id="mobile-menu-title" class="text-white text-xl font-bold mb-1">SATGAS PPKS</h2>
+            <p class="text-white text-sm font-medium opacity-80">UNU Yogyakarta</p>
         </div>
         
-        <nav class="mobile-menu-nav" role="navigation" aria-label="Mobile navigation">
-            <a href="/" class="mobile-menu-item">
-                <i class="fas fa-home" aria-hidden="true"></i>
-                <span>Beranda</span>
+        <nav class="p-4" role="navigation" aria-label="Mobile navigation">
+            <a href="{{ route('home') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-home w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Beranda</span>
             </a>
-            <a href="/lapor" class="mobile-menu-item">
-                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-                <span>Lapor Kasus</span>
+            <a href="{{ route('lapor-kekerasan.create') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-exclamation-triangle w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Lapor Kasus</span>
             </a>
-            <a href="/cek-status" class="mobile-menu-item">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <span>Cek Status</span>
-                <span class="badge ml-auto">Soon</span>
+            <a href="{{ route('cek-status') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-search w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Cek Status</span>
+                <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full ml-auto badge-pulse">Soon</span>
             </a>
-            <a href="/berita" class="mobile-menu-item">
-                <i class="fas fa-newspaper" aria-hidden="true"></i>
-                <span>Berita</span>
+            <a href="{{ route('berita') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-newspaper w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Berita</span>
             </a>
-            <a href="/edukasi" class="mobile-menu-item">
-                <i class="fas fa-book-open" aria-hidden="true"></i>
-                <span>Edukasi</span>
+            <a href="{{ route('edukasi') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-book-open w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Edukasi</span>
             </a>
-            <a href="/tentang-kami" class="mobile-menu-item">
-                <i class="fas fa-info-circle" aria-hidden="true"></i>
-                <span>Tentang Kami</span>
+            <a href="{{ route('tentang-kami') }}" class="flex items-center p-4 mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
+                <i class="fas fa-info-circle w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
+                <span class="font-medium">Tentang Kami</span>
             </a>
         </nav>
     </div>
 
     <!-- Main Content -->
-    <main class="min-h-screen pt-16">
-        <!-- Konten utama akan ditambahkan di sini -->
+    <main class="min-h-screen pt-16 md:pt-20">
+        @yield('content')
     </main>
 
-    <footer class="footer" role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-grid">
+    <!-- Footer -->
+    <footer class="footer-gradient relative" role="contentinfo">
+        <div class="absolute inset-0 bg-black opacity-15"></div>
+        <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-8">
+                
                 <!-- Contact Information -->
-                <div class="footer-section">
-                    <h3>Kontak Kami</h3>
-                    <div class="contact-section">
-                        <div class="contact-item">
-                            <i class="fab fa-instagram" aria-hidden="true"></i>
-                            <div class="contact-text">
-                                <strong>Instagram</strong>
-                                <a href="https://www.instagram.com/satgasppks.unuyo" target="_blank" rel="noopener noreferrer">
-                                    @satgasppks.unuyo
-                                </a>
+                <div>
+                    <h3 class="text-yellow-300 text-xl font-semibold mb-6 uppercase tracking-wide">Kontak Kami</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+                        
+                        <div class="bg-white bg-opacity-8 backdrop-blur-sm border border-white border-opacity-10 rounded-xl p-5 transition-all duration-300 hover:bg-opacity-15 hover:border-yellow-300 hover:border-opacity-40 hover:-translate-y-1 hover:shadow-xl">
+                            <div class="flex items-start space-x-4">
+                                <i class="fab fa-instagram text-yellow-300 text-xl mt-1 w-6 text-center flex-shrink-0" aria-hidden="true"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-white font-semibold text-base mb-1">Instagram</p>
+                                    <a href="https://www.instagram.com/satgasppks.unuyo" target="_blank" rel="noopener noreferrer" class="text-white text-sm hover:text-yellow-300 transition-colors duration-200 break-all">
+                                        @satgasppks.unuyo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white bg-opacity-8 backdrop-blur-sm border border-white border-opacity-10 rounded-xl p-5 transition-all duration-300 hover:bg-opacity-15 hover:border-yellow-300 hover:border-opacity-40 hover:-translate-y-1 hover:shadow-xl">
+                            <div class="flex items-start space-x-4">
+                                <i class="fas fa-envelope text-yellow-300 text-xl mt-1 w-6 text-center flex-shrink-0" aria-hidden="true"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-white font-semibold text-base mb-1">Email</p>
+                                    <a href="mailto:satgasppks@unu-jogja.ac.id" class="text-white text-sm hover:text-yellow-300 transition-colors duration-200 break-all">
+                                        satgasppks@unu-jogja.ac.id
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white bg-opacity-8 backdrop-blur-sm border border-white border-opacity-10 rounded-xl p-5 transition-all duration-300 hover:bg-opacity-15 hover:border-yellow-300 hover:border-opacity-40 hover:-translate-y-1 hover:shadow-xl">
+                            <div class="flex items-start space-x-4">
+                                <i class="fas fa-phone text-yellow-300 text-xl mt-1 w-6 text-center flex-shrink-0" aria-hidden="true"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-white font-semibold text-base mb-1">Telepon</p>
+                                    <a href="https://wa.me/6281323596022" target="_blank" rel="noopener noreferrer" class="text-white text-sm hover:text-yellow-300 transition-colors duration-200">
+                                        0813-2359-6022
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <i class="fas fa-envelope" aria-hidden="true"></i>
-                            <div class="contact-text">
-                                <strong>Email</strong>
-                                <a href="gmail:satgasppks@unu-jogja.ac.id">
-                                    satgasppks@unu-jogja.ac.id
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <i class="fas fa-phone" aria-hidden="true"></i>
-                            <div class="contact-text">
-                                <strong>Telepon</strong>
-                                <a href="https://wa.me/6281323596022" target="_blank" rel="noopener noreferrer" class="whatsapp">
-                                    0813-2359-6022
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <!-- Address -->
-                <div class="footer-section address-section">
-                <h3>Alamat</h3>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                    <div class="address-text">
-                        <a href="https://www.google.com/maps?9FvWyDk5Fdpjt9PN9"
-                        target="_blank" 
-                        class="text-whaite-400 hover:underline">
-                            Universitas Nahdlatul Ulama Yogyakarta Jl. Ringroad Barat, Dowangan, Banyuraden, Kec. Gamping, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55293
-                        </a>
+                <div>
+                    <h3 class="text-yellow-300 text-xl font-semibold mb-6 uppercase tracking-wide">Alamat</h3>
+                    <div class="bg-white bg-opacity-8 backdrop-blur-sm border border-white border-opacity-10 rounded-xl p-5 transition-all duration-300 hover:bg-opacity-15 hover:border-yellow-300 hover:border-opacity-40 hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-start space-x-4">
+                            <i class="fas fa-map-marker-alt text-yellow-300 text-xl mt-1 w-6 text-center flex-shrink-0" aria-hidden="true"></i>
+                            <div class="flex-1">
+                                <a href="https://www.google.com/maps?9FvWyDk5Fdpjt9PN9" target="_blank" rel="noopener noreferrer" class="text-white text-base leading-relaxed hover:text-yellow-300 transition-colors duration-200 hover:underline">
+                                    Universitas Nahdlatul Ulama Yogyakarta<br>
+                                    Jl. Ringroad Barat, Dowangan, Banyuraden, Kec. Gamping,<br>
+                                    Kabupaten Sleman, Daerah Istimewa Yogyakarta 55293
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
             </div>
             
-            <!-- <div class="footer-bottom">
-                <p>© 2023 SATGAS PPKS UNU Yogyakarta. Semua hak dilindungi.</p>
-            </div> -->
+            <div class="border-t border-white border-opacity-20 pt-8 text-center">
+                <p class="text-white text-sm opacity-80 font-medium">© 2024 SATGAS PPKS UNU Yogyakarta. Semua hak dilindungi.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Ambil elemen yang dibutuhkan
+        // Mobile menu functionality
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileOverlay = document.getElementById('mobile-overlay');
         const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const navbar = document.getElementById('navbar');
 
-        // Fungsi untuk buka menu
         function openMobileMenu() {
-            mobileMenu.classList.add('show');
-            mobileOverlay.classList.add('show');
+            mobileMenu.classList.remove('-translate-x-full');
+            mobileOverlay.classList.remove('opacity-0', 'invisible');
             mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('overflow-hidden');
         }
 
-        // Fungsi untuk tutup menu
         function closeMobileMenu() {
-            mobileMenu.classList.remove('show');
-            mobileOverlay.classList.remove('show');
+            mobileMenu.classList.add('-translate-x-full');
+            mobileOverlay.classList.add('opacity-0', 'invisible');
             mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            document.body.classList.remove('overflow-hidden');
         }
 
-        // Event listener tombol buka
+        // Event listeners
         mobileMenuBtn.addEventListener('click', openMobileMenu);
-
-        // Event listener tombol tutup
         mobileMenuClose.addEventListener('click', closeMobileMenu);
-
-        // Tutup menu jika klik di luar (overlay)
         mobileOverlay.addEventListener('click', closeMobileMenu);
 
-        // Tambahkan efek scroll untuk navbar
+        // Close mobile menu when clicking on navigation links
+        const mobileNavLinks = document.querySelectorAll('#mobile-menu nav a');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Navbar scroll effect
         window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                navbar.classList.add('navbar-scrolled');
+                navbar.classList.remove('navbar-gradient');
             } else {
-                navbar.classList.remove('scrolled');
+                navbar.classList.remove('navbar-scrolled');
+                navbar.classList.add('navbar-gradient');
+            }
+        });
+
+        // Close mobile menu on window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
             }
         });
     </script>

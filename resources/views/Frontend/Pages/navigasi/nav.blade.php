@@ -16,7 +16,7 @@
                         <i class="fas fa-home" aria-hidden="true"></i>
                         <span>Beranda</span>
                     </a>
-                    <a href="/lapor" class="nav-link" aria-label="Lapor Kasus">
+                    <a href={{ route('lapor-kekerasan.create') }} class="nav-link" aria-label="Lapor Kasus">
                         <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                         <span>Lapor Kasus</span>
                     </a>

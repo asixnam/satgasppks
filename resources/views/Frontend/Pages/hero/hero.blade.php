@@ -1,10 +1,11 @@
 @php
-    $hero = $heroes->first();
+    $isDefault = Str::startsWith($hero->gambar, 'images/');
+    $gambarHero = $isDefault ? asset($hero->gambar) : asset('storage/' . $hero->gambar);
 @endphp
 
 <!-- Hero Section dengan Gambar Hero Pertama -->
 <section class="hero-bg min-h-screen flex items-center justify-center text-white text-center px-4"
-    style="background: linear-gradient(135deg, rgba(0, 73, 44, 0.8), rgba(0, 0, 0, 0.6)), url('{{ asset('storage/' . $hero->gambar) }}'); background-size: cover; background-position: center; background-attachment: fixed;">
+    style="background: linear-gradient(135deg, rgba(0, 73, 44, 0.8), rgba(0, 0, 0, 0.6)), url('{{ $hero->gambar ? (Str::startsWith($hero->gambar, 'images/') ? asset($hero->gambar) : asset('storage/' . $hero->gambar)) : asset('images/gedung-unujogja.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
     <div class="max-w-4xl mx-auto">
         <h1 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">
             Bersama <span class="gradient-text">SATGAS UNU JOGJA</span><br>
@@ -30,4 +31,3 @@
         <div class="swiper-button-prev z-20"></div>
         <div class="swiper-button-next z-20"></div>
 </section>
-

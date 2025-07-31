@@ -751,7 +751,7 @@
                 <i class="fas fa-home" aria-hidden="true"></i>
                 <span>Beranda</span>
             </a>
-            <a href="/lapor" class="mobile-menu-item">
+            <a href={{ route('lapor-kekerasan.create') }} class="mobile-menu-item">
                 <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                 <span>Lapor Kasus</span>
             </a>

@@ -10,6 +10,8 @@ use App\Models\Violance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+
 
 class ViolenceReportController extends Controller
 {
@@ -68,7 +70,8 @@ class ViolenceReportController extends Controller
     }
 
     // Buat laporan baru
-    public function store(Request $request)
+
+public function store(Request $request)
 {
     // Validasi data client
     $clientRules = [
@@ -101,8 +104,7 @@ class ViolenceReportController extends Controller
         'perpetrator_data.telepon' => 'nullable|string|max:20',
         'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
         'perpetrator_data.keterangan' => 'required|string',
-        'perpetrator_data.upload_bukti' => 'nullable|array',
-        'perpetrator_data.upload_bukti.*' => 'string'
+        'perpetrator_data.upload_bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
     ];
 
     // Validasi data violance
@@ -131,10 +133,32 @@ class ViolenceReportController extends Controller
         // Simpan data reporter
         $reporter = Reporter::create($validated['reporter_data']);
 
-        // Simpan data perpetrator
-        $perpetrator = Perpetrator::create($validated['perpetrator_data']);
+        // Tangani file upload dan simpan data perpetrator
+        $perpetratorData = $validated['perpetrator_data'];
 
-        // Simpan data kekerasan (violance), dengan bentuk_kekerasan diubah ke JSON
+        if ($request->hasFile('perpetrator_data.upload_bukti')) {
+            $uploadedFiles = [];
+
+            foreach ($request->file('perpetrator_data.upload_bukti') as $file) {
+                $path = $file->store('violence-reports/evidence', 'public');
+                $uploadedFiles[] = $path;
+            }
+
+            $perpetratorData['upload_bukti'] = json_encode($uploadedFiles);
+        } else {
+            $perpetratorData['upload_bukti'] = json_encode([]);
+        }
+
+        $perpetrator = Perpetrator::create([
+            'hubungan_dengan_korban' => $perpetratorData['hubungan_dengan_korban'],
+            'nama' => $perpetratorData['nama'],
+            'telepon' => $perpetratorData['telepon'] ?? null,
+            'jenis_kelamin' => $perpetratorData['jenis_kelamin'],
+            'keterangan' => $perpetratorData['keterangan'],
+            'upload_bukti' => $perpetratorData['upload_bukti'],
+        ]);
+
+        // Simpan data kekerasan
         $violanceData = $validated['violance_data'];
         $violanceData['bentuk_kekerasan'] = json_encode($violanceData['bentuk_kekerasan']);
 
@@ -149,6 +173,7 @@ class ViolenceReportController extends Controller
         ]);
 
         DB::commit();
+        // fungsi send api wa
 
         return redirect()->route('admin.violence-reports.index')
             ->with('success', 'Laporan kekerasan berhasil dibuat.');
@@ -161,96 +186,126 @@ class ViolenceReportController extends Controller
             ->withInput();
     }
 }
+
     // Tampilkan form edit laporan
 
     public function edit($id)
     {
-        // Ambil data report beserta relasinya
-        $report = ViolenceReport::with([
-            'client',
-            'reporter',
-            'perpetrator',
-            'violance'
-        ])->findOrFail($id);
-
-        // Tampilkan form edit dan kirim data report
-        return view('admin.violence-report.edit', compact('report'));
-    }
-
-    // Update laporan
-    public function update(Request $request, $id)
-    {
-        $report = ViolenceReport::findOrFail($id);
-
-        // Validasi yang sama seperti store
-        $clientRules = [
-            'client_data.nama_lengkap' => 'required|string|max:255',
-            'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'client_data.status_korban' => ['required', Rule::in(['Disable', 'Tidak'])],
-            'client_data.kategori_disable' => 'nullable|string|max:255',
-            'client_data.status' => 'required|string|max:255',
-            'client_data.sumber_informasi' => 'nullable|string'
-        ];
-
-        $reporterRules = [
-            'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
-            'reporter_data.nama_lengkap' => 'required|string|max:255',
-            'reporter_data.tempat_lahir' => 'required|string|max:255',
-            'reporter_data.tanggal_lahir' => 'required|date',
-            'reporter_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'reporter_data.usia' => 'required|integer|min:1|max:120',
-            'reporter_data.status_pelapor' => 'required|string|max:255',
-            'reporter_data.no_telepon' => 'required|string|max:20',
-            'reporter_data.alamat' => 'required|string',
-            'reporter_data.keterangan_tambahan' => 'nullable|string'
-        ];
-
-        $perpetratorRules = [
-            'perpetrator_data.hubungan_dengan_korban' => 'required|string|max:255',
-            'perpetrator_data.nama' => 'required|string|max:255',
-            'perpetrator_data.telepon' => 'nullable|string|max:20',
-            'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
-            'perpetrator_data.keterangan' => 'required|string',
-            'perpetrator_data.upload_bukti' => 'nullable|array',
-            'perpetrator_data.upload_bukti.*' => 'string'
-        ];
-
-        $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|string|max:255',
-            'violance_data.bentuk_kekerasan' => 'required|array',
-            'violance_data.bentuk_kekerasan.*' => 'string',
-            'violance_data.lokasi_kejadian' => 'required|string|max:255',
-            'violance_data.waktu_kejadian' => 'required|date',
-            'violance_data.deskripsi_kekerasan' => 'required|string'
-        ];
-
-        $validated = $request->validate(array_merge(
-            $clientRules,
-            $reporterRules,
-            $perpetratorRules,
-            $violanceRules
-        ));
-
-        DB::beginTransaction();
-        
         try {
-            // Update masing-masing entitas terkait
-            $report->client->update($validated['client_data']);
-            $report->reporter->update($validated['reporter_data']);
-            $report->perpetrator->update($validated['perpetrator_data']);
-            $report->violance->update($validated['violance_data']);
-
-            DB::commit();
-
-            return redirect()->route('admin.violence-reports.index')
-                           ->with('success', 'Laporan kekerasan berhasil diperbarui.');
+            $violenceReport = ViolenceReport::findOrFail($id);
+            
+            return view('admin.violence-reports.edit', compact('violenceReport'));
         } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()
-                           ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                           ->withInput();
+            return redirect()->route('admin.violence-reports.index')
+                ->with('error', 'Laporan kekerasan tidak ditemukan.');
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $violenceReport = ViolenceReport::findOrFail($id);
+            
+            // Validation rules
+            $request->validate([
+                // Client data validation
+                'client_data.nama_lengkap' => 'required|string|max:255',
+                'client_data.jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+                'client_data.status_korban' => 'required|in:Disable,Tidak',
+                'client_data.kategori_disable' => 'nullable|string|max:255',
+                'client_data.status' => 'required|string|max:255',
+                'client_data.sumber_informasi' => 'nullable|string',
+                
+                // Reporter data validation
+                'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
+                'reporter_data.nama_lengkap' => 'required|string|max:255',
+                'reporter_data.tempat_lahir' => 'required|string|max:255',
+                'reporter_data.tanggal_lahir' => 'required|date',
+                'reporter_data.jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+                'reporter_data.usia' => 'required|integer|min:1|max:120',
+                'reporter_data.status_pelapor' => 'required|string|max:255',
+                'reporter_data.no_telepon' => 'required|string|max:20',
+                'reporter_data.alamat' => 'required|string',
+                'reporter_data.keterangan_tambahan' => 'nullable|string',
+                
+                // Perpetrator data validation
+                'perpetrator_data.hubungan_dengan_korban' => 'required|string|max:255',
+                'perpetrator_data.nama' => 'required|string|max:255',
+                'perpetrator_data.telepon' => 'nullable|string|max:20',
+                'perpetrator_data.jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+                'perpetrator_data.keterangan' => 'required|string',
+                'perpetrator_data.upload_bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048',
+                
+                // Violence data validation
+                'violance_data.jenis_kekerasan' => 'required|string|max:255',
+                'violance_data.lokasi_kejadian' => 'required|string|max:255',
+                'violance_data.waktu_kejadian' => 'required|date',
+                'violance_data.bentuk_kekerasan' => 'required|array|min:1',
+                'violance_data.bentuk_kekerasan.*' => 'in:Fisik,Psikis,Seksual,Ekonomi',
+                'violance_data.deskripsi_kekerasan' => 'required|string',
+            ]);
+
+            // Handle file uploads for perpetrator evidence
+            $perpetratorData = $request->input('perpetrator_data', []);
+            if ($request->hasFile('perpetrator_data.upload_bukti')) {
+                // Delete old files if they exist
+                if (isset($violenceReport->perpetrator_data['upload_bukti'])) {
+                    $oldFiles = is_string($violenceReport->perpetrator_data['upload_bukti']) 
+                        ? json_decode($violenceReport->perpetrator_data['upload_bukti'], true) 
+                        : $violenceReport->perpetrator_data['upload_bukti'];
+                    
+                    if (is_array($oldFiles)) {
+                        foreach ($oldFiles as $oldFile) {
+                            if (Storage::disk('public')->exists($oldFile)) {
+                                Storage::disk('public')->delete($oldFile);
+                            }
+                        }
+                    }
+                }
+                
+                $uploadedFiles = [];
+                foreach ($request->file('perpetrator_data.upload_bukti') as $file) {
+                    $path = $file->store('violence-reports/evidence', 'public');
+                    $uploadedFiles[] = $path;
+                }
+                $perpetratorData['upload_bukti'] = $uploadedFiles;
+            } else {
+                // Keep existing files if no new files uploaded
+                $existingData = is_string($violenceReport->perpetrator_data) 
+                    ? json_decode($violenceReport->perpetrator_data, true) 
+                    : $violenceReport->perpetrator_data;
+                    
+                if (isset($existingData['upload_bukti'])) {
+                    $perpetratorData['upload_bukti'] = $existingData['upload_bukti'];
+                }
+            }
+
+            // Update the violence report
+            $violenceReport->update([
+                'client_data' => json_encode($request->input('client_data')),
+                'reporter_data' => json_encode($request->input('reporter_data')),
+                'perpetrator_data' => json_encode($perpetratorData),
+                'violance_data' => json_encode($request->input('violance_data')),
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->route('admin.violence-reports.index')
+                ->with('success', 'Laporan kekerasan berhasil diperbarui.');
+                
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat memperbarui laporan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
 
     // Hapus laporan dan semua data terkait
     public function destroy($id)

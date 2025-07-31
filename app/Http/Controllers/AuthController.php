@@ -13,18 +13,25 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-    $credentials = $request->only('email', 'password');
+{
+    // Tambahkan validation
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string|min:6',
+    ]);
 
-    if (Auth::attempt($credentials)) {
+    $credentials = $request->only('email', 'password');
+    $remember = $request->has('remember'); // untuk remember me checkbox
+
+    if (Auth::attempt($credentials, $remember)) {
         $request->session()->regenerate();
-        return redirect()->route('admin.dashboard');
+        return redirect()->intended(route('admin.dashboard'));
     }
 
     return back()->withErrors([
         'email' => 'Email atau password salah.',
-    ]);
-    }
+    ])->withInput($request->only('email'));
+}
 
     public function logout(Request $request)
     {

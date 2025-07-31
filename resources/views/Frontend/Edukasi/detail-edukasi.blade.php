@@ -1,4 +1,4 @@
-@extends('Frontend.Home.home')
+@extends('Layouts.app')
 
 @section('content')
 

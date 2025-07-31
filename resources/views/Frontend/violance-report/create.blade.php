@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('title', 'Buat Laporan Kekerasan')
 
@@ -18,47 +18,17 @@
     </div>
 @endif
 
-<!-- Success Message -->
-@if (session('success'))
-    <div class="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                <span class="text-green-800 font-medium">{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.parentElement.remove()" class="text-green-500 hover:text-green-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
-@endif
-
-<!-- Error Message -->
-@if (session('error'))
-    <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
-                <span class="text-red-800 font-medium">{{ session('error') }}</span>
-            </div>
-            <button onclick="this.parentElement.parentElement.remove()" class="text-red-500 hover:text-red-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
-@endif
-
 <div class="container mx-auto p-6">
     <div class="bg-white rounded-lg shadow-lg">
         <!-- Header -->
         <div class="border-b px-6 py-4 flex justify-between items-center">
             <h3 class="text-xl font-semibold text-gray-800">Buat Laporan Kekerasan Baru</h3>
-            <a href="{{ route('admin.violence-reports.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition text-sm">
+            <a href="" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition text-sm">
                 <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
         </div>
 
-        <form action="{{ route('admin.violence-reports.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
+        <form action="" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             
             <!-- Tab Navigation -->
@@ -87,7 +57,7 @@
             
             <!-- Footer -->
             <div class="border-t pt-6 mt-6 flex justify-between">
-                <a href="{{ route('admin.violence-reports.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition text-sm">
+                <a href=".create') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition text-sm">
                     <i class="fas fa-times mr-2"></i>Batal
                 </a>
                 <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition text-sm">

@@ -184,20 +184,7 @@
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Bukti:</span>
                                 <span class="flex-1 text-sm text-gray-900">{{ $report->perpetrator->upload_bukti ?? '-' }}</span>
                             </div>
-                            @if($report->perpetrator->upload_bukti && is_array($report->perpetrator->upload_bukti) && count($report->perpetrator->upload_bukti) > 0)
-                            <div class="flex">
-                                <span class="w-2/5 text-sm font-medium text-gray-700">Upload Bukti:</span>
-                                <div class="flex-1">
-                                    @foreach($report->perpetrator->upload_bukti as $bukti)
-                                        <div class="mb-1">
-                                            <a href="{{ $bukti }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm underline">
-                                                Lihat Bukti {{ $loop->iteration }}
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @endif
+                           
                         </div>
                     </div>
                 </div>
@@ -283,6 +270,46 @@
             </div>
 
             <!-- Report Information -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="bg-gray-600 px-6 py-4">
+                    <h2 class="text-lg font-semibold text-white flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Bukti Laporan
+                    </h2>
+                </div>
+                <div class="p-6">
+                     <div class="flex flex-col space-y-2">
+                        <span class="text-sm font-medium text-gray-700">Upload Bukti:</span>
+                        @php
+                            $bukti = is_string($report->perpetrator->upload_bukti)
+                                ? json_decode($report->perpetrator->upload_bukti, true)
+                                : $report->perpetrator->upload_bukti;
+                        @endphp
+
+                        @if (is_array($bukti) && count($bukti) > 0)
+                            @foreach ($bukti as $file)
+                                @php
+                                    $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+                                @endphp
+
+                                @if (in_array($fileExtension, ['jpg', 'jpeg', 'png']))
+                                    <a href="{{ asset('storage/' . $file) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $file) }}" alt="Bukti Kekerasan" class="max-w-xs rounded border hover:shadow-lg transition duration-200">
+                                    </a>
+                                @elseif (in_array($fileExtension, ['pdf', 'doc', 'docx']))
+                                    <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:text-blue-800 underline text-sm">
+                                        Lihat Dokumen: {{ basename($file) }}
+                                    </a>
+                                @endif
+                            @endforeach
+                        @else
+                            <p class="text-gray-500 text-sm italic">Tidak ada bukti terlampir.</p>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                 <div class="bg-gray-600 px-6 py-4">
                     <h2 class="text-lg font-semibold text-white flex items-center">
