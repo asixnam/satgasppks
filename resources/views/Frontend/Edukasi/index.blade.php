@@ -1,8 +1,7 @@
 @extends('Layouts.app')
 
 @section('content')
-
-<div class="container mx-auto px-4 py-8 mt-16 text-right">
+<div class="container mx-auto px-4 py-8 mt-16">
     <!-- Header Section -->
     <div class="text-center mb-16">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full mb-6 shadow-lg">
@@ -85,7 +84,7 @@
                                 Materi edukasi yang penting untuk dipelajari dalam upaya pencegahan dan penanganan kekerasan seksual...
                             @endif
                         </p>
-                         <a href="{{ route('detail.edukasi', ['id' => $edukasi->id]) }} class="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors duration-300 group/link">
+                        <a href="{{ route('edukasi.show', ['id' => $edukasi->id]) }}" class="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold transition-colors duration-300 group/link">
                             Pelajari Lebih Lanjut
                             <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -98,72 +97,96 @@
 
         <!-- Pagination -->
         @if($edukasis->hasPages())
-            <div class="mt-12 flex justify-center">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 px-6 py-4">
-                    {{ $edukasis->links() }}
-                </div>
+            <div class="flex justify-center mt-16">
+                <nav aria-label="Pagination" class="bg-white rounded-xl shadow-lg border border-gray-200 p-2">
+                    <div class="flex items-center gap-1">
+                        {{-- Previous Page Link --}}
+                        @if ($edukasis->onFirstPage())
+                            <span class="px-4 py-2 text-gray-400 bg-transparent rounded-lg cursor-not-allowed flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Previous
+                            </span>
+                        @else
+                            <a href="{{ $edukasis->previousPageUrl() }}" class="px-4 py-2 text-gray-500 bg-transparent hover:bg-gray-100 rounded-lg transition-all duration-300 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Previous
+                            </a>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($edukasis->getUrlRange(1, $edukasis->lastPage()) as $page => $url)
+                            @if ($page == $edukasis->currentPage())
+                                <span class="px-4 py-2 text-white bg-orange-600 rounded-lg font-semibold shadow-md">{{ $page }}</span>
+                            @else
+                                <a href="{{ $url }}" class="px-4 py-2 text-gray-700 bg-transparent hover:bg-gray-100 rounded-lg transition-all duration-300">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($edukasis->hasMorePages())
+                            <a href="{{ $edukasis->nextPageUrl() }}" class="px-4 py-2 text-gray-500 bg-transparent hover:bg-gray-100 rounded-lg transition-all duration-300 flex items-center gap-2">
+                                Next
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        @else
+                            <span class="px-4 py-2 text-gray-400 bg-transparent rounded-lg cursor-not-allowed flex items-center gap-2">
+                                Next
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </span>
+                        @endif
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Pagination Info -->
+            <div class="text-center mt-4">
+                <p class="text-sm text-gray-600">
+                    Menampilkan {{ $edukasis->firstItem() }} sampai {{ $edukasis->lastItem() }} 
+                    dari {{ $edukasis->total() }} materi edukasi
+                </p>
             </div>
         @endif
     @else
         <!-- Empty state when no education materials -->
         <div class="text-center py-16">
-            <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            <div class="flex flex-col items-center justify-center text-gray-400">
+                <svg class="w-24 h-24 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
+                <h3 class="text-2xl font-semibold text-gray-600 mb-2">Belum Ada Materi Edukasi</h3>
+                <p class="text-lg">Materi edukasi sedang dalam proses persiapan. Silakan kembali lagi nanti.</p>
             </div>
-            <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum Ada Materi Edukasi</h3>
-            <p class="text-gray-600">Materi edukasi sedang dalam proses persiapan. Silakan kembali lagi nanti.</p>
         </div>
     @endif
 </div>
 
 <style>
-   .px-4 {
-    padding-left: 10rem;
-    padding-right: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Custom pagination styling */
-.pagination {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.pagination .page-link {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    color: #6b7280;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.pagination .page-link:hover {
-    background-color: #f3f4f6;
-    color: #374151;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #f97316;
-    border-color: #f97316;
-    color: white;
-}
-
-.pagination .page-item.disabled .page-link {
-    color: #d1d5db;
-    cursor: not-allowed;
-}
-
-/* Line clamp utility for text truncation */
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    /* Custom container padding */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
 </style>
 @endsection

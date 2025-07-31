@@ -13,7 +13,7 @@
                         @endif
                         <h3 class="text-xl font-semibold text-gray-800">{{ $edukasi->judul }}</h3>
                     </div>
-                    <a href="{{ route('detail.edukasi', ['id' => $edukasi->id]) }}"
+                    <a href="{{ route('edukasi.show', ['id' => $edukasi->id]) }}"
                        class="text-green-600 hover:text-green-800 font-medium inline-flex items-center justify-center w-full">
                         Pelajari <i class="fas fa-arrow-right ml-2"></i>
                     </a>
