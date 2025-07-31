@@ -13,10 +13,18 @@ class PagesController extends Controller
     public function home()
     {
         $heroes = Hero::all(); // Ambil semua hero dari database
+        $hero = $heroes->first();
+
+    if (!$hero) {
+        // Buat hero kosong dengan gambar default (tanpa menyimpan ke DB)
+        $hero = new \stdClass();
+        $hero->gambar = 'images/gedung-unujogja.jpg';
+    }
+    
         // Ambil berita terbaru (misal 3 untuk tampil di homepage)
         $beritas = Berita::orderBy('created_at', 'desc')->limit(3)->get();
         $edukasis = Edukasi::latest()->limit(3)->get();
 
-        return view('Frontend.Pages.pages', compact('heroes', 'beritas','edukasis'));
+        return view('Frontend.Pages.pages', compact('heroes', 'beritas','edukasis','hero'));
     }
 }
