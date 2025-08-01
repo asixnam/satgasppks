@@ -180,10 +180,24 @@
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Keterangan:</span>
                                 <span class="flex-1 text-sm text-gray-900">{{ $report->perpetrator->keterangan ?? '-' }}</span>
                             </div>
-                            <div class="flex">
-                                <span class="w-2/5 text-sm font-medium text-gray-700">Bukti:</span>
-                                <span class="flex-1 text-sm text-gray-900">{{ $report->perpetrator->upload_bukti ?? '-' }}</span>
-                            </div>
+                            @php
+                                $bukti = is_string($report->perpetrator->upload_bukti)
+                                    ? json_decode($report->perpetrator->upload_bukti, true)
+                                    : $report->perpetrator->upload_bukti;
+                            @endphp
+
+                            <span class="flex-1 text-sm text-gray-900">
+                                @if(is_array($bukti))
+                                    @foreach($bukti as $file)
+                                        <span class="inline-block text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded mr-1">
+                                            {{ is_array($file) ? $file['path'] ?? 'tidak diketahui' : $file }}
+                                        </span>
+                                    @endforeach
+                                @else
+                                    {{ $bukti ?? '-' }}
+                                @endif
+                            </span>
+
                            
                         </div>
                     </div>
@@ -289,16 +303,17 @@
                         @if (is_array($bukti) && count($bukti) > 0)
                             @foreach ($bukti as $file)
                                 @php
-                                    $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+                                    $filePath = is_array($file) ? $file['path'] ?? '' : $file;
+                                    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
                                 @endphp
 
                                 @if (in_array($fileExtension, ['jpg', 'jpeg', 'png']))
-                                    <a href="{{ asset('storage/' . $file) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $file) }}" alt="Bukti Kekerasan" class="max-w-xs rounded border hover:shadow-lg transition duration-200">
+                                    <a href="{{ asset('storage/' . $filePath) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $filePath) }}" alt="Bukti Kekerasan" class="max-w-xs rounded border hover:shadow-lg transition duration-200">
                                     </a>
                                 @elseif (in_array($fileExtension, ['pdf', 'doc', 'docx']))
-                                    <a href="{{ asset('storage/' . $file) }}" target="_blank" class="text-blue-600 hover:text-blue-800 underline text-sm">
-                                        Lihat Dokumen: {{ basename($file) }}
+                                    <a href="{{ asset('storage/' . $filePath) }}" target="_blank" class="text-blue-600 hover:text-blue-800 underline text-sm">
+                                        Lihat Dokumen: {{ basename($filePath) }}
                                     </a>
                                 @endif
                             @endforeach

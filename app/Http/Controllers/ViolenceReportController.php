@@ -10,6 +10,7 @@ use App\Models\Violance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ViolenceReportController extends Controller
 {
@@ -68,7 +69,7 @@ class ViolenceReportController extends Controller
     }
 
     // Buat laporan baru
-    public function store(Request $request)
+   public function store(Request $request)
     {
         // Validasi data client
         $clientRules = [
@@ -102,7 +103,7 @@ class ViolenceReportController extends Controller
             'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
             'perpetrator_data.keterangan' => 'required|string',
             'perpetrator_data.upload_bukti' => 'nullable|array',
-            'perpetrator_data.upload_bukti.*' => 'string'
+            'perpetrator_data.upload_bukti.*' => 'file|mimes:jpg,jpeg,png,pdf|max:5000',
         ];
 
         // Validasi data violance
@@ -126,22 +127,40 @@ class ViolenceReportController extends Controller
 
         try {
             // Simpan data client
-            $client = Client::create($validated['client_data']);
+            $clientData = $request->input('client_data');
+            $client = Client::create($clientData);
 
             // Simpan data reporter
-            $reporter = Reporter::create($validated['reporter_data']);
+            $reporterData = $request->input('reporter_data');
+            $reporter = Reporter::create($reporterData);
 
-            // Simpan data perpetrator
-            $perpetrator = Perpetrator::create($validated['perpetrator_data']);
+            // Simpan file bukti jika ada
+            $perpetratorData = $request->input('perpetrator_data');
+            $buktiPaths = [];
 
-            // Simpan data kekerasan (violance), dengan bentuk_kekerasan diubah ke JSON
-            $violanceData = $validated['violance_data'];
-            $violanceData['bentuk_kekerasan'] = json_encode($violanceData['bentuk_kekerasan']);
+            if ($request->hasFile('perpetrator_data.upload_bukti')) {
+                foreach ($request->file('perpetrator_data.upload_bukti') as $file) {
+                    $buktiPaths[] = $file->store('bukti', 'public');
+                }
+            }
+
+            $perpetratorData['upload_bukti'] = $buktiPaths;
+            $perpetrator = Perpetrator::create($perpetratorData);
+
+            // Simpan data kekerasan
+            $violanceData = $request->input('violance_data');
+
+            // Jika model Violance sudah di-cast menjadi array, ini cukup:
+            // 'bentuk_kekerasan' => 'array' di model
+            // Jika belum, gunakan json_encode:
+            if (!is_string($violanceData['bentuk_kekerasan'])) {
+                $violanceData['bentuk_kekerasan'] = json_encode($violanceData['bentuk_kekerasan']);
+            }
 
             $violance = Violance::create($violanceData);
 
             // Simpan relasi laporan kekerasan
-            $violenceReport = ViolenceReport::create([
+            ViolenceReport::create([
                 'id_client' => $client->id,
                 'id_reporter' => $reporter->id,
                 'id_perpetrator' => $perpetrator->id,
@@ -152,7 +171,6 @@ class ViolenceReportController extends Controller
 
             return redirect()->route('admin.violence-reports.index')
                 ->with('success', 'Laporan kekerasan berhasil dibuat.');
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -161,6 +179,7 @@ class ViolenceReportController extends Controller
                 ->withInput();
         }
     }
+
     // Tampilkan form edit laporan
 
     public function edit($id)
@@ -177,12 +196,12 @@ class ViolenceReportController extends Controller
         return view('admin.violence-report.edit', compact('report'));
     }
 
-    // Update laporan
+        // Update laporan
     public function update(Request $request, $id)
     {
         $report = ViolenceReport::findOrFail($id);
 
-        // Validasi yang sama seperti store
+        // === VALIDASI ===
         $clientRules = [
             'client_data.nama_lengkap' => 'required|string|max:255',
             'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
@@ -212,7 +231,7 @@ class ViolenceReportController extends Controller
             'perpetrator_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
             'perpetrator_data.keterangan' => 'required|string',
             'perpetrator_data.upload_bukti' => 'nullable|array',
-            'perpetrator_data.upload_bukti.*' => 'string'
+            'perpetrator_data.upload_bukti.*' => 'file|mimes:jpg,jpeg,png,pdf|max:5000'
         ];
 
         $violanceRules = [
@@ -232,14 +251,32 @@ class ViolenceReportController extends Controller
         ));
 
         DB::beginTransaction();
-        
+
         try {
-            // Update masing-masing entitas terkait
+            // === UPDATE CLIENT & REPORTER ===
             $report->client->update($validated['client_data']);
             $report->reporter->update($validated['reporter_data']);
-            $report->perpetrator->update($validated['perpetrator_data']);
+
+            // === HANDLE FILE UPLOAD (TAMBAH BARU, TANPA HAPUS LAMA) ===
+            $perpetratorData = $validated['perpetrator_data'];
+            $oldBukti = $report->perpetrator->upload_bukti ?? [];
+
+            // Simpan file baru jika ada
+            $newBuktiPaths = [];
+            if ($request->hasFile('perpetrator_data.upload_bukti')) {
+                foreach ($request->file('perpetrator_data.upload_bukti') as $file) {
+                    $newBuktiPaths[] = $file->store('bukti', 'public');
+                }
+            }
+
+            // Gabungkan lama dan baru
+            $perpetratorData['upload_bukti'] = array_merge($oldBukti, $newBuktiPaths);
+            // testing di console alamat image nya
             
-            // Update data violance dengan konversi bentuk_kekerasan ke JSON
+            // === UPDATE PERPETRATOR ===
+            $report->perpetrator->update($perpetratorData);
+
+            // === UPDATE VIOLANCE ===
             $violanceData = $validated['violance_data'];
             $violanceData['bentuk_kekerasan'] = json_encode($violanceData['bentuk_kekerasan']);
             $report->violance->update($violanceData);
@@ -247,12 +284,12 @@ class ViolenceReportController extends Controller
             DB::commit();
 
             return redirect()->route('admin.violence-reports.index')
-                        ->with('success', 'Laporan kekerasan berhasil diperbarui.');
+                ->with('success', 'Laporan kekerasan berhasil diperbarui.');
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
             return redirect()->back()
-                        ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                        ->withInput();
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
         }
     }
 

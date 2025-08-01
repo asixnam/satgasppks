@@ -63,20 +63,21 @@
         </div>
 
         <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Upload Bukti</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Upload Bukti</label>
             <div class="border-2 border-dashed border-gray-300 rounded-lg p-4">
                 <div class="text-center">
                     <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
                     <p class="text-gray-500 text-sm">Upload file bukti (optional)</p>
                     <input type="file"
-                           name="perpetrator_data[upload_bukti][]"
-                           multiple
-                           class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        name="perpetrator_data[upload_bukti][]"
+                        multiple
+                        class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                 </div>
             </div>
             @error('perpetrator_data.upload_bukti')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
+
     </div>
 </div>
