@@ -28,12 +28,19 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Hubungan dengan Korban <span class="text-red-500">*</span>
             </label>
-            <input type="text"
-                   name="perpetrator_data[hubungan_dengan_korban]"
-                   value="{{ old('perpetrator_data.hubungan_dengan_korban', $formData['hubungan_dengan_korban'] ?? '') }}"
-                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   placeholder="Contoh: Suami, Ayah, Teman, dll"
-                   required>
+            <select name="perpetrator_data[hubungan_dengan_korban]"
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+                @php
+                    $options = ['Teman', 'Pacar', 'Keluarga', 'Lainnya'];
+                    $selected = old('perpetrator_data.hubungan_dengan_korban', $formData['hubungan_dengan_korban'] ?? '');
+                @endphp
+
+                <option value="">-- Pilih Hubungan --</option>
+                @foreach ($options as $option)
+                    <option value="{{ $option }}" {{ $selected === $option ? 'selected' : '' }}>{{ $option }}</option>
+                @endforeach
+            </select>
             @error('perpetrator_data.hubungan_dengan_korban')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror

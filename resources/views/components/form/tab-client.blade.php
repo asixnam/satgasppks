@@ -64,18 +64,27 @@
             @enderror
         </div>
 
+        
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Kategori Disable</label>
-            <input type="text"
-                   name="client_data[kategori_disable]"
-                   value="{{ old('client_data.kategori_disable', $formData['kategori_disable'] ?? '') }}"
-                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <select name="client_data[kategori_disable]"
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                @php
+                    $options = ['Tuli', 'Daksa', 'Bisu', 'Netra', 'Grahita', 'Rungu', 'Mental', 'Lainnya'];
+                    $selected = old('client_data.kategori_disable', $formData['kategori_disable'] ?? '');
+                @endphp
+
+                <option value="">-- Pilih Kategori --</option>
+                @foreach ($options as $option)
+                    <option value="{{ $option }}" {{ $selected === $option ? 'selected' : '' }}>{{ $option }}</option>
+                @endforeach
+            </select>
             @error('client_data.kategori_disable')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
 
-        <div>
+        <!-- <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Status <span class="text-red-500">*</span></label>
             <input type="text"
                    name="client_data[status]"
@@ -85,7 +94,29 @@
             @error('client_data.status')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
-        </div>
+        </div> -->
+
+        <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+        Status <span class="text-red-500">*</span>
+    </label>
+    <select name="client_data[status]"
+            class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            required>
+        @php
+            $statusOptions = ['Mahasiswa', 'Dosen', 'Tendik', 'Pegawai Lainnya'];
+            $selectedStatus = old('client_data.status', $formData['status'] ?? '');
+        @endphp
+
+        <option value="">-- Pilih Status --</option>
+        @foreach ($statusOptions as $option)
+            <option value="{{ $option }}" {{ $selectedStatus === $option ? 'selected' : '' }}>{{ $option }}</option>
+        @endforeach
+    </select>
+    @error('client_data.status')
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+    @enderror
+</div>
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Sumber Informasi</label>

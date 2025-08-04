@@ -28,13 +28,37 @@
 <div id="reporter" class="tab-content hidden">
     <h5 class="text-lg font-medium mb-4">Informasi Pelapor</h5>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+        <!-- <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Hubungan Pelapor dengan Pelaku <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[hubungan_pelapor_dengan_pelaku]"
                    value="{{ old('reporter_data.hubungan_pelapor_dengan_pelaku', $formData['hubungan_pelapor_dengan_pelaku'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
+            @error('reporter_data.hubungan_pelapor_dengan_pelaku')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div> -->
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Hubungan Pelapor dengan Pelaku <span class="text-red-500">*</span>
+            </label>
+            <select name="reporter_data[hubungan_pelapor_dengan_pelaku]"
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+                @php
+                    $hubunganPelaporOptions = ['Teman', 'Masyarakat', 'Tendik', 'Dosen', 'Tenaga Kerja', 'Lainnya'];
+                    $selected = old('reporter_data.hubungan_pelapor_dengan_pelaku', $formData['hubungan_pelapor_dengan_pelaku'] ?? '');
+                @endphp
+
+                <option value="">-- Pilih Hubungan --</option>
+                @foreach ($hubunganPelaporOptions as $option)
+                    <option value="{{ $option }}" {{ $selected === $option ? 'selected' : '' }}>
+                        {{ $option }}
+                    </option>
+                @endforeach
+            </select>
             @error('reporter_data.hubungan_pelapor_dengan_pelaku')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
@@ -105,13 +129,23 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Status Pelapor <span class="text-red-500">*</span></label>
-            <input type="text"
-                   name="reporter_data[status_pelapor]"
-                   value="{{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') }}"
-                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   required>
-            @error('reporter_data.status_pelapor')
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Status <span class="text-red-500">*</span>
+            </label>
+            <select name="client_data[status]"
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+                @php
+                    $statusOptions = ['Mahasiswa', 'Dosen', 'Tendik', 'Pegawai Lainnya'];
+                    $selectedStatus = old('client_data.status', $formData['status'] ?? '');
+                @endphp
+
+                <option value="">-- Pilih Status --</option>
+                @foreach ($statusOptions as $option)
+                    <option value="{{ $option }}" {{ $selectedStatus === $option ? 'selected' : '' }}>{{ $option }}</option>
+                @endforeach
+            </select>
+            @error('client_data.status')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
