@@ -359,16 +359,7 @@ class AppController extends Controller
         return view('Frontend.violance-report.index', compact('reports'));
     }
 
-    /**
-     * Display specific violence report
-     */
-    public function showLaporan($id)
-    {
-        $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
-            ->findOrFail($id);
 
-        return view('Frontend.violance-report.show', compact('report'));
-    }
 
     /**
      * Display status check page
@@ -376,6 +367,25 @@ class AppController extends Controller
     public function cekStatus()
     {
         return view('Frontend.status.cek-status');
+    }
+
+    /**
+     * Display specific violence report
+     */
+    public function showLaporan($id)
+    {
+        try {
+            $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
+                ->findOrFail($id);
+
+            return view('Frontend.laporan.show', compact('report'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('cek-status')
+                ->with('error', 'Nomor tiket tidak ditemukan. Pastikan nomor tiket yang Anda masukkan benar.');
+        } catch (\Exception $e) {
+            return redirect()->route('cek-status')
+                ->with('error', 'Terjadi kesalahan saat mengambil data laporan. Silakan coba lagi.');
+        }
     }
 
     /**

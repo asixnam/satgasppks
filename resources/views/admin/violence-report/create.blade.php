@@ -79,7 +79,7 @@
                 </nav>
             </div>
 
-            <!-- Tab Contents Using Components -->
+            <!-- Tab Contents - UNTUK CREATE (hanya oldData) -->
             <x-form.tab-client :old-data="old('client_data', [])" />
             <x-form.tab-reporter :old-data="old('reporter_data', [])" />
             <x-form.tab-perpetrator :old-data="old('perpetrator_data', [])" />

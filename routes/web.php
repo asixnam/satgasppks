@@ -40,8 +40,10 @@ Route::post('/lapor-kekerasan', [AppController::class, 'storeLaporan'])->name('l
 Route::get('/laporan', [AppController::class, 'indexLaporan'])->name('laporan.index');
 Route::get('/laporan/{id}', [AppController::class, 'showLaporan'])->name('laporan.show');
 
-// Status Check Route
+// Status Check Routes
 Route::get('/cek-status', [AppController::class, 'cekStatus'])->name('cek-status');
+Route::get('/cek-status/{id}', [AppController::class, 'showLaporan'])->name('cek-status.show');
+
 
 // API Routes for latest content (optional)
 Route::get('/api/latest-berita/{limit?}', [AppController::class, 'latestBerita'])->name('api.latest-berita');

@@ -1,3 +1,29 @@
+@php
+    // Tentukan data yang akan ditampilkan di form
+    $formData = [];
+    
+    // Jika ada old data (dari validation error), gunakan itu
+    if (!empty($oldData)) {
+        $formData = $oldData;
+    } 
+    // Jika ada edit data (sedang edit record), gunakan itu
+    elseif (isset($editData) && $editData) {
+        $formData = [
+            'hubungan_pelapor_dengan_pelaku' => $editData->hubungan_pelapor_dengan_pelaku ?? '',
+            'nama_lengkap' => $editData->nama_lengkap ?? '',
+            'tempat_lahir' => $editData->tempat_lahir ?? '',
+            'tanggal_lahir' => $editData->tanggal_lahir ?? '',
+            'jenis_kelamin' => $editData->jenis_kelamin ?? '',
+            'usia' => $editData->usia ?? '',
+            'status_pelapor' => $editData->status_pelapor ?? '',
+            'no_telepon' => $editData->no_telepon ?? '',
+            'alamat' => $editData->alamat ?? '',
+            'keterangan_tambahan' => $editData->keterangan_tambahan ?? ''
+        ];
+    }
+    // Jika tidak ada data apapun, gunakan array kosong (untuk create)
+@endphp
+
 <!-- Reporter Tab -->
 <div id="reporter" class="tab-content hidden">
     <h5 class="text-lg font-medium mb-4">Informasi Pelapor</h5>
@@ -6,7 +32,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Hubungan Pelapor dengan Pelaku <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[hubungan_pelapor_dengan_pelaku]"
-                   value="{{ old('reporter_data.hubungan_pelapor_dengan_pelaku', $oldData['hubungan_pelapor_dengan_pelaku'] ?? '') }}"
+                   value="{{ old('reporter_data.hubungan_pelapor_dengan_pelaku', $formData['hubungan_pelapor_dengan_pelaku'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.hubungan_pelapor_dengan_pelaku')
@@ -18,7 +44,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[nama_lengkap]"
-                   value="{{ old('reporter_data.nama_lengkap', $oldData['nama_lengkap'] ?? '') }}"
+                   value="{{ old('reporter_data.nama_lengkap', $formData['nama_lengkap'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.nama_lengkap')
@@ -30,7 +56,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Lahir <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[tempat_lahir]"
-                   value="{{ old('reporter_data.tempat_lahir', $oldData['tempat_lahir'] ?? '') }}"
+                   value="{{ old('reporter_data.tempat_lahir', $formData['tempat_lahir'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.tempat_lahir')
@@ -42,7 +68,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir <span class="text-red-500">*</span></label>
             <input type="date"
                    name="reporter_data[tanggal_lahir]"
-                   value="{{ old('reporter_data.tanggal_lahir', $oldData['tanggal_lahir'] ?? '') }}"
+                   value="{{ old('reporter_data.tanggal_lahir', $formData['tanggal_lahir'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.tanggal_lahir')
@@ -56,8 +82,8 @@
                     class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required>
                 <option value="">Pilih Jenis Kelamin</option>
-                <option value="Laki-laki" {{ old('reporter_data.jenis_kelamin', $oldData['jenis_kelamin'] ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                <option value="Perempuan" {{ old('reporter_data.jenis_kelamin', $oldData['jenis_kelamin'] ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                <option value="Laki-laki" {{ old('reporter_data.jenis_kelamin', $formData['jenis_kelamin'] ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                <option value="Perempuan" {{ old('reporter_data.jenis_kelamin', $formData['jenis_kelamin'] ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
             </select>
             @error('reporter_data.jenis_kelamin')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -68,7 +94,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Usia <span class="text-red-500">*</span></label>
             <input type="number"
                    name="reporter_data[usia]"
-                   value="{{ old('reporter_data.usia', $oldData['usia'] ?? '') }}"
+                   value="{{ old('reporter_data.usia', $formData['usia'] ?? '') }}"
                    min="1"
                    max="120"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -82,7 +108,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Status Pelapor <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[status_pelapor]"
-                   value="{{ old('reporter_data.status_pelapor', $oldData['status_pelapor'] ?? '') }}"
+                   value="{{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.status_pelapor')
@@ -94,7 +120,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">No. Telepon <span class="text-red-500">*</span></label>
             <input type="text"
                    name="reporter_data[no_telepon]"
-                   value="{{ old('reporter_data.no_telepon', $oldData['no_telepon'] ?? '') }}"
+                   value="{{ old('reporter_data.no_telepon', $formData['no_telepon'] ?? '') }}"
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.no_telepon')
@@ -107,7 +133,7 @@
             <textarea name="reporter_data[alamat]"
                       rows="3"
                       class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required>{{ old('reporter_data.alamat', $oldData['alamat'] ?? '') }}</textarea>
+                      required>{{ old('reporter_data.alamat', $formData['alamat'] ?? '') }}</textarea>
             @error('reporter_data.alamat')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
@@ -117,7 +143,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan Tambahan</label>
             <textarea name="reporter_data[keterangan_tambahan]"
                       rows="3"
-                      class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('reporter_data.keterangan_tambahan', $oldData['keterangan_tambahan'] ?? '') }}</textarea>
+                      class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('reporter_data.keterangan_tambahan', $formData['keterangan_tambahan'] ?? '') }}</textarea>
             @error('reporter_data.keterangan_tambahan')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror

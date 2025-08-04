@@ -23,7 +23,7 @@
             
             <!-- Search Form -->
             <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
-                <form id="statusForm" class="space-y-6">
+                <form id="statusForm" method="GET" class="space-y-6">
                     <div>
                         <label for="ticket_number" class="block text-sm font-semibold text-gray-700 mb-3">
                             <i class="fas fa-ticket-alt text-primary mr-2"></i>
@@ -46,120 +46,28 @@
                             <i class="fas fa-info-circle mr-1"></i>
                             Nomor tiket diberikan saat Anda mengirim laporan
                         </p>
+                        
+                        <!-- Error message display -->
+                        @if(session('error'))
+                            <div class="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                <p class="text-sm text-red-600">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ session('error') }}
+                                </p>
+                            </div>
+                        @endif
                     </div>
 
                     <button 
                         type="submit" 
                         class="w-full bg-gradient-to-r from-primary to-accent text-white font-bold py-4 px-6 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+                        id="submitBtn"
                     >
                         <i class="fas fa-search mr-2"></i>
-                        Cek Status Sekarang
+                        <span id="btnText">Cek Status Sekarang</span>
+                        <i class="fas fa-spinner fa-spin mr-2 hidden" id="loadingIcon"></i>
                     </button>
                 </form>
-            </div>
-
-            <!-- Status Result (Hidden by default) -->
-            <div id="statusResult" class="bg-white rounded-2xl shadow-xl p-8 hidden">
-                <div class="text-center mb-6">
-                    <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
-                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800">Status Ditemukan</h3>
-                </div>
-
-                <!-- Status Timeline -->
-                <div class="space-y-4">
-                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
-                        <div class="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-check text-white text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800">Laporan Diterima</h4>
-                            <p class="text-sm text-gray-600">15 Januari 2024, 14:30 WIB</p>
-                            <p class="text-sm text-gray-500 mt-1">Laporan Anda telah diterima dan sedang dalam proses verifikasi</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
-                        <div class="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                            <i class="fas fa-eye text-white text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800">Sedang Ditinjau</h4>
-                            <p class="text-sm text-gray-600">16 Januari 2024, 09:15 WIB</p>
-                            <p class="text-sm text-gray-500 mt-1">Tim SATGAS PPKS sedang meninjau dan memverifikasi laporan Anda</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg border-l-4 border-gray-300">
-                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                            <i class="fas fa-clock text-gray-600 text-sm"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800">Menunggu Tindak Lanjut</h4>
-                            <p class="text-sm text-gray-600">Status Selanjutnya</p>
-                            <p class="text-sm text-gray-500 mt-1">Proses investigasi dan tindak lanjut akan segera dimulai</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Info -->
-                <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                    <div class="flex items-start space-x-3">
-                        <i class="fas fa-exclamation-triangle text-yellow-600 mt-1"></i>
-                        <div>
-                            <h4 class="font-semibold text-gray-800">Perlu Bantuan?</h4>
-                            <p class="text-sm text-gray-600 mt-1">
-                                Jika Anda memiliki pertanyaan atau perlu informasi lebih lanjut, silakan hubungi kami di:
-                            </p>
-                            <div class="mt-2 space-y-1">
-                                <p class="text-sm"><i class="fas fa-phone mr-2 text-yellow-600"></i> 085156900844</p>
-                                <p class="text-sm"><i class="fas fa-envelope mr-2 text-yellow-600"></i> satgasppks@unu-jogja.ac.id</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Error Result (Hidden by default) -->
-            <div id="errorResult" class="bg-white rounded-2xl shadow-xl p-8 hidden">
-                <div class="text-center">
-                    <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
-                        <i class="fas fa-times-circle text-red-600 text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Nomor Tiket Tidak Ditemukan</h3>
-                    <p class="text-gray-600 mb-6">
-                        Mohon periksa kembali nomor tiket yang Anda masukkan. Pastikan format dan angka sudah benar.
-                    </p>
-                    
-                    <div class="space-y-4 text-left">
-                        <div class="p-4 bg-blue-50 rounded-lg">
-                            <h4 class="font-semibold text-gray-800 mb-2">
-                                <i class="fas fa-lightbulb text-blue-600 mr-2"></i>
-                                Tips Pencarian:
-                            </h4>
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                <li>• Pastikan format nomor tiket benar (contoh: PPKS-2024-001234)</li>
-                                <li>• Periksa email konfirmasi yang dikirim saat Anda membuat laporan</li>
-                                <li>• Nomor tiket bersifat case-sensitive</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="p-4 bg-green-50 rounded-lg">
-                            <h4 class="font-semibold text-gray-800 mb-2">
-                                <i class="fas fa-question-circle text-green-600 mr-2"></i>
-                                Belum Punya Nomor Tiket?
-                            </h4>
-                            <p class="text-sm text-gray-600 mb-3">
-                                Jika Anda belum melaporkan kasus, silakan buat laporan terlebih dahulu.
-                            </p>
-                            <a href={{ route('lapor-kekerasan.create') }} class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                                <i class="fas fa-plus mr-2"></i>
-                                Buat Laporan Baru
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Information Cards -->
@@ -189,6 +97,21 @@
                 </div>
             </div>
 
+            <!-- Help Section -->
+            <div class="bg-white rounded-xl shadow-md p-6 mt-6">
+                <h3 class="font-bold text-gray-800 mb-4">
+                    <i class="fas fa-question-circle text-blue-600 mr-2"></i>
+                    Belum Punya Nomor Tiket?
+                </h3>
+                <p class="text-gray-600 mb-4">
+                    Jika Anda belum melaporkan kasus, silakan buat laporan terlebih dahulu.
+                </p>
+                <a href="{{ route('lapor-kekerasan.create') }}" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                    <i class="fas fa-plus mr-2"></i>
+                    Buat Laporan Baru
+                </a>
+            </div>
+
             <!-- Back to Home -->
             <div class="text-center mt-8">
                 <a href="/" class="inline-flex items-center text-primary hover:text-accent transition-colors">
@@ -202,30 +125,39 @@
 
 <script>
 document.getElementById('statusForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+    const ticketInput = document.getElementById('ticket_number');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const loadingIcon = document.getElementById('loadingIcon');
     
-    const ticketNumber = document.getElementById('ticket_number').value.trim();
-    const statusResult = document.getElementById('statusResult');
-    const errorResult = document.getElementById('errorResult');
+    // Show loading state
+    submitBtn.disabled = true;
+    btnText.textContent = 'Mencari...';
+    loadingIcon.classList.remove('hidden');
     
-    // Hide both results first
-    statusResult.classList.add('hidden');
-    errorResult.classList.add('hidden');
+    // Extract ID from ticket number (assuming format: PPKS-YYYY-XXXXXX where XXXXXX is the ID)
+    const ticketNumber = ticketInput.value.trim();
     
-    // Simple validation for demo - in real app, this would be an API call
-    if (ticketNumber.match(/^PPKS-\d{4}-\d{6}$/)) {
-        // Show success result
-        setTimeout(() => {
-            statusResult.classList.remove('hidden');
-            statusResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
-    } else {
-        // Show error result
-        setTimeout(() => {
-            errorResult.classList.remove('hidden');
-            errorResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
+    // Basic validation
+    if (!ticketNumber.match(/^PPKS-\d{4}-\d{6}$/)) {
+        e.preventDefault();
+        
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.textContent = 'Cek Status Sekarang';
+        loadingIcon.classList.add('hidden');
+        
+        // Show error
+        alert('Format nomor tiket tidak valid. Gunakan format: PPKS-YYYY-XXXXXX');
+        return false;
     }
+    
+    // Extract the ID (last 6 digits)
+    const parts = ticketNumber.split('-');
+    const reportId = parts[2]; // This gets the last part (ID)
+    
+    // Update form action with the extracted ID
+    this.action = "{{ url('/cek-status') }}/" + reportId;
 });
 
 // Format input while typing
@@ -248,13 +180,18 @@ document.getElementById('ticket_number').addEventListener('input', function(e) {
         }
     }
     
+    // Limit total length
+    if (value.length > 15) {
+        value = value.slice(0, 15);
+    }
+    
     e.target.value = value;
 });
 </script>
 
 <style>
-    .px-4 {
-    padding-left: 6rem;
+.px-4 {
+    padding-left: 1rem;
     padding-right: 1rem;
 }
 
@@ -263,7 +200,12 @@ document.getElementById('ticket_number').addEventListener('input', function(e) {
         max-width: 100%;
     }
 }
-</style>
 
+/* Loading button animation */
+#submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+</style>
 
 @endsection

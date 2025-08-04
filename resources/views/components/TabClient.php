@@ -7,12 +7,25 @@ use Illuminate\View\Component;
 class TabClient extends Component
 {
     public $oldData;
+    public $editData;
 
-    public function __construct($oldData = [])
+    /**
+     * Create a new component instance.
+     *
+     * @param array $oldData
+     * @param mixed $editData
+     */
+    public function __construct($oldData = [], $editData = null)
     {
         $this->oldData = $oldData;
+        $this->editData = $editData;
     }
 
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\Contracts\View\View|\Closure|string
+     */
     public function render()
     {
         return view('components.form.tab-client');
