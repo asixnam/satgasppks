@@ -55,7 +55,7 @@
                     <div class="flex items-start space-x-3 sm:space-x-4">
                         <i class="fas fa-map-marker-alt text-yellow-300 text-lg sm:text-xl mt-1 w-5 sm:w-6 text-center flex-shrink-0" aria-hidden="true"></i>
                         <div class="flex-1">
-                            <a href="https://www.google.com/maps?9FvWyDk5Fdpjt9PN9" target="_blank" rel="noopener noreferrer" class="text-white text-sm sm:text-base leading-relaxed hover:text-yellow-300 transition-colors duration-200 hover:underline">
+                            <a href="https://maps.app.goo.gl/PHN93G8Ybga3AVeJ7" target="_blank" rel="noopener noreferrer" class="text-white text-sm sm:text-base leading-relaxed hover:text-yellow-300 transition-colors duration-200 hover:underline">
                                 <span class="block font-semibold mb-1">Universitas Nahdlatul Ulama Yogyakarta</span>
                                 <span class="block text-xs sm:text-sm opacity-90">
                                     Jl. Ringroad Barat, Dowangan, Banyuraden, Kec. Gamping,<br class="hidden sm:block">
