@@ -5,7 +5,7 @@
 <div class="container mx-auto px-4 py-8 mt-16">
     <!-- Header Section -->
     <div class="text-center mb-16">
-        <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-24 mb-8 drop-shadow-lg">
+        <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-44 mb-8 drop-shadow-lg">
         <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Tentang SATGAS PPKPT
         </h1>
@@ -116,9 +116,9 @@
         </p>
     </div>
 
-    <!-- Team Grid -->
+    <!-- Team Grid - Modified to 3 columns with larger cards -->
     @if($tims->count() > 0)
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
         @php
             $colors = ['blue', 'purple', 'green', 'indigo', 'red', 'yellow', 'pink', 'teal'];
         @endphp
@@ -127,22 +127,26 @@
         @php
             $color = $colors[$index % count($colors)];
         @endphp
-        <!-- Anggota {{ $index + 1 }} -->
-        <div class="text-center group">
-            <div class="relative mb-4">
-                @if($tim->foto)
-                    <img src="{{ asset('storage/' . $tim->foto) }}" alt="Foto {{ $tim->nama }}" 
-                         class="w-32 h-32 object-cover rounded-full mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
-                @else
-                    <img src="/image/sampel.png" alt="Foto Default" 
-                         class="w-32 h-32 object-cover rounded-full mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
-                @endif
-                <div class="absolute inset-0 bg-gradient-to-t from-{{ $color }}-500/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <div class="bg-white rounded-lg p-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                <p class="font-semibold text-gray-800 text-sm mb-1">{{ $tim->nama }}</p>
-                <p class="text-{{ $color }}-600 text-xs font-medium">{{ $tim->jabatan }}</p>
-                <p class="text-gray-500 text-xs">UNU Yogyakarta</p>
+        <!-- Team Member Card -->
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 group border border-gray-100 transform hover:-translate-y-2">
+            <div class="text-center">
+                <!-- Photo Section -->
+                <div class="relative mb-2">
+                    @if($tim->foto)
+                        <img src="{{ asset('storage/' . $tim->foto) }}" alt="Foto {{ $tim->nama }}" 
+                             class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
+                    @else
+                        <img src="/image/sampel.png" alt="Foto Default" 
+                             class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-{{ $color }}-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <!-- Info Section - Compact and tight -->
+                <div class="space-y-1 mt-1">
+                    <h3 class="font-bold text-lg text-gray-800 leading-tight">{{ $tim->nama }}</h3>
+                    <p class="text-{{ $color }}-600 text-sm font-medium">{{ $tim->jabatan }}</p>
+                </div>
             </div>
         </div>
         @endforeach
@@ -157,21 +161,6 @@
         <p class="text-gray-500">Data anggota tim belum tersedia saat ini.</p>
     </div>
     @endif
-
-    <!-- Call to Action Section -->
-    <!-- <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mt-16 text-center text-white">
-        <h3 class="text-2xl font-bold mb-4">Butuh Bantuan?</h3>
-        <p class="mb-6 opacity-90">Jangan ragu untuk menghubungi kami. Keamanan dan kenyamanan Anda adalah prioritas utama kami.</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300">
-                <i class="fas fa-phone mr-2"></i>Hubungi Kami
-            </a>
-            <a href="#" class="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-300">
-                <i class="fas fa-envelope mr-2"></i>Kirim Pesan
-            </a>
-        </div>
-    </div> -->
-
 </div>
 
 @endsection
