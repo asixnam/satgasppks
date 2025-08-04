@@ -20,7 +20,8 @@ class Violance extends Model
     ];
 
     protected $casts = [
-        'waktu_kejadian' => 'datetime'
+        'waktu_kejadian' => 'datetime',
+        'bentuk_kekerasan' => 'array',
     ];
 
     // Relasi dengan violence reports

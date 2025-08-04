@@ -121,28 +121,37 @@
             <!-- Alerts -->
             <div class="px-6">
                 @if(session('success'))
-                    <div class="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg" role="alert">
+                    <div class="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg alert" role="alert">
                         <div class="flex items-center">
                             <i class="fas fa-check-circle mr-2"></i>
                             {{ session('success') }}
+                            <button type="button" class="ml-auto text-green-700 hover:text-green-900" onclick="this.parentElement.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 @endif
 
                 @if(session('error'))
-                    <div class="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg" role="alert">
+                    <div class="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg alert" role="alert">
                         <div class="flex items-center">
                             <i class="fas fa-exclamation-circle mr-2"></i>
                             {{ session('error') }}
+                            <button type="button" class="ml-auto text-red-700 hover:text-red-900" onclick="this.parentElement.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 @endif
 
                 @if(session('info'))
-                    <div class="mt-4 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg" role="alert">
+                    <div class="mt-4 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg alert" role="alert">
                         <div class="flex items-center">
                             <i class="fas fa-info-circle mr-2"></i>
                             {{ session('info') }}
+                            <button type="button" class="ml-auto text-blue-700 hover:text-blue-900" onclick="this.parentElement.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 @endif
@@ -159,9 +168,10 @@
                                         <input type="checkbox" id="select-all" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
                                     </th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">No</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Kode Laporan</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Klien</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis Kelamin</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status Laporan</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status Korban</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelapor</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelaku</th>
@@ -178,6 +188,9 @@
                                                value="{{ $report->id }}">
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $loop->iteration + (($reports->currentPage() - 1) * $reports->perPage()) }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        <span class="font-mono text-xs bg-gray-100 px-2 py-1 rounded">{{ $report->code ?? 'N/A' }}</span>
+                                    </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         <div class="flex flex-col">
                                             <span class="font-medium">{{ $report->client->nama_lengkap ?? '-' }}</span>
@@ -205,9 +218,21 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                            {{ $report->client->status ?? '-' }}
-                                        </span>
+                                        <form action="{{ route('admin.violence-reports.update-status', $report->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('PATCH')
+                                            <select name="status" onchange="this.form.submit()" class="text-xs px-2 py-1 rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-500
+                                                @if($report->status == 'terlapor') bg-gray-100 text-gray-800
+                                                @elseif($report->status == 'ditolak') bg-red-100 text-red-800
+                                                @elseif($report->status == 'diproses') bg-yellow-100 text-yellow-800
+                                                @elseif($report->status == 'selesai') bg-green-100 text-green-800
+                                                @else bg-gray-100 text-gray-800 @endif">
+                                                <option value="terlapor" {{ $report->status == 'terlapor' ? 'selected' : '' }}>Terlapor</option>
+                                                <option value="diproses" {{ $report->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                                                <option value="selesai" {{ $report->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                                <option value="ditolak" {{ $report->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                            </select>
+                                        </form>
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         @if($report->client && $report->client->status_korban == 'Disable')
@@ -263,7 +288,7 @@
                                                title="Edit">
                                                 <i class="fas fa-edit text-xs"></i>
                                             </a>
-                                            <form action="{{ route('admin.violence-reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')" class="inline-block">
+                                            <form action="{{ route('admin.violence-reports.destroy', $report->id) }}" method="POST" onsubmit="return confirmDelete(event)" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" 
@@ -272,13 +297,12 @@
                                                 <i class="fas fa-trash text-xs"></i>
                                                 </button>
                                             </form>
-                                            
                                         </div>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="11" class="px-4 py-12 text-center text-gray-500">
+                                    <td colspan="12" class="px-4 py-12 text-center text-gray-500">
                                         <div class="flex flex-col items-center">
                                             <i class="fas fa-inbox text-4xl mb-4 text-gray-400"></i>
                                             <p class="text-lg font-medium mb-2">Tidak ada data laporan kekerasan</p>
@@ -306,12 +330,11 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 // Auto-hide alerts after 5 seconds
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
-        const alerts = document.querySelectorAll('[role="alert"]');
+        const alerts = document.querySelectorAll('.alert[role="alert"]');
         alerts.forEach(alert => {
             alert.style.transition = 'opacity 0.5s ease-out';
             alert.style.opacity = '0';
@@ -359,25 +382,9 @@ function setupCheckboxes() {
     }
 }
 
-// Delete function
-function deleteReport(id) {
-    Swal.fire({
-        title: 'Konfirmasi Hapus',
-        text: "Apakah Anda yakin ingin menghapus laporan ini? Data yang dihapus tidak dapat dikembalikan!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#059669',
-        confirmButtonText: 'Ya, Hapus!',
-        cancelButtonText: 'Batal',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const form = document.getElementById('deleteForm');
-            form.action = `/admin/violence-reports/${id}`;
-            form.submit();
-        }
-    });
+// Confirm delete function
+function confirmDelete(event) {
+    return confirm('Apakah Anda yakin ingin menghapus laporan ini? Data yang dihapus tidak dapat dikembalikan!');
 }
 
 // Bulk delete function
@@ -386,32 +393,15 @@ function bulkDelete() {
     const selectedIds = Array.from(checkedBoxes).map(cb => cb.value);
 
     if (selectedIds.length === 0) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Pilih minimal satu laporan untuk dihapus!',
-            confirmButtonColor: '#059669'
-        });
+        alert('Pilih minimal satu laporan untuk dihapus!');
         return;
     }
 
-    Swal.fire({
-        title: 'Konfirmasi Hapus Massal',
-        text: `Apakah Anda yakin ingin menghapus ${selectedIds.length} laporan yang dipilih?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#059669',
-        confirmButtonText: 'Ya, Hapus Semua!',
-        cancelButtonText: 'Batal',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const form = document.getElementById('bulk-delete-form');
-            document.getElementById('selected-reports').value = JSON.stringify(selectedIds);
-            form.submit();
-        }
-    });
+    if (confirm(`Apakah Anda yakin ingin menghapus ${selectedIds.length} laporan yang dipilih? Data yang dihapus tidak dapat dikembalikan!`)) {
+        const form = document.getElementById('bulk-delete-form');
+        document.getElementById('selected-reports').value = JSON.stringify(selectedIds);
+        form.submit();
+    }
 }
 </script>
 @endsection

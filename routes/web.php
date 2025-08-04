@@ -37,12 +37,11 @@ Route::get('/tentang-kami', [AppController::class, 'tentangKami'])->name('tentan
 // Violence Report Routes
 Route::get('/lapor-kekerasan', [AppController::class, 'createLaporan'])->name('lapor-kekerasan.create');
 Route::post('/lapor-kekerasan', [AppController::class, 'storeLaporan'])->name('lapor-kekerasan.store');
-Route::get('/laporan', [AppController::class, 'indexLaporan'])->name('laporan.index');
-Route::get('/laporan/{id}', [AppController::class, 'showLaporan'])->name('laporan.show');
+Route::get('/lapor-kekerasan/success', [AppController::class, 'successLaporan'])->name('Frontend.violance-report.success');
 
 // Status Check Routes
 Route::get('/cek-status', [AppController::class, 'cekStatus'])->name('cek-status');
-Route::get('/cek-status/{id}', [AppController::class, 'showLaporan'])->name('cek-status.show');
+Route::get('/cek-status/{code}', [AppController::class, 'showLaporan'])->name('cek-status.show');
 
 
 // API Routes for latest content (optional)
@@ -55,26 +54,29 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Violence Reports (dipindahkan ke dalam admin group)
-    Route::prefix('violence-reports')->name('violence-reports.')->group(function () {
-        Route::get('/', [ViolenceReportController::class, 'index'])->name('index');
-        Route::get('/bulk-delete', [ViolenceReportController::class, 'bulk-delete'])->name('bulk-delete');
-        Route::get('/create', [ViolenceReportController::class, 'create'])->name('create');
-        Route::post('/store', [ViolenceReportController::class, 'store'])->name('store');
-        Route::get('/{id}', [ViolenceReportController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [ViolenceReportController::class, 'edit'])->name('edit'); 
-        Route::put('/{id}', [ViolenceReportController::class, 'update'])->name('update');
-        Route::delete('/{id}', [ViolenceReportController::class, 'destroy'])->name('destroy');
+    Route::prefix('violence-reports')->name('violence-reports.')->group(function () { 
+    Route::get('/', [ViolenceReportController::class, 'index'])->name('index'); 
+    Route::get('/bulk-delete', [ViolenceReportController::class, 'bulk-delete'])->name('bulk-delete'); 
+    Route::get('/create', [ViolenceReportController::class, 'create'])->name('create'); 
+    Route::post('/store', [ViolenceReportController::class, 'store'])->name('store'); 
+    Route::get('/{id}', [ViolenceReportController::class, 'show'])->name('show'); 
+    Route::get('/{id}/edit', [ViolenceReportController::class, 'edit'])->name('edit');  
+    Route::put('/{id}', [ViolenceReportController::class, 'update'])->name('update'); 
+    Route::delete('/{id}', [ViolenceReportController::class, 'destroy'])->name('destroy'); 
+    
+    // Route untuk update status
+    Route::patch('/{id}/status', [ViolenceReportController::class, 'updateStatus'])->name('update-status');
 
-        // Additional routes
-       // Routes baru untuk statistik dan fitur tambahan
-        Route::get('/statistics/dashboard', [ViolenceReportController::class, 'statistics'])->name('statistics');
-        Route::get('/statistics/export', [ViolenceReportController::class, 'exportStatistics'])->name('export-statistics');
-        Route::get('/statistics/chart-data', [ViolenceReportController::class, 'getChartData'])->name('chart-data');
-        
-        Route::get('/export', [ViolenceReportController::class, 'export'])->name('export');
-        Route::get('/details/all', [ViolenceReportController::class, 'reportsWithDetails'])->name('details.all');
-        Route::get('/filter/violence-type/{type}', [ViolenceReportController::class, 'filterByViolenceType'])->name('filter.violence-type');
-        Route::get('/filter/faculty/{faculty}', [ViolenceReportController::class, 'filterByFaculty'])->name('filter.faculty');
+    // Additional routes 
+    // Routes baru untuk statistik dan fitur tambahan 
+    Route::get('/statistics/dashboard', [ViolenceReportController::class, 'statistics'])->name('statistics'); 
+    Route::get('/statistics/export', [ViolenceReportController::class, 'exportStatistics'])->name('export-statistics'); 
+    Route::get('/statistics/chart-data', [ViolenceReportController::class, 'getChartData'])->name('chart-data'); 
+
+    Route::get('/export', [ViolenceReportController::class, 'export'])->name('export'); 
+    Route::get('/details/all', [ViolenceReportController::class, 'reportsWithDetails'])->name('details.all'); 
+    Route::get('/filter/violence-type/{type}', [ViolenceReportController::class, 'filterByViolenceType'])->name('filter.violence-type'); 
+    Route::get('/filter/faculty/{faculty}', [ViolenceReportController::class, 'filterByFaculty'])->name('filter.faculty'); 
     });
 
     //Berita

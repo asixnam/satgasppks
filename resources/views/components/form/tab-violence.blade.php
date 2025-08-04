@@ -52,48 +52,64 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Waktu Kejadian <span class="text-red-500">*</span></label>
             <input type="date"
-                   name="violance_data[waktu_kejadian]"
-                   value="{{ old('violance_data.waktu_kejadian', $formData['waktu_kejadian'] ?? '') }}"
-                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   max="{{ date('Y-m-d') }}"
-                   required>
+                name="violance_data[waktu_kejadian]"
+                value="{{ old('violance_data.waktu_kejadian', isset($formData['waktu_kejadian']) ? \Carbon\Carbon::parse($formData['waktu_kejadian'])->format('Y-m-d') : '') }}"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                max="{{ date('Y-m-d') }}"
+                required>
             @error('violance_data.waktu_kejadian')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Bentuk Kekerasan <span class="text-red-500">*</span></label>
-            <div class="space-y-2">
-                @php
-                    $oldBentukKekerasan = old('violance_data.bentuk_kekerasan', $formData['bentuk_kekerasan'] ?? []);
-                    if (is_string($oldBentukKekerasan)) {
-                        $oldBentukKekerasan = explode(',', $oldBentukKekerasan);
-                    }
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+        Bentuk Kekerasan <span class="text-red-500">*</span>
+    </label>
 
-                    $bentukKekerasanOptions = [
-                        'Fisik' => 'Fisik (Pukulan, tendangan, tamparan, dll)',
-                        'Psikis' => 'Psikis (Ancaman, intimidasi, penghinaan, dll)',
-                        'Seksual' => 'Seksual (Pelecehan, pemaksaan, dll)',
-                        'Ekonomi' => 'Ekonomi (Kontrol keuangan, larangan bekerja, dll)'
-                    ];
-                @endphp
+        <div class="space-y-2">
+            @php
+                // Ambil data old() atau fallback ke data dari $formData
+                $oldBentukKekerasan = old('violance_data.bentuk_kekerasan');
 
-                @foreach($bentukKekerasanOptions as $value => $label)
-                    <div class="flex items-start">
-                        <input type="checkbox"
-                               name="violance_data[bentuk_kekerasan][]"
-                               value="{{ $value }}"
-                               {{ in_array($value, $oldBentukKekerasan) ? 'checked' : '' }}
-                               class="mr-2 mt-1 text-blue-600 focus:ring-blue-500">
-                        <label class="text-sm text-gray-700">{{ $label }}</label>
-                    </div>
-                @endforeach
-            </div>
-            @error('violance_data.bentuk_kekerasan')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-            @enderror
+                if (is_null($oldBentukKekerasan)) {
+                    $stored = $formData['bentuk_kekerasan'] ?? [];
+
+                    // Jika bentuk kekerasan dari formData masih string (misal hasil dari implode), ubah ke array
+                    $oldBentukKekerasan = is_string($stored)
+                        ? array_map('trim', explode(',', $stored))
+                        : (array) $stored;
+                }
+
+                $bentukKekerasanOptions = [
+                    'Fisik' => 'Fisik (Pukulan, tendangan, tamparan, dll)',
+                    'Psikis' => 'Psikis (Ancaman, intimidasi, penghinaan, dll)',
+                    'Seksual' => 'Seksual (Pelecehan, pemaksaan, dll)',
+                    'Ekonomi' => 'Ekonomi (Kontrol keuangan, larangan bekerja, dll)',
+                ];
+            @endphp
+
+            @foreach($bentukKekerasanOptions as $value => $label)
+                <div class="flex items-start">
+                    <input
+                        type="checkbox"
+                        name="violance_data[bentuk_kekerasan][]"
+                        value="{{ $value }}"
+                        id="bentuk_kekerasan_{{ $value }}"
+                        {{ in_array($value, $oldBentukKekerasan) ? 'checked' : '' }}
+                        class="mr-2 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    >
+                    <label for="bentuk_kekerasan_{{ $value }}" class="text-sm text-gray-700">
+                        {{ $label }}
+                    </label>
+                </div>
+            @endforeach
         </div>
+
+        @error('violance_data.bentuk_kekerasan')
+            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+        @enderror
+    </div>
 
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">

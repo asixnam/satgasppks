@@ -14,6 +14,8 @@ return new class extends Migration
             $table->uuid('id_reporter');
             $table->uuid('id_perpetrator');
             $table->uuid('id_violance');
+            $table->enum('status', ['terlapor', 'diproses', 'ditolak', 'selesai'])->default('terlapor');
+            $table->string('code', 25);
             $table->timestamps();
 
             // Foreign key constraints

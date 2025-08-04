@@ -67,10 +67,10 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir <span class="text-red-500">*</span></label>
             <input type="date"
-                   name="reporter_data[tanggal_lahir]"
-                   value="{{ old('reporter_data.tanggal_lahir', $formData['tanggal_lahir'] ?? '') }}"
-                   class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                   required>
+                name="reporter_data[tanggal_lahir]"
+                value="{{ old('reporter_data.tanggal_lahir', isset($formData['tanggal_lahir']) ? \Carbon\Carbon::parse($formData['tanggal_lahir'])->format('Y-m-d') : '') }}"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required>
             @error('reporter_data.tanggal_lahir')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror

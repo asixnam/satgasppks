@@ -13,63 +13,61 @@ class ViolenceReportSeeder extends Seeder
 {
     public function run()
     {
-        // Sample Client (Korban)
+        // === Sample 1 ===
         $client = Client::create([
             'nama_lengkap' => 'Siti Aminah',
-            'jenis_kelamin' => 'Perempuan', // sesuai enum: 'Laki-laki', 'Perempuan'
-            'status_korban' => 'Disable', // sesuai enum: 'Disable', 'Tidak'
+            'jenis_kelamin' => 'Perempuan',
+            'status_korban' => 'Disable',
             'kategori_disable' => 'Tuli',
             'status' => 'Mahasiswa',
             'sumber_informasi' => 'Media Sosial'
         ]);
 
-        // Sample Reporter (Pelapor)
         $reporter = Reporter::create([
-            'hubungan_pelapor_dengan_pelaku' => 'Tidak Ada Hubungan', // sesuai field di migrasi
-            'nama_lengkap' => 'Budi Santoso', // sesuai field di migrasi
+            'hubungan_pelapor_dengan_pelaku' => 'Tidak Ada Hubungan',
+            'nama_lengkap' => 'Budi Santoso',
             'tempat_lahir' => 'Bandung',
             'tanggal_lahir' => '1999-08-20',
-            'jenis_kelamin' => 'Laki-laki', // sesuai enum: 'Laki-laki', 'Perempuan'
+            'jenis_kelamin' => 'Laki-laki',
             'usia' => 24,
-            'status_pelapor' => 'Mahasiswa', // sesuai field di migrasi
+            'status_pelapor' => 'Mahasiswa',
             'no_telepon' => '081234567890',
             'alamat' => 'Jl. Merdeka No. 123, Bandung',
-            'keterangan_tambahan' => 'Saya melihat langsung kejadian tersebut.' // sesuai field di migrasi
+            'keterangan_tambahan' => 'Saya melihat langsung kejadian tersebut.'
         ]);
 
-        // Sample Violence
         $violance = Violance::create([
             'jenis_kekerasan' => 'Kekerasan Seksual',
-            'bentuk_kekerasan' => json_encode(['Ucapan seksual', 'Tatapan seksual']), // JSON array sesuai migrasi
-            'lokasi_kejadian' => 'Kampus', // sesuai field di migrasi
+            'bentuk_kekerasan' => json_encode(['Ucapan seksual', 'Tatapan seksual']),
+            'lokasi_kejadian' => 'Kampus',
             'waktu_kejadian' => '2024-01-15 14:30:00',
             'deskripsi_kekerasan' => 'Pelaku menyampaikan ucapan seksual tidak pantas di depan umum dan memberikan tatapan yang tidak nyaman kepada korban.'
         ]);
 
-        // Sample Perpetrator (Pelaku)
         $perpetrator = Perpetrator::create([
             'hubungan_dengan_korban' => 'Sesama Mahasiswa',
             'nama' => 'John Doe',
-            'telepon' => null, // sesuai field di migrasi (nullable)
-            'jenis_kelamin' => 'Laki-laki', // sesuai enum: 'Laki-laki', 'Perempuan'
-            'keterangan' => 'Berambut cepak, memakai jaket hitam saat kejadian', // sesuai field di migrasi
-            'upload_bukti' => json_encode(['bukti1.jpg', 'screenshot_chat.png']) // JSON array
+            'telepon' => null,
+            'jenis_kelamin' => 'Laki-laki',
+            'keterangan' => 'Berambut cepak, memakai jaket hitam saat kejadian',
+            'upload_bukti' => json_encode(['bukti1.jpg', 'screenshot_chat.png'])
         ]);
 
-        // Hubungkan semua ke dalam violence report
         ViolenceReport::create([
             'id_client' => $client->id,
             'id_reporter' => $reporter->id,
             'id_perpetrator' => $perpetrator->id,
-            'id_violance' => $violance->id
+            'id_violance' => $violance->id,
+            'status' => 'terlapor',
+            'code' => 'VR-001'
         ]);
 
-        // Sample data kedua untuk variasi
+        // === Sample 2 ===
         $client2 = Client::create([
             'nama_lengkap' => 'Ahmad Rizki',
             'jenis_kelamin' => 'Laki-laki',
             'status_korban' => 'Tidak',
-            'kategori_disable' => null, // null karena status_korban = 'Tidak'
+            'kategori_disable' => null,
             'status' => 'Dosen',
             'sumber_informasi' => 'Laporan Langsung'
         ]);
@@ -108,7 +106,9 @@ class ViolenceReportSeeder extends Seeder
             'id_client' => $client2->id,
             'id_reporter' => $reporter2->id,
             'id_perpetrator' => $perpetrator2->id,
-            'id_violance' => $violance2->id
+            'id_violance' => $violance2->id,
+            'status' => 'diproses',
+            'code' => 'VR-002'
         ]);
     }
 }

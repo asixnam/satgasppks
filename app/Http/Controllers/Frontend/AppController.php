@@ -30,18 +30,18 @@ class AppController extends Controller
          $heroes = Hero::all(); // Ambil semua hero dari database
         $hero = $heroes->first();
 
-    if (!$hero) {
-        // Buat hero kosong dengan gambar default (tanpa menyimpan ke DB)
-        $hero = new \stdClass();
-        $hero->gambar = 'images/gedung-unujogja.jpg';
-    }
-    
-        // Ambil berita terbaru (misal 3 untuk tampil di homepage)
-        $beritas = Berita::orderBy('created_at', 'desc')->limit(3)->get();
-        $edukasis = Edukasi::latest()->limit(3)->get();
+        if (!$hero) {
+            // Buat hero kosong dengan gambar default (tanpa menyimpan ke DB)
+            $hero = new \stdClass();
+            $hero->gambar = 'images/gedung-unujogja.jpg';
+        }
+        
+            // Ambil berita terbaru (misal 3 untuk tampil di homepage)
+            $beritas = Berita::orderBy('created_at', 'desc')->limit(3)->get();
+            $edukasis = Edukasi::latest()->limit(3)->get();
 
-        return view('Frontend.Pages.pages', compact('heroes', 'beritas','edukasis','hero'));
-    }
+            return view('Frontend.Pages.pages', compact('heroes', 'beritas','edukasis','hero'));
+        }
 
     /**
      * Display all berita with search functionality
@@ -122,6 +122,18 @@ class AppController extends Controller
     {
         return view('Frontend.violance-report.create');
     }
+    public function successLaporan()
+    {
+        if (!session()->has('report_id')) {
+            return redirect()->route('home')->with('error', 'Akses tidak valid ke halaman sukses.');
+        }
+
+        $reportId = session('report_id');
+
+        return view('Frontend.violance-report.success', compact('reportId'));
+    }
+
+
 
     /**
      * Store violence report
@@ -296,7 +308,7 @@ class AppController extends Controller
                 'id_reporter' => $reporter->id,
                 'id_perpetrator' => $perpetrator->id,
                 'id_violance' => $violance->id,
-                'status' => 'pending',
+                'status' => 'terlapor',
                 'created_at' => now(),
             ]);
 
@@ -310,8 +322,15 @@ class AppController extends Controller
                 'uploaded_files_count' => count($uploadedFiles)
             ]);
 
-            return redirect()->route('home')
-                ->with('success', 'Laporan kekerasan berhasil dibuat dan akan segera diproses.');
+            return redirect()
+                ->route('Frontend.violance-report.success')
+                ->with([
+                    'success' => 'Laporan kekerasan berhasil dibuat dan akan segera diproses.',
+                    'report_id' => $violenceReport->code
+                ]);
+
+
+
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -348,43 +367,45 @@ class AppController extends Controller
     }
 
     /**
-     * Display violence reports list
-     */
-    public function indexLaporan()
-    {
-        $reports = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return view('Frontend.violance-report.index', compact('reports'));
-    }
-
-
-
-    /**
      * Display status check page
      */
-    public function cekStatus()
+    // Form cek status
+    public function cekStatus(Request $request)
     {
-        return view('Frontend.status.cek-status');
+        $report = null;
+        $error = null;
+
+        if ($request->has('ticket_number')) {
+            $code = $request->ticket_number;
+
+            if (!preg_match('/^PPKS-\d{4}-[A-Z0-9]{10}$/', $code)) {
+                $error = 'Format nomor tiket tidak valid. Gunakan format PPKS-YYYY-XXXXXXXXXX.';
+            }
+            else {
+                $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
+                    ->where('code', $code)
+                    ->first();
+
+                if (!$report) {
+                    $error = 'Laporan tidak ditemukan. Pastikan nomor tiket benar.';
+                }
+            }
+        }
+
+        return view('Frontend.status.cek-status', compact('report', 'error'));
     }
 
-    /**
-     * Display specific violence report
-     */
-    public function showLaporan($id)
+    // Tampilkan laporan
+    public function showLaporan($code)
     {
         try {
             $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
-                ->findOrFail($id);
+                ->where('code', 'LIKE', "%$code")
+                ->firstOrFail();
 
             return view('Frontend.laporan.show', compact('report'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return redirect()->route('cek-status')
-                ->with('error', 'Nomor tiket tidak ditemukan. Pastikan nomor tiket yang Anda masukkan benar.');
-        } catch (\Exception $e) {
-            return redirect()->route('cek-status')
-                ->with('error', 'Terjadi kesalahan saat mengambil data laporan. Silakan coba lagi.');
+            return redirect()->route('cek-status')->with('error', 'Laporan tidak ditemukan.');
         }
     }
 

@@ -51,6 +51,39 @@ class ViolenceReportController extends Controller
         return view('admin.violence-report.index', compact('reports'));
     }
 
+    /**
+     * Update status laporan kekerasan
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:terlapor,ditolak,diproses,selesai'
+        ]);
+
+        try {
+            $report = ViolenceReport::findOrFail($id);
+            $report->status = $request->status;
+            $report->save();
+
+            return redirect()->back()->with('success', 'Status laporan berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui status laporan');
+        }
+    }
+
+    /**
+     * Get status options for dropdown
+     */
+    public function getStatusOptions()
+    {
+        return [
+            'terlapor' => 'Terlapor',
+            'ditolak' => 'Ditolak', 
+            'diproses' => 'Diproses',
+            'selesai' => 'Selesai'
+        ];
+    }
+
     // Ambil laporan berdasarkan ID
     public function show($id)
     {
