@@ -19,6 +19,7 @@ class Reporter extends Model
         'usia',
         'status_pelapor',
         'no_telepon',
+        'email',
         'alamat',
         'keterangan_tambahan'
     ];

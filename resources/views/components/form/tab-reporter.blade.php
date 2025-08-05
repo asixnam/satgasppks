@@ -129,8 +129,10 @@
         </div>
 
         <div>
-           <label for="status_pelapor">Status Pelapor <span class="text-red-500">*</span></label>
-            <select name="reporter_data[status_pelapor]" id="status_pelapor" class="form-select w-full mt-1">
+           <label class="block text-sm font-medium text-gray-700 mb-1">Status Pelapor <span class="text-red-500">*</span></label>
+            <select name="reporter_data[status_pelapor]"
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
                 <option value="">-- Pilih Status --</option>
                 <option value="Mahasiswa" {{ old('reporter_data.status_pelapor') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
                 <option value="Dosen" {{ old('reporter_data.status_pelapor') == 'dosen' ? 'selected' : '' }}>Dosen</option>
@@ -151,6 +153,19 @@
                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                    required>
             @error('reporter_data.no_telepon')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+            <input type="email"
+                name="reporter_data[email]"
+                value="{{ old('reporter_data.email', $formData['email'] ?? '') }}"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Harus Menggunakan @unu-jogja.ac.id"
+                required>
+            @error('reporter_data.email')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>

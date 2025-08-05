@@ -126,6 +126,7 @@ class ViolenceReportController extends Controller
             'reporter_data.usia' => 'required|integer|min:1|max:120',
             'reporter_data.status_pelapor' => 'required|string|max:255',
             'reporter_data.no_telepon' => 'required|string|max:20|regex:/^[0-9+\-\s]+$/',
+            'reporter_data.email' => 'nullable|email|max:255|unique:reporters,email',
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'
         ];
@@ -253,6 +254,12 @@ class ViolenceReportController extends Controller
                 'hubungan_dengan_korban' => $perpetratorData['hubungan_dengan_korban'],
                 'nama' => $perpetratorData['nama'],
                 'telepon' => $perpetratorData['telepon'] ?? null,
+                'reporter_data.email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    'regex:/^[a-zA-Z0-9._%+-]+@unuu-jogja\.ac\.id$/'
+                ],
                 'jenis_kelamin' => $perpetratorData['jenis_kelamin'],
                 'keterangan' => $perpetratorData['keterangan'],
                 'upload_bukti' => !empty($uploadedFiles) ? json_encode($uploadedFiles) : null,

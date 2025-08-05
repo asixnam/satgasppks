@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('usia');
             $table->string('status_pelapor'); // Teman, Masyarakat, Tendik, Dosen, dll
             $table->string('no_telepon'); // bisa nullable kalau mau, tapi di data wajib
+            $table->string('email')->unique();
             $table->text('alamat');
             $table->text('keterangan_tambahan')->nullable(); // opsional
 

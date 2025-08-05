@@ -23,7 +23,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-gray-600 text-sm font-medium">Pengaduan Aktif</p>
+                    <p class="text-gray-600 text-sm font-medium">Jumlah Pengaduan</p>
                     <p class="text-3xl font-bold text-red-600">5</p>
                     <p class="text-xs text-gray-500 mt-1">+2 dari bulan lalu</p>
                 </div>
