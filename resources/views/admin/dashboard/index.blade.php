@@ -7,7 +7,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold mb-2">Selamat Datang, {{ Auth::user()->name ?? 'Admin' }}!</h1>
-                <p class="text-green-100">Kelola sistem SATGAS PPKS dengan mudah dan efisien</p>
+                <p class="text-green-100">Kelola sistem SATGAS PPKPT dengan mudah dan efisien</p>
             </div>
             <div class="hidden md:block">
                 <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
@@ -35,28 +35,28 @@
 
         <!-- Total Berita -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gap-4">
                 <div>
                     <p class="text-gray-600 text-sm font-medium">Total Berita</p>
-                    <p class="text-3xl font-bold text-blue-600">24</p>
-                    <p class="text-xs text-gray-500 mt-1">+5 bulan ini</p>
+                    <p class="text-3xl font-bold text-blue-600">{{ $jumlahBerita }}</p>
+                    <p class="text-xs text-gray-500 mt-1">+{{ $jumlahBeritaBulanIni }} Berita Bulan Ini</p>
                 </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-newspaper text-blue-600"></i>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
+                    <i class="fas fa-newspaper text-blue-600 text-lg"></i>
                 </div>
             </div>
         </div>
 
         <!-- Konten Edukasi -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Konten Edukasi</p>
-                    <p class="text-3xl font-bold text-purple-600">18</p>
-                    <p class="text-xs text-gray-500 mt-1">+3 bulan ini</p>
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex-1">
+                    <p class="text-gray-600 text-sm font-medium">Jumlah Edukasi</p>
+                    <p class="text-3xl font-bold text-blue-600">{{ $jumlahEdukasi }}</p>
+                    <p>+{{ $jumlahEdukasiBulanIni }} Edukasi Bulan ini  </p>
                 </div>
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-graduation-cap text-purple-600"></i>
+                <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
+                    <i class="fas fa-graduation-cap text-purple-600 text-xl"></i>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-600 text-sm font-medium">Anggota Tim</p>
-                    <p class="text-3xl font-bold text-orange-600">12</p>
+                    <p class="text-3xl font-bold text-orange-600">{{ $jumlahTim }}</p>
                     <p class="text-xs text-gray-500 mt-1">Tim aktif</p>
                 </div>
                 <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -82,7 +82,7 @@
             <div class="p-6 border-b border-gray-100">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">Laporan Terbaru</h2>
-                    <a href="{{ route('admin.dashboard') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
+                    <a href="{{ route('admin.violence-reports.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
                         Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
@@ -162,7 +162,7 @@
                         <span class="text-sm font-medium text-orange-700 mt-2">Tambah Tim</span>
                     </a>
 
-                    <a href="{{ route('admin.dashboard') }}" 
+                    <a href="{{ route('admin.violence-reports.index') }}" 
                        class="flex flex-col items-center p-4 bg-red-50 rounded-lg border border-red-100 hover:bg-red-100 transition-colors duration-200 group">
                         <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors duration-200">
                             <i class="fas fa-clipboard-list text-red-600"></i>
@@ -172,7 +172,7 @@
                 </div>
 
                 <!-- System Info -->
-                <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                <!-- <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
                     <h3 class="text-sm font-semibold text-gray-900 mb-3">Informasi Sistem</h3>
                     <div class="space-y-2 text-sm text-gray-600">
                         <div class="flex justify-between">
@@ -191,7 +191,7 @@
                             <span>3</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -204,80 +204,29 @@
         <div class="p-6">
             <div class="flow-root">
                 <ul class="-mb-8">
-                    <li>
-                        <div class="relative pb-8">
-                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                            <div class="relative flex space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
-                                    <i class="fas fa-plus text-white text-xs"></i>
-                                </div>
-                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                    <div>
-                                        <p class="text-sm text-gray-500">Berita baru <strong class="font-medium text-gray-900">"Panduan Pencegahan PPKS"</strong> ditambahkan</p>
-                                    </div>
-                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                        <time datetime="2024-01-15">15 menit yang lalu</time>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                    @foreach ($aktivitasTerbaru as $item)
+                        <li>
+                            <div class="relative pb-8">
+                                @if (!$loop->last)
+                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                @endif
 
-                    <li>
-                        <div class="relative pb-8">
-                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                            <div class="relative flex space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
-                                    <i class="fas fa-exclamation text-white text-xs"></i>
-                                </div>
-                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                    <div>
-                                        <p class="text-sm text-gray-500">Laporan baru <strong class="font-medium text-gray-900">"Pelecehan di Kampus"</strong> diterima</p>
+                                <div class="relative flex space-x-3">
+                                    <div class="h-8 w-8 rounded-full bg-{{ $item['color'] }}-500 flex items-center justify-center ring-8 ring-white">
+                                        <i class="{{ $item['icon'] }} text-white text-xs"></i>
                                     </div>
-                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                        <time datetime="2024-01-15">2 jam yang lalu</time>
+                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                        <div>
+                                            <p class="text-sm text-gray-500">{!! $item['message'] !!}</p>
+                                        </div>
+                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                            <time>{{ $item['created_at']->diffForHumans() }}</time>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="relative pb-8">
-                            <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                            <div class="relative flex space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center ring-8 ring-white">
-                                    <i class="fas fa-book text-white text-xs"></i>
-                                </div>
-                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                    <div>
-                                        <p class="text-sm text-gray-500">Konten edukasi <strong class="font-medium text-gray-900">"Mengenal Hak dan Kewajiban"</strong> diperbarui</p>
-                                    </div>
-                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                        <time datetime="2024-01-15">5 jam yang lalu</time>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="relative">
-                            <div class="relative flex space-x-3">
-                                <div class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
-                                    <i class="fas fa-check text-white text-xs"></i>
-                                </div>
-                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                    <div>
-                                        <p class="text-sm text-gray-500">Laporan <strong class="font-medium text-gray-900">"Diskriminasi Gender"</strong> telah diselesaikan</p>
-                                    </div>
-                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                        <time datetime="2024-01-15">1 hari yang lalu</time>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

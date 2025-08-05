@@ -23,7 +23,7 @@
                     <a href="/cek-status" class="nav-link" aria-label="Cek Status">
                         <i class="fas fa-search" aria-hidden="true"></i>
                         <span>Cek Status</span>
-                        <span class="badge hidden lg:inline" aria-label="Segera hadir">Soon</span>
+                        <!-- <span class="badge hidden lg:inline" aria-label="Segera hadir">Soon</span> -->
                     </a>
                     <a href="/berita" class="nav-link" aria-label="Berita">
                         <i class="fas fa-newspaper" aria-hidden="true"></i>

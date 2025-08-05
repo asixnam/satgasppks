@@ -26,7 +26,6 @@
         'Fisik'         => 'Fisik',
         'Psikis'        => 'Psikis',
         'Seksual'       => 'Seksual',
-        'Ekonomi'       => 'Ekonomi',
         'Perundungan'   => 'Perundungan',
         'Diskriminasi'  => 'Diskriminasi',
     ];
@@ -41,8 +40,9 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Bentuk Kekerasan <span class="text-red-500">*</span>
             </label>
-            <div class="space-y-2">
-                @foreach ($bentukKekerasanOptions as $value => $label)
+            @foreach (collect($bentukKekerasanOptions)->chunk(3) as $row)
+            <div class="grid grid-cols-3 gap-2 mb-2">
+                @foreach ($row as $value => $label)
                     <div class="flex items-start">
                         <input
                             type="checkbox"
@@ -59,6 +59,8 @@
                     </div>
                 @endforeach
             </div>
+        @endforeach
+
             @error('violance_data.bentuk_kekerasan')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
@@ -70,14 +72,16 @@
                 Jenis Kekerasan <span class="text-red-500">*</span>
             </label>
             <select
-                name="violance_data[jenis_kekerasan]"
+                name="violance_data[jenis_kekerasan][]"
                 id="jenis_kekerasan"
-                data-selected="{{ old('violance_data.jenis_kekerasan', $formData['jenis_kekerasan'] ?? '') }}"
-                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                multiple
+                data-selected="{{ json_encode(old('violance_data.jenis_kekerasan', $formData['jenis_kekerasan'] ?? [])) }}"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-40"
                 required
             >
-                <option value="">-- Pilih Jenis Kekerasan --</option>
+                <option disabled>-- Pilih Jenis Kekerasan --</option>
             </select>
+
             @error('violance_data.jenis_kekerasan')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
@@ -145,11 +149,50 @@
 {{-- SCRIPT --}}
 <script>
     const jenisKekerasanOptions = {
-        Fisik: ['Tawuran', 'Penganiayaan', 'Perkelahian', 'Ekspoitasi Ekonomi', 'Pembunuhan'],
-        Psikis: ['Pengucilan Sosial', 'Penolakan', 'Penghinaan', 'Penyebaran rumor', 'Intimidasi'],
-        Perundungan: ['Penolakan', 'Penghinaan'],
-        Seksual: ['Mengintip', 'Rayuan seksual'],
-        Diskriminasi: ['Larangan keyakinan', 'Pemaksaan keyakinan'],
+        Fisik: ['Tawuran',
+                'Penganiayaan',
+                'Perkelahian',
+                'Ekspoitasi Ekonomi', 
+                'Pembunuhan'],
+        Psikis: ['Pengucilan Sosial', 
+                'Penolakan', 
+                'Penghinaan', 
+                'Penyebaran rumor', 
+                'Intimidasi'],
+        Perundungan: ['Penolakan', 
+                    'Penghinaan'],
+        Seksual: ['Ujaran diskriminatif ',
+                    'Ekshibisionisme',
+                    'Ucapan seksual',
+                    'Tatapan seksual',
+                    'Pesan seksual',
+                    'Rekaman tanpa izin',
+                    'Unggah tanpa izin',
+                    'Sebar informasi pribadi',
+                    'Mengintip',
+                    'Rayuan seksual',
+                    'Sanksi seksual',
+                    'Sentuhan fisik',
+                    'Buka pakaian',
+                    'Pemaksaan seksual',
+                    'Budaya kampus berbahaya',
+                    'Percobaan perkosaan',
+                    'Perkosaan',
+                    'Paksa aborsi',
+                    'Paksa hamil',
+                    'Sterilisasi paksa',
+                    'Penyiksaan seksual',
+                    'Eksploitasi seksual',
+                    'Perbudakan seksual',
+                    'Perdagangan orang',
+                    'Pembiaran kekerasan'],
+        Diskriminasi: ['Larangan berkeyakinan',
+                        'Pemaksaan keyakinan',
+                        'Diskriminasi kepemimpinan',
+                        'Pemaksaan/larangan perayaan & donasi',
+                        'Penghalangan hak mahasiswa',
+                        'Diskriminasi dosen/tendik',
+                        'Diskriminasi/intoleransi lainnya'],
         Ekonomi: ['Eksploitasi', 'Pemerasan', 'Penipuan']
     };
 

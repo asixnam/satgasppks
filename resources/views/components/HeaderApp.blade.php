@@ -30,7 +30,7 @@
                 <a href="{{ route('cek-status') }}" class="flex items-center space-x-1.5 xl:space-x-2 px-2.5 xl:px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Cek Status">
                     <i class="fas fa-search text-yellow-300 text-sm" aria-hidden="true"></i>
                     <span class="whitespace-nowrap">Cek Status</span>
-                    <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-1.5 py-0.5 rounded-full badge-pulse" aria-label="Segera hadir">Soon</span>
+                    <!-- <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-1.5 py-0.5 rounded-full badge-pulse" aria-label="Segera hadir">Soon</span> -->
                 </a>
                 <a href="{{ route('berita') }}" class="flex items-center space-x-1.5 xl:space-x-2 px-2.5 xl:px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Berita">
                     <i class="fas fa-newspaper text-yellow-300 text-sm" aria-hidden="true"></i>
@@ -120,7 +120,7 @@
         <a href="{{ route('cek-status') }}" class="flex items-center p-3 sm:p-4 mb-1.5 sm:mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
             <i class="fas fa-search w-5 sm:w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
             <span class="font-medium text-sm sm:text-base">Cek Status</span>
-            <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full ml-auto badge-pulse">Soon</span>
+            <!-- <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full ml-auto badge-pulse">Soon</span> -->
         </a>
         <a href="{{ route('berita') }}" class="flex items-center p-3 sm:p-4 mb-1.5 sm:mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
             <i class="fas fa-newspaper w-5 sm:w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
