@@ -72,14 +72,14 @@
                 Jenis Kekerasan <span class="text-red-500">*</span>
             </label>
             <select
-                name="violance_data[jenis_kekerasan][]"
+                name="violance_data[jenis_kekerasan]"
                 id="jenis_kekerasan"
-                multiple
-                data-selected="{{ json_encode(old('violance_data.jenis_kekerasan', $formData['jenis_kekerasan'] ?? [])) }}"
-                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-40"
+                data-selected="{{ old('violance_data.jenis_kekerasan', $formData['jenis_kekerasan'] ?? '') }}"
+                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
             >
-                <option disabled>-- Pilih Jenis Kekerasan --</option>
+                <option value="">-- Pilih Jenis Kekerasan --</option>
+                {{-- Options akan diisi dengan JS --}}
             </select>
 
             @error('violance_data.jenis_kekerasan')
@@ -193,7 +193,6 @@
                         'Penghalangan hak mahasiswa',
                         'Diskriminasi dosen/tendik',
                         'Diskriminasi/intoleransi lainnya'],
-        Ekonomi: ['Eksploitasi', 'Pemerasan', 'Penipuan']
     };
 
     function updateJenisKekerasan() {
@@ -202,7 +201,7 @@
             .map(cb => cb.value);
 
         const jenisSelect = document.getElementById('jenis_kekerasan');
-        const selectedValue = jenisSelect.getAttribute('data-selected');
+        const selectedValue = jenisSelect.getAttribute('data-selected') || '';
         jenisSelect.innerHTML = '<option value="">-- Pilih Jenis Kekerasan --</option>';
 
         const combinedOptions = new Set();
@@ -216,60 +215,18 @@
             const option = document.createElement('option');
             option.value = jenis;
             option.textContent = jenis;
-            if (selectedValue === jenis) {
+            if (jenis === selectedValue) {
                 option.selected = true;
             }
             jenisSelect.appendChild(option);
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        // Init jenis kekerasan dropdown
+    // Jalankan saat halaman dimuat dan saat checkbox berubah
+    document.addEventListener('DOMContentLoaded', () => {
         updateJenisKekerasan();
-
-        // Deskripsi counter
-        const textarea = document.querySelector('textarea[name="violance_data[deskripsi_kekerasan]"]');
-        const counter = document.getElementById('violence-char-count');
-        if (textarea && counter) {
-            function updateViolenceCount() {
-                const count = textarea.value.length;
-                counter.textContent = count;
-                counter.style.color =
-                    count > 2700 ? '#ef4444' :
-                    count > 2400 ? '#f59e0b' :
-                    '#6b7280';
-            }
-
-            updateViolenceCount();
-            textarea.addEventListener('input', updateViolenceCount);
-        }
-
-        // Validasi checkbox minimal 1
-        const checkboxes = document.querySelectorAll('input[name="violance_data[bentuk_kekerasan][]"]');
-        const checkboxContainer = checkboxes[0]?.closest('div').parentElement;
-        function validateCheckboxes() {
-            const checked = Array.from(checkboxes).some(cb => cb.checked);
-            const existingError = checkboxContainer?.querySelector('.checkbox-error');
-            if (existingError) existingError.remove();
-            if (!checked && checkboxContainer) {
-                const errorMsg = document.createElement('p');
-                errorMsg.className = 'text-red-500 text-xs mt-1 checkbox-error';
-                errorMsg.textContent = 'Pilih minimal satu bentuk kekerasan';
-                checkboxContainer.appendChild(errorMsg);
-                return false;
-            }
-            return true;
-        }
-
-        checkboxes.forEach(cb => cb.addEventListener('change', validateCheckboxes));
-        const form = document.querySelector('form');
-        if (form) {
-            form.addEventListener('submit', function (e) {
-                if (!validateCheckboxes()) {
-                    e.preventDefault();
-                    checkboxContainer?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            });
-        }
+        document.querySelectorAll('.bentuk-kekerasan-checkbox').forEach(cb => {
+            cb.addEventListener('change', updateJenisKekerasan);
+        });
     });
 </script>

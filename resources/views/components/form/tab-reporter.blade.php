@@ -129,24 +129,17 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                Status <span class="text-red-500">*</span>
-            </label>
-            <select name="client_data[status]"
-                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    required>
-                @php
-                    $statusOptions = ['Mahasiswa', 'Dosen', 'Tendik', 'Pegawai Lainnya'];
-                    $selectedStatus = old('client_data.status', $formData['status'] ?? '');
-                @endphp
-
+           <label for="status_pelapor">Status Pelapor <span class="text-red-500">*</span></label>
+            <select name="reporter_data[status_pelapor]" id="status_pelapor" class="form-select w-full mt-1">
                 <option value="">-- Pilih Status --</option>
-                @foreach ($statusOptions as $option)
-                    <option value="{{ $option }}" {{ $selectedStatus === $option ? 'selected' : '' }}>{{ $option }}</option>
-                @endforeach
+                <option value="Mahasiswa" {{ old('reporter_data.status_pelapor') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                <option value="Dosen" {{ old('reporter_data.status_pelapor') == 'dosen' ? 'selected' : '' }}>Dosen</option>
+                <option value="Tendik" {{ old('reporter_data.status_pelapor') == 'tendik' ? 'selected' : '' }}>Tendik</option>
+                <option value="Pegawai" {{ old('reporter_data.status_pelapor') == 'pegawai' ? 'selected' : '' }}>Pegawai Lainya</option>
+                
             </select>
-            @error('client_data.status')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @error('reporter_data.status_pelapor')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
 
