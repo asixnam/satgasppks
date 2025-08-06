@@ -34,20 +34,23 @@
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <form id="filterForm" method="GET" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                        
                         <div>
-                            <label for="filter-violence-type" class="block text-sm font-medium text-gray-700 mb-2">
-                                Jenis Kekerasan
+                            <label for="violence_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                Bentuk Kekerasan
                             </label>
                             <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
-                                    id="filter-violence-type" name="violence_type">
-                                <option value="">Semua Jenis</option>
-                                <option value="Kekerasan Fisik" {{ request('violence_type') == 'Kekerasan Fisik' ? 'selected' : '' }}>Kekerasan Fisik</option>
-                                <option value="Kekerasan Psikis" {{ request('violence_type') == 'Kekerasan Psikis' ? 'selected' : '' }}>Kekerasan Psikis</option>
-                                <option value="Kekerasan Seksual" {{ request('violence_type') == 'Kekerasan Seksual' ? 'selected' : '' }}>Kekerasan Seksual</option>
-                                <option value="Kekerasan Ekonomi" {{ request('violence_type') == 'Kekerasan Ekonomi' ? 'selected' : '' }}>Kekerasan Ekonomi</option>
+                                    id="filter-violence-form" name="violence_type">
+                                <option value="">Semua Bentuk</option>
+                                <option value="Fisik" {{ request('violence_type') == 'Fisik' ? 'selected' : '' }}>Fisik</option>
+                                <option value="Psikis" {{ request('violence_type') == 'Psikis' ? 'selected' : '' }}>Psikis</option>
+                                <option value="Seksual" {{ request('violence_type') == 'Seksual' ? 'selected' : '' }}>Seksual</option>
+                                <option value="Perundungan" {{ request('violence_type') == 'Perundungan' ? 'selected' : '' }}>Perundungan</option>
+                                <option value="Diskriminasi" {{ request('violence_type') == 'Diskriminasi' ? 'selected' : '' }}>Diskriminasi</option>
                             </select>
                         </div>
-                        
+
+
                         <div>
                             <label for="filter-status" class="block text-sm font-medium text-gray-700 mb-2">
                                 Status Korban
@@ -175,7 +178,7 @@
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status Korban</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelapor</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nama Pelaku</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Jenis Kekerasan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Bentuk Kekerasan</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Waktu Kejadian</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Aksi</th>
                                 </tr>
@@ -249,23 +252,32 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->reporter->nama_lengkap ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->perpetrator->nama ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                        @if($report->violance && $report->violance->jenis_kekerasan)
+                                        @if($report->violance && $report->violance->bentuk_kekerasan)
                                             @php
-                                                $badgeClasses = match($report->violance->jenis_kekerasan) {
-                                                    'Kekerasan Fisik' => 'bg-red-100 text-red-800',
-                                                    'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
-                                                    'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
-                                                    'Kekerasan Ekonomi' => 'bg-blue-100 text-blue-800',
-                                                    default => 'bg-gray-100 text-gray-800'
-                                                };
+                                                $bentukList = is_array($report->violance->bentuk_kekerasan) 
+                                                    ? $report->violance->bentuk_kekerasan 
+                                                    : json_decode($report->violance->bentuk_kekerasan, true);
                                             @endphp
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeClasses }}">
-                                                {{ $report->violance->jenis_kekerasan }}
-                                            </span>
+
+                                            @foreach ($bentukList as $bentuk)
+                                                @php
+                                                    $badgeClasses = match($bentuk) {
+                                                        'Fisik' => 'bg-red-100 text-red-800',
+                                                        'Psikis' => 'bg-yellow-100 text-yellow-800',
+                                                        'Seksual' => 'bg-purple-100 text-purple-800',
+                                                        'Ekonomi' => 'bg-blue-100 text-blue-800',
+                                                        default => 'bg-gray-100 text-gray-800'
+                                                    };
+                                                @endphp
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeClasses }}">
+                                                    {{ $bentuk }}
+                                                </span>
+                                            @endforeach
                                         @else
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">-</span>
                                         @endif
                                     </td>
+
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         @if($report->violance && $report->violance->waktu_kejadian)
                                             <div class="flex flex-col">

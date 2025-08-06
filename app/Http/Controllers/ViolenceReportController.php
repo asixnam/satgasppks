@@ -126,7 +126,13 @@ class ViolenceReportController extends Controller
             'reporter_data.usia' => 'required|integer|min:1|max:120',
             'reporter_data.status_pelapor' => 'required|string|max:255',
             'reporter_data.no_telepon' => 'required|string|max:20|regex:/^[0-9+\-\s]+$/',
-            'reporter_data.email' => 'nullable|email|max:255|unique:reporters,email',
+            'reporter_data.email' => [
+                'required',
+                'email',
+                'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@unu-jogja\.ac\.id$/',
+                'unique:reporters,email',
+            ],
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'
         ];
@@ -183,6 +189,7 @@ class ViolenceReportController extends Controller
 
         DB::beginTransaction();
         $uploadedFiles = [];
+        // var_dump($uploadedFiles);
 
         try {
             // Simpan data client dengan proper null coalescing
@@ -205,6 +212,7 @@ class ViolenceReportController extends Controller
                 'usia' => $validated['reporter_data']['usia'],
                 'status_pelapor' => $validated['reporter_data']['status_pelapor'],
                 'no_telepon' => $validated['reporter_data']['no_telepon'],
+                'email' => $validated['reporter_data']['email'],
                 'alamat' => $validated['reporter_data']['alamat'],
                 'keterangan_tambahan' => $validated['reporter_data']['keterangan_tambahan'] ?? null,
             ]);
@@ -254,12 +262,6 @@ class ViolenceReportController extends Controller
                 'hubungan_dengan_korban' => $perpetratorData['hubungan_dengan_korban'],
                 'nama' => $perpetratorData['nama'],
                 'telepon' => $perpetratorData['telepon'] ?? null,
-                'reporter_data.email' => [
-                    'required',
-                    'email',
-                    'max:255',
-                    'regex:/^[a-zA-Z0-9._%+-]+@unuu-jogja\.ac\.id$/'
-                ],
                 'jenis_kelamin' => $perpetratorData['jenis_kelamin'],
                 'keterangan' => $perpetratorData['keterangan'],
                 'upload_bukti' => !empty($uploadedFiles) ? json_encode($uploadedFiles) : null,
@@ -295,11 +297,13 @@ class ViolenceReportController extends Controller
                 'uploaded_files_count' => count($uploadedFiles)
             ]);
 
-            return redirect()->route('admin.violence-reports.index')
-                ->with('success', 'Laporan kekerasan berhasil dibuat.');
-
+           return redirect()->route('admin.violence-reports.index')
+                    ->with('success', 'Laporan kekerasan berhasil dibuat.');
+            
+              
         } catch (\Exception $e) {
             DB::rollBack();
+            
 
             // Clean up uploaded files on error
             if (!empty($uploadedFiles)) {
@@ -645,24 +649,26 @@ class ViolenceReportController extends Controller
 
     // Filter berdasarkan jenis kekerasan
     public function filterByViolenceType(Request $request)
-    {
-        $type = $request->get('type');
+{
+    $type = $request->get('violence_type');
 
-        if (!$type) {
-            return redirect()->route('admin.violence-reports.index')
-                           ->with('error', 'Jenis kekerasan harus dipilih.');
-        }
-
-        $reports = ViolenceReport::whereHas('violance', function ($query) use ($type) {
-            $query->where('jenis_kekerasan', 'like', '%' . $type . '%');
-        })->with(['client', 'reporter', 'perpetrator', 'violance'])
-          ->latest()
-          ->paginate(15);
-
-        return view('admin.violence-report.index', compact('reports'))
-               ->with('filter_type', 'violence_type')
-               ->with('filter_value', $type);
+    if (!$type) {
+        return redirect()->route('admin.violence-reports.index')
+                         ->with('error', 'Jenis kekerasan harus dipilih.');
     }
+
+    $reports = ViolenceReport::whereHas('violance', function ($query) use ($type) {
+        $query->whereJsonContains('bentuk_kekerasan', $type);
+    })
+    ->with(['client', 'reporter', 'perpetrator', 'violance'])
+    ->latest()
+    ->paginate(15);
+
+    return view('admin.violence-report.index', compact('reports'))
+           ->with('filter_type', 'violence_type')
+           ->with('filter_value', $type);
+}
+
 
     // Filter berdasarkan status client
     public function filterByStatus(Request $request)
