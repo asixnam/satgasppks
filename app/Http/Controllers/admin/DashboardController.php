@@ -8,11 +8,20 @@ use App\Models\Edukasi;
 use App\Models\Berita;
 use App\Models\Tim;
 use Illuminate\Support\Collection;
+use App\Models\Violance;
+use carbon\carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $totalReports = Violance::count(); // atau ViolenceReport::count()
+        $jumlahlaporanBulanIni = Violance::whereMonth('created_at', Carbon::now()->month)
+                                      ->whereYear('created_at', Carbon::now()->year)
+                                      ->count();
+
+        // return view('admin.dashboard.index', compact('totalReports', 'jumlahlaporanBulanIni'));
+
         $jumlahTim = Tim::count(); 
         $jumlahBerita = Berita::count();
         $jumlahBeritaBulanIni = Berita::whereMonth('created_at', now()->month)
@@ -51,31 +60,29 @@ class DashboardController extends Controller
                                 ];
                             });
 
-            // $laporan = Laporan::select('jenis_laporan', 'status', 'created_at')
-            //                   ->latest()
-            //                   ->take(5)
-            //                   ->get()
-            //                   ->map(function ($item) {
-            //                       $message = $item->status === 'Selesai'
-            //                           ? 'Laporan "' . $item->jenis_laporan . '" telah diselesaikan'
-            //                           : 'Laporan baru "' . $item->jenis_laporan . '" diterima';
-            //                       return [
-            //                           'type' => 'laporan',
-            //                           'message' => $message,
-            //                           'icon' => $item->status === 'Selesai' ? 'fas fa-check' : 'fas fa-exclamation',
-            //                           'color' => $item->status === 'Selesai' ? 'green' : 'red',
-            //                           'created_at' => $item->created_at,
-            //                       ];
-            //                   });
-
+            $laporan = Violance::select('jenis_kekerasan', 'created_at')
+                ->latest()
+                ->take(5)
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'type' => 'laporan',
+                        'message' => 'Laporan kekerasan "' . $item->jenis_kekerasan . '" ditambahkan',
+                        'icon' => 'fas fa-exclamation',
+                        'color' => 'red',
+                        'created_at' => $item->created_at,
+                    ];
+                });
     // Gabungkan dan urutkan semua aktivitas berdasarkan waktu terbaru
     $aktivitasTerbaru = $berita
         ->merge($edukasi)
-        // ->merge($laporan)
+        ->merge($laporan)
         ->sortByDesc('created_at')
         ->take(5); // tampilkan 5 aktivitas terbaru saja
 
         return view('admin.dashboard.index', compact(
+            'totalReports',
+            'jumlahlaporanBulanIni',
             'jumlahTim',
             'jumlahBerita',
             'jumlahBeritaBulanIni',
