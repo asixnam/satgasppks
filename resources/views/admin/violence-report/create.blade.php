@@ -58,7 +58,9 @@
             </a>
         </div>
 
-        <form action="{{ route('admin.violence-reports.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
+        <form action="{{ route('admin.violence-reports.store') }}" method="POST"  enctype="multipart/form-data" class="p-6">
+         <!-- <form action="{{ route('lapor-kekerasan.store') }}" method="POST" enctype="multipart/form-data"> -->
+        
             @csrf
             
             <!-- Tab Navigation -->
@@ -86,7 +88,7 @@
             <x-form.tab-violence :old-data="old('violance_data', [])" />
             
             <!-- Footer -->
-            <div class="border-t pt-6 mt-6 flex justify-between">
+             <div class="border-t pt-6 mt-6 flex justify-between">
                 <a href="{{ route('admin.violence-reports.index') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition text-sm">
                     <i class="fas fa-times mr-2"></i>Batal
                 </a>

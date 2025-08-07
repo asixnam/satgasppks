@@ -109,7 +109,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::post('/visi-misi', [VisiMisiController::class, 'store'])->name('visi-misi.store');
     Route::get('/visi-misi/{visiMisi}/edit', [VisiMisiController::class, 'edit'])->name('visi-misi.edit');
     Route::put('/visi-misi/{visiMisi}', [VisiMisiController::class, 'update'])->name('visi-misi.update');
-
+    
     //Hero
     Route::get('/hero/create', [HeroController::class, 'create'])->name('hero.create');
     Route::post('/hero', [HeroController::class, 'store'])->name('hero.store');

@@ -106,7 +106,7 @@ class ViolenceReportController extends Controller
     // Buat laporan baru
     public function store(Request $request)
     {
-        // Validasi data client
+        // Validation rules for client data
         $clientRules = [
             'client_data.nama_lengkap' => 'required|string|max:255',
             'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
@@ -116,7 +116,7 @@ class ViolenceReportController extends Controller
             'client_data.sumber_informasi' => 'nullable|string|max:1000'
         ];
 
-        // Validasi data reporter
+        // Validation rules for reporter data
         $reporterRules = [
             'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
             'reporter_data.nama_lengkap' => 'required|string|max:255',
@@ -126,18 +126,11 @@ class ViolenceReportController extends Controller
             'reporter_data.usia' => 'required|integer|min:1|max:120',
             'reporter_data.status_pelapor' => 'required|string|max:255',
             'reporter_data.no_telepon' => 'required|string|max:20|regex:/^[0-9+\-\s]+$/',
-            'reporter_data.email' => [
-                'required',
-                'email',
-                'max:255',
-                'regex:/^[a-zA-Z0-9._%+-]+@unu-jogja\.ac\.id$/',
-                'unique:reporters,email',
-            ],
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'
         ];
 
-        // Validasi data perpetrator
+        // Validation rules for perpetrator data
         $perpetratorRules = [
             'perpetrator_data.hubungan_dengan_korban' => 'required|string|max:255',
             'perpetrator_data.nama' => 'required|string|max:255',
@@ -148,7 +141,7 @@ class ViolenceReportController extends Controller
             'perpetrator_data.upload_bukti.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
         ];
 
-        // Validasi data violance
+        // Validation rules for violence data
         $violanceRules = [
             'violance_data.jenis_kekerasan' => 'required|string|max:255',
             'violance_data.bentuk_kekerasan' => 'required|array|min:1',
@@ -189,10 +182,9 @@ class ViolenceReportController extends Controller
 
         DB::beginTransaction();
         $uploadedFiles = [];
-        // var_dump($uploadedFiles);
 
         try {
-            // Simpan data client dengan proper null coalescing
+            // Save client data with proper null coalescing
             $client = Client::create([
                 'nama_lengkap' => $validated['client_data']['nama_lengkap'],
                 'jenis_kelamin' => $validated['client_data']['jenis_kelamin'],
@@ -202,7 +194,7 @@ class ViolenceReportController extends Controller
                 'sumber_informasi' => $validated['client_data']['sumber_informasi'] ?? null,
             ]);
 
-            // Simpan data reporter dengan proper null coalescing
+            // Save reporter data with proper null coalescing
             $reporter = Reporter::create([
                 'hubungan_pelapor_dengan_pelaku' => $validated['reporter_data']['hubungan_pelapor_dengan_pelaku'],
                 'nama_lengkap' => $validated['reporter_data']['nama_lengkap'],
@@ -212,22 +204,21 @@ class ViolenceReportController extends Controller
                 'usia' => $validated['reporter_data']['usia'],
                 'status_pelapor' => $validated['reporter_data']['status_pelapor'],
                 'no_telepon' => $validated['reporter_data']['no_telepon'],
-                'email' => $validated['reporter_data']['email'],
                 'alamat' => $validated['reporter_data']['alamat'],
                 'keterangan_tambahan' => $validated['reporter_data']['keterangan_tambahan'] ?? null,
             ]);
 
-            // Handle file uploads dengan improved error handling
+            // Handle file uploads with improved error handling
             if ($request->hasFile('perpetrator_data.upload_bukti')) {
                 $files = $request->file('perpetrator_data.upload_bukti');
-
+                
                 foreach ($files as $index => $file) {
                     if ($file && $file->isValid()) {
                         try {
                             // Validate file size and type again for security
                             $allowedMimes = ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'];
                             $extension = strtolower($file->getClientOriginalExtension());
-
+                            
                             if (!in_array($extension, $allowedMimes)) {
                                 throw new \Exception("File type tidak diizinkan: {$extension}");
                             }
@@ -238,10 +229,10 @@ class ViolenceReportController extends Controller
 
                             // Generate secure filename
                             $filename = 'evidence_' . time() . '_' . $index . '_' . Str::random(10) . '.' . $extension;
-
-                            // Store file di lokasi yang sama dengan storeLaporan
+                            
+                            // Store file
                             $path = $file->storeAs('violence-reports/evidence', $filename, 'public');
-
+                            
                             if ($path) {
                                 $uploadedFiles[] = $path;
                             }
@@ -256,7 +247,7 @@ class ViolenceReportController extends Controller
                 }
             }
 
-            // Simpan data perpetrator
+            // Save perpetrator data
             $perpetratorData = $validated['perpetrator_data'];
             $perpetrator = Perpetrator::create([
                 'hubungan_dengan_korban' => $perpetratorData['hubungan_dengan_korban'],
@@ -267,7 +258,7 @@ class ViolenceReportController extends Controller
                 'upload_bukti' => !empty($uploadedFiles) ? json_encode($uploadedFiles) : null,
             ]);
 
-            // Simpan data kekerasan
+            // Save violence data
             $violanceData = $validated['violance_data'];
             $violance = Violance::create([
                 'jenis_kekerasan' => $violanceData['jenis_kekerasan'],
@@ -277,13 +268,13 @@ class ViolenceReportController extends Controller
                 'deskripsi_kekerasan' => $violanceData['deskripsi_kekerasan'],
             ]);
 
-            // Simpan relasi laporan kekerasan
+            // Save violence report relationship
             $violenceReport = ViolenceReport::create([
                 'id_client' => $client->id,
                 'id_reporter' => $reporter->id,
                 'id_perpetrator' => $perpetrator->id,
                 'id_violance' => $violance->id,
-                'status' => 'pending',
+                'status' => 'terlapor',
                 'created_at' => now(),
             ]);
 
@@ -297,14 +288,19 @@ class ViolenceReportController extends Controller
                 'uploaded_files_count' => count($uploadedFiles)
             ]);
 
-           return redirect()->route('admin.violence-reports.index')
-                    ->with('success', 'Laporan kekerasan berhasil dibuat.');
-            
-              
+           return redirect()
+            ->route('admin.violence-reports.index')
+            ->with([
+                'success' => 'Laporan kekerasan berhasil dibuat dan akan segera diproses.',
+                'report_id' => $violenceReport->code
+            ]);
+
+
+
+
         } catch (\Exception $e) {
             DB::rollBack();
             
-
             // Clean up uploaded files on error
             if (!empty($uploadedFiles)) {
                 foreach ($uploadedFiles as $file) {
@@ -331,8 +327,8 @@ class ViolenceReportController extends Controller
             ]);
 
             return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menyimpan laporan. Silakan coba lagi atau hubungi administrator jika masalah berlanjut.')
-                ->withInput();
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan laporan. Silakan coba lagi atau hubungi administrator jika masalah berlanjut.');
         }
     }
 
