@@ -89,6 +89,30 @@
             </div>
             <div class="p-6">
                 <div class="space-y-4">
+                    @foreach ($laporanTerbaru as $laporan)
+                        <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border border-red-100">
+                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-exclamation text-red-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900">
+                                    {{ $laporan->jenis_kekerasan ?? 'Tidak diketahui' }}
+                                </p>
+                                <p class="text-xs text-gray-600 mt-1">
+                                    Dilaporkan {{ $laporan->created_at->diffForHumans() }}
+                                </p>
+                                @if ($laporan->status == 'mendesak')
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-2">
+                                        Mendesak
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <!-- <div class="p-6">
+                <div class="space-y-4">
                     <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border border-red-100">
                         <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-exclamation text-red-600 text-xs"></i>
@@ -101,34 +125,8 @@
                             </span>
                         </div>
                     </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-clock text-yellow-600 text-xs"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900">Diskriminasi Gender</p>
-                            <p class="text-xs text-gray-600 mt-1">Dilaporkan 1 hari yang lalu</p>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mt-2">
-                                Dalam Proses
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
-                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-info text-gray-600 text-xs"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900">Keluhan Fasilitas</p>
-                            <p class="text-xs text-gray-600 mt-1">Dilaporkan 3 hari yang lalu</p>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mt-2">
-                                Ditinjau
-                            </span>
-                        </div>
-                    </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Quick Actions -->

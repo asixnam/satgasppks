@@ -20,7 +20,8 @@ class DashboardController extends Controller
                                       ->whereYear('created_at', Carbon::now()->year)
                                       ->count();
 
-        // return view('admin.dashboard.index', compact('totalReports', 'jumlahlaporanBulanIni'));
+        $laporanTerbaru = Violance::latest()->take(3)->get(); // Ambil 3 laporan terbaru
+   
 
         $jumlahTim = Tim::count(); 
         $jumlahBerita = Berita::count();
@@ -88,7 +89,10 @@ class DashboardController extends Controller
             'jumlahBeritaBulanIni',
             'jumlahEdukasi',
             'jumlahEdukasiBulanIni',
-            'aktivitasTerbaru'
+            'aktivitasTerbaru',
+            'laporanTerbaru'
         ));
+
+        //  return view('beranda', compact());
     }
 }
