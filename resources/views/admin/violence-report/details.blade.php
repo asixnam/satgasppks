@@ -123,32 +123,34 @@
             </div>
 
             <!-- Summary Stats -->
-            <div class="px-6 py-4 border-b border-gray-200 bg-blue-50">
+            <!-- <div class="px-6 py-4 border-b border-gray-200 bg-blue-50">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-blue-600">{{ $reports->total() }}</div>
                         <div class="text-sm text-gray-600">Total Laporan</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl font-bold text-red-600">
-                            {{ $reports->where('jenis_kekerasan', 'Kekerasan Fisik')->count() }}
-                        </div>
-                        <div class="text-sm text-gray-600">Kekerasan Fisik</div>
+                    <div class="text-2xl font-bold text-red-600">
+                        {{ $jumlah_kekerasan['Kekerasan Fisik'] ?? 0 }}
                     </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-yellow-600">
-                            {{ $reports->where('jenis_kekerasan', 'Kekerasan Psikis')->count() }}
-                        </div>
-                        <div class="text-sm text-gray-600">Kekerasan Psikis</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-purple-600">
-                            {{ $reports->where('jenis_kekerasan', 'Kekerasan Seksual')->count() }}
-                        </div>
-                        <div class="text-sm text-gray-600">Kekerasan Seksual</div>
-                    </div>
+                    <div class="text-sm text-gray-600">Kekerasan Fisik</div>
                 </div>
-            </div>
+
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-yellow-600">
+                        {{ $jumlah_kekerasan['Kekerasan Psikis'] ?? 0 }}
+                    </div>
+                    <div class="text-sm text-gray-600">Kekerasan Psikis</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-600">
+                        {{ $jumlah_kekerasan['Kekerasan Seksual'] ?? 0 }}
+                    </div>
+                    <div class="text-sm text-gray-600">Kekerasan Seksual</div>
+                </div>
+                </div>
+            </div> -->
 
             <!-- Detailed Cards View -->
             <div class="p-6">
