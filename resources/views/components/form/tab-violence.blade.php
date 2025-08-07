@@ -67,26 +67,24 @@
         </div>
 
         {{-- Jenis Kekerasan --}}
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                Jenis Kekerasan <span class="text-red-500">*</span>
-            </label>
-            <select
-                name="violance_data[jenis_kekerasan]"
-                id="jenis_kekerasan"
-                data-selected="{{ old('violance_data.jenis_kekerasan', $formData['jenis_kekerasan'] ?? '') }}"
-                class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-            >
-                <option value="">-- Pilih Jenis Kekerasan --</option>
-                {{-- Options akan diisi dengan JS --}}
-            </select>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Jenis Kekerasan <span class="text-red-500">*</span>
+                </label>
+                <select
+                    name="violance_data[jenis_kekerasan][]"
+                    id="jenis_kekerasan"
+                    multiple
+                    data-selected='@json(old("violance_data.jenis_kekerasan", $formData["jenis_kekerasan"] ?? []))'
+                    class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+                </select>
 
-            @error('violance_data.jenis_kekerasan')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
+                @error('violance_data.jenis_kekerasan')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            
         {{-- Lokasi Kejadian --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -149,77 +147,57 @@
 {{-- SCRIPT --}}
 <script>
     const jenisKekerasanOptions = {
-        Fisik: ['Tawuran',
-                'Penganiayaan',
-                'Perkelahian',
-                'Ekspoitasi Ekonomi', 
-                'Pembunuhan'],
-        Psikis: ['Pengucilan Sosial', 
-                'Penolakan', 
-                'Penghinaan', 
-                'Penyebaran rumor', 
-                'Intimidasi'],
-        Perundungan: ['Penolakan', 
-                    'Penghinaan'],
-        Seksual: ['Ujaran diskriminatif ',
-                    'Ekshibisionisme',
-                    'Ucapan seksual',
-                    'Tatapan seksual',
-                    'Pesan seksual',
-                    'Rekaman tanpa izin',
-                    'Unggah tanpa izin',
-                    'Sebar informasi pribadi',
-                    'Mengintip',
-                    'Rayuan seksual',
-                    'Sanksi seksual',
-                    'Sentuhan fisik',
-                    'Buka pakaian',
-                    'Pemaksaan seksual',
-                    'Budaya kampus berbahaya',
-                    'Percobaan perkosaan',
-                    'Perkosaan',
-                    'Paksa aborsi',
-                    'Paksa hamil',
-                    'Sterilisasi paksa',
-                    'Penyiksaan seksual',
-                    'Eksploitasi seksual',
-                    'Perbudakan seksual',
-                    'Perdagangan orang',
-                    'Pembiaran kekerasan'],
-        Diskriminasi: ['Larangan berkeyakinan',
-                        'Pemaksaan keyakinan',
-                        'Diskriminasi kepemimpinan',
-                        'Pemaksaan/larangan perayaan & donasi',
-                        'Penghalangan hak mahasiswa',
-                        'Diskriminasi dosen/tendik',
-                        'Diskriminasi/intoleransi lainnya'],
-    };
+    Fisik: ['Tawuran', 'Penganiayaan', 'Perkelahian', 'Ekspoitasi Ekonomi', 'Pembunuhan'],
+    Psikis: ['Pengucilan Sosial', 'Penolakan', 'Penghinaan', 'Penyebaran rumor', 'Intimidasi'],
+    Perundungan: ['Penolakan', 'Penghinaan'],
+    Seksual: [
+        'Ujaran diskriminatif ', 'Ekshibisionisme', 'Ucapan seksual', 'Tatapan seksual', 'Pesan seksual',
+        'Rekaman tanpa izin', 'Unggah tanpa izin', 'Sebar informasi pribadi', 'Mengintip', 'Rayuan seksual',
+        'Sanksi seksual', 'Sentuhan fisik', 'Buka pakaian', 'Pemaksaan seksual', 'Budaya kampus berbahaya',
+        'Percobaan perkosaan', 'Perkosaan', 'Paksa aborsi', 'Paksa hamil', 'Sterilisasi paksa',
+        'Penyiksaan seksual', 'Eksploitasi seksual', 'Perbudakan seksual', 'Perdagangan orang', 'Pembiaran kekerasan'
+    ],
+    Diskriminasi: [
+        'Larangan berkeyakinan', 'Pemaksaan keyakinan', 'Diskriminasi kepemimpinan',
+        'Pemaksaan/larangan perayaan & donasi', 'Penghalangan hak mahasiswa',
+        'Diskriminasi dosen/tendik', 'Diskriminasi/intoleransi lainnya'
+    ],
+};
 
-    function updateJenisKekerasan() {
-        const selectedBentuk = Array.from(document.querySelectorAll('.bentuk-kekerasan-checkbox'))
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
+function updateJenisKekerasan() {
+    const selectedBentuk = Array.from(document.querySelectorAll('.bentuk-kekerasan-checkbox'))
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
 
-        const jenisSelect = document.getElementById('jenis_kekerasan');
-        const selectedValue = jenisSelect.getAttribute('data-selected') || '';
-        jenisSelect.innerHTML = '<option value="">-- Pilih Jenis Kekerasan --</option>';
+    const jenisSelect = document.getElementById('jenis_kekerasan');
+    
+    // Ambil data yang dipilih sebelumnya (format array)
+    const selectedValues = JSON.parse(jenisSelect.getAttribute('data-selected') || '[]');
 
-        const combinedOptions = new Set();
-        selectedBentuk.forEach(bentuk => {
-            if (jenisKekerasanOptions[bentuk]) {
-                jenisKekerasanOptions[bentuk].forEach(jenis => combinedOptions.add(jenis));
-            }
-        });
+    // Kosongkan isi select
+    jenisSelect.innerHTML = '';
 
-        combinedOptions.forEach(jenis => {
-            const option = document.createElement('option');
-            option.value = jenis;
-            option.textContent = jenis;
-            if (jenis === selectedValue) {
-                option.selected = true;
-            }
-            jenisSelect.appendChild(option);
-        });
+    // Gabungkan semua jenis dari bentuk terpilih
+    const combinedOptions = new Set();
+    selectedBentuk.forEach(bentuk => {
+        if (jenisKekerasanOptions[bentuk]) {
+            jenisKekerasanOptions[bentuk].forEach(jenis => combinedOptions.add(jenis));
+        }
+    });
+
+    // Tambahkan opsi
+    combinedOptions.forEach(jenis => {
+        const option = document.createElement('option');
+        option.value = jenis;
+        option.textContent = jenis;
+
+        // Tandai jika termasuk yang sebelumnya dipilih
+        if (selectedValues.includes(jenis)) {
+            option.selected = true;
+        }
+
+        jenisSelect.appendChild(option);
+    });
     }
 
     // Jalankan saat halaman dimuat dan saat checkbox berubah

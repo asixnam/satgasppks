@@ -143,7 +143,8 @@ class ViolenceReportController extends Controller
 
         // Validation rules for violence data
         $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|string|max:255',
+            'violance_data.jenis_kekerasan' => 'required|array',
+            'violance_data.jenis_kekerasan.*' => 'string',
             'violance_data.bentuk_kekerasan' => 'required|array|min:1',
             'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
             'violance_data.lokasi_kejadian' => 'required|string|max:500',
@@ -167,6 +168,8 @@ class ViolenceReportController extends Controller
             'mimes' => 'File :attribute harus berformat: :values.',
             'array' => 'Field :attribute harus berupa array.',
         ];
+
+        
 
         try {
             $validated = $request->validate(
@@ -261,7 +264,7 @@ class ViolenceReportController extends Controller
             // Save violence data
             $violanceData = $validated['violance_data'];
             $violance = Violance::create([
-                'jenis_kekerasan' => $violanceData['jenis_kekerasan'],
+                'jenis_kekerasan' => json_encode($violanceData['jenis_kekerasan']),
                 'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
                 'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
                 'waktu_kejadian' => $violanceData['waktu_kejadian'],
@@ -287,6 +290,7 @@ class ViolenceReportController extends Controller
                 'reporter_name' => $reporter->nama_lengkap,
                 'uploaded_files_count' => count($uploadedFiles)
             ]);
+
 
            return redirect()
             ->route('admin.violence-reports.index')
@@ -387,13 +391,16 @@ class ViolenceReportController extends Controller
         ];
 
         $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|string|max:255',
+            'violance_data.jenis_kekerasan' => 'required|array',
+            'violance_data.jenis_kekerasan.*' => 'string',
             'violance_data.bentuk_kekerasan' => 'required|array|min:1',
             'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
             'violance_data.lokasi_kejadian' => 'required|string|max:500',
             'violance_data.waktu_kejadian' => 'required|date|before_or_equal:today',
             'violance_data.deskripsi_kekerasan' => 'required|string|max:5000'
         ];
+
+        //  $violance->jenis_kekerasan = json_encode($request->input('violance_data.jenis_kekerasan'));
 
         // Custom error messages
         $customMessages = [
@@ -536,6 +543,11 @@ class ViolenceReportController extends Controller
                 'new_files_count' => count($newUploadedFiles),
                 'total_files_count' => count($allFiles)
             ]);
+
+            $data = $request->violance_data;
+            $data['jenis_kekerasan'] = json_encode($data['jenis_kekerasan']);
+
+            $laporan->informasiKekerasan()->create($data);
 
             return redirect()->route('admin.violence-reports.index')
                 ->with('success', 'Laporan kekerasan berhasil diperbarui.');

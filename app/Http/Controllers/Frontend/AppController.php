@@ -138,7 +138,7 @@ class AppController extends Controller
     /**
      * Store violence report
      */
-    public function storeLaporan(Request $request)
+    public function store(Request $request)
     {
         // Validation rules for client data
         $clientRules = [
@@ -177,7 +177,8 @@ class AppController extends Controller
 
         // Validation rules for violence data
         $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|string|max:255',
+            'violance_data.jenis_kekerasan' => 'required|array',
+            'violance_data.jenis_kekerasan.*' => 'string',
             'violance_data.bentuk_kekerasan' => 'required|array|min:1',
             'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
             'violance_data.lokasi_kejadian' => 'required|string|max:500',
@@ -201,6 +202,8 @@ class AppController extends Controller
             'mimes' => 'File :attribute harus berformat: :values.',
             'array' => 'Field :attribute harus berupa array.',
         ];
+
+        
 
         try {
             $validated = $request->validate(
@@ -295,7 +298,7 @@ class AppController extends Controller
             // Save violence data
             $violanceData = $validated['violance_data'];
             $violance = Violance::create([
-                'jenis_kekerasan' => $violanceData['jenis_kekerasan'],
+                'jenis_kekerasan' => json_encode($violanceData['jenis_kekerasan']),
                 'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
                 'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
                 'waktu_kejadian' => $violanceData['waktu_kejadian'],
@@ -322,12 +325,13 @@ class AppController extends Controller
                 'uploaded_files_count' => count($uploadedFiles)
             ]);
 
-            return redirect()
-                ->route('Frontend.violance-report.success')
-                ->with([
-                    'success' => 'Laporan kekerasan berhasil dibuat dan akan segera diproses.',
-                    'report_id' => $violenceReport->code
-                ]);
+
+           return redirect()
+            ->route('Frontend.violance-report.success')
+            ->with([
+                'success' => 'Laporan kekerasan berhasil dibuat dan akan segera diproses.',
+                'report_id' => $violenceReport->code
+            ]);
 
 
 
