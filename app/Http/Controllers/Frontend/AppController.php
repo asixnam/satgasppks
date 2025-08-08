@@ -140,6 +140,7 @@ class AppController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('store jalan', $request->all());
         // Validation rules for client data
         $clientRules = [
             'client_data.nama_lengkap' => 'required|string|max:255',
@@ -155,11 +156,36 @@ class AppController extends Controller
             'reporter_data.hubungan_pelapor_dengan_pelaku' => 'required|string|max:255',
             'reporter_data.nama_lengkap' => 'required|string|max:255',
             'reporter_data.tempat_lahir' => 'required|string|max:255',
-            'reporter_data.tanggal_lahir' => 'required|date|before:today',
+            'reporter_data.tanggal_lahir' => 'required|date|before_or_equal:today',
             'reporter_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
             'reporter_data.usia' => 'required|integer|min:1|max:120',
             'reporter_data.status_pelapor' => 'required|string|max:255',
             'reporter_data.no_telepon' => 'required|string|max:20|regex:/^[0-9+\-\s]+$/',
+            'reporter_data.email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $allowedDomains = [
+                        '@unu-jogja.ac.id',
+                        '@student.unu-jogja.ac.id',
+                        '@staff.unu-jogja.ac.id',
+                    ];
+
+                    $isValid = false;
+                    foreach ($allowedDomains as $domain) {
+                        if (str_ends_with($value, $domain)) {
+                            $isValid = true;
+                            break;
+                        }
+                    }
+
+                    if (! $isValid) {
+                        $fail('Email harus menggunakan domain UNU yang valid.');
+                    }
+                },
+            ],
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'
         ];
@@ -241,6 +267,7 @@ class AppController extends Controller
                 'usia' => $validated['reporter_data']['usia'],
                 'status_pelapor' => $validated['reporter_data']['status_pelapor'],
                 'no_telepon' => $validated['reporter_data']['no_telepon'],
+                'email' => $validated['reporter_data']['email'],
                 'alamat' => $validated['reporter_data']['alamat'],
                 'keterangan_tambahan' => $validated['reporter_data']['keterangan_tambahan'] ?? null,
             ]);

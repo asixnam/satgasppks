@@ -165,7 +165,7 @@
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-semibold text-gray-900">
-                                        {{ $report->client_name ?? 'Nama tidak tersedia' }}
+                                        {{ is_array($report->client_name) ? implode(', ', $report->client_name) : ($report->client_name ?? '-') }}
                                     </h3>
                                     <p class="text-sm text-gray-600">
                                         Laporan #{{ $report->id }} • 
@@ -216,7 +216,7 @@
                                 <div class="space-y-2 text-sm">
                                     <div class="flex justify-between">
                                         <span class="text-gray-600">Nama:</span>
-                                        <span class="font-medium">{{ $report->client_name ?? '-' }}</span>
+                                        <span class="font-medium">{{ is_array($report->client_name) ? implode(', ', $report->client_name) : ($report->client_name ?? '-') }}</span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-600">Jenis Kelamin:</span>
@@ -281,12 +281,13 @@
                                 Informasi Kejadian
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Jenis Kekerasan:</span>
-                                    <div>
-                                        @if($report->jenis_kekerasan)
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Jenis Kekerasan:</span>
+                                <div>
+                                    @if(!empty($report->jenis_kekerasan) && is_array($report->jenis_kekerasan))
+                                        @foreach($report->jenis_kekerasan as $jk)
                                             @php
-                                                $badgeClasses = match($report->jenis_kekerasan) {
+                                                $badgeClasses = match($jk) {
                                                     'Kekerasan Fisik' => 'bg-red-100 text-red-800',
                                                     'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
                                                     'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
@@ -295,12 +296,28 @@
                                                 };
                                             @endphp
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $badgeClasses }}">
-                                                {{ $report->jenis_kekerasan }}
+                                                {{ $jk }}
                                             </span>
-                                        @else
-                                            <span class="text-gray-500">-</span>
-                                        @endif
-                                    </div>
+                                        @endforeach
+                                    @elseif(!empty($report->jenis_kekerasan))
+                                        @php
+                                            $badgeClasses = match($report->jenis_kekerasan) {
+                                                'Kekerasan Fisik' => 'bg-red-100 text-red-800',
+                                                'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
+                                                'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
+                                                'Kekerasan Ekonomi' => 'bg-blue-100 text-blue-800',
+                                                default => 'bg-gray-100 text-gray-800'
+                                            };
+                                        @endphp
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $badgeClasses }}">
+                                            {{ $report->jenis_kekerasan }}
+                                        </span>
+                                    @else
+                                        <span class="text-gray-500">-</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Waktu Kejadian:</span>

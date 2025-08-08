@@ -24,7 +24,9 @@ class ViolenceReport extends Model
         'id_client' => 'string',
         'id_reporter' => 'string',
         'id_perpetrator' => 'string',
-        'id_violance' => 'string'
+        'id_violance' => 'string',
+        'jenis_kekerasan' => 'string',
+        'bentuk_kekerasan' => 'array',
     ];
 
     protected static function booted()

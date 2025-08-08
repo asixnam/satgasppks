@@ -42,7 +42,7 @@
                         <p class="text-sm font-medium text-gray-900">{{ $user->name ?? 'Admin User' }}</p>
                         <p class="text-xs text-gray-500">{{ $user->email ?? 'admin@example.com' }}</p>
                     </div>
-                    <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
+                    <!-- <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
                         <i class="fas fa-user-circle mr-3 text-green-600"></i>Profile Saya
                     </a>
                     <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
@@ -50,7 +50,7 @@
                     </a>
                     <a href="#" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition-colors duration-200">
                         <i class="fas fa-question-circle mr-3 text-green-600"></i>Bantuan
-                    </a>
+                    </a> -->
                     <div class="border-t border-gray-100 my-1"></div>
                     <a href="{{ route('logout') }}" class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

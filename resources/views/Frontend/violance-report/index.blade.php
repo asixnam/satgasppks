@@ -28,7 +28,7 @@
             </a>
         </div>
 
-        <form action="" method="POST" enctype="multipart/form-data" class="p-6">
+        <form action="{{ route('lapor-kekerasan.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
             @csrf
             
             <!-- Tab Navigation -->
