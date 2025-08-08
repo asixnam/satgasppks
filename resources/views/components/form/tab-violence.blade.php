@@ -14,7 +14,7 @@
         ];
     }
 
-    $oldBentukKekerasan = old('violance_data.bentuk_kekerasan');
+    $oldBentukKekerasan = old('violence_data.bentuk_kekerasan');
     if (is_null($oldBentukKekerasan)) {
         $stored = $formData['bentuk_kekerasan'] ?? [];
         $oldBentukKekerasan = is_string($stored)
@@ -46,7 +46,7 @@
                     <div class="flex items-start">
                         <input
                             type="checkbox"
-                            name="violance_data[bentuk_kekerasan][]"
+                            name="violence_data[bentuk_kekerasan][]"
                             value="{{ $value }}"
                             id="bentuk_kekerasan_{{ $value }}"
                             {{ in_array($value, $oldBentukKekerasan) ? 'checked' : '' }}
@@ -61,7 +61,7 @@
             </div>
         @endforeach
 
-            @error('violance_data.bentuk_kekerasan')
+            @error('violence_data.bentuk_kekerasan')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -72,15 +72,15 @@
                     Jenis Kekerasan <span class="text-red-500">*</span>
                 </label>
                 <select
-                    name="violance_data[jenis_kekerasan][]"
+                    name="violence_data[jenis_kekerasan][]"
                     id="jenis_kekerasan"
                     multiple
-                    data-selected='@json(old("violance_data.jenis_kekerasan", $formData["jenis_kekerasan"] ?? []))'
+                    data-selected='@json(old("violence_data.jenis_kekerasan", $formData["jenis_kekerasan"] ?? []))'
                     class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required>
                 </select>
 
-                @error('violance_data.jenis_kekerasan')
+                @error('violence_data.jenis_kekerasan')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -92,13 +92,13 @@
             </label>
             <input
                 type="text"
-                name="violance_data[lokasi_kejadian]"
-                value="{{ old('violance_data.lokasi_kejadian', $formData['lokasi_kejadian'] ?? '') }}"
+                name="violence_data[lokasi_kejadian]"
+                value="{{ old('violence_data.lokasi_kejadian', $formData['lokasi_kejadian'] ?? '') }}"
                 class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Contoh: Rumah, Kantor, Jalan, dll"
                 required
             >
-            @error('violance_data.lokasi_kejadian')
+            @error('violence_data.lokasi_kejadian')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -110,13 +110,13 @@
             </label>
             <input
                 type="date"
-                name="violance_data[waktu_kejadian]"
-                value="{{ old('violance_data.waktu_kejadian', isset($formData['waktu_kejadian']) ? \Carbon\Carbon::parse($formData['waktu_kejadian'])->format('Y-m-d') : '') }}"
+                name="violence_data[waktu_kejadian]"
+                value="{{ old('violence_data.waktu_kejadian', isset($formData['waktu_kejadian']) ? \Carbon\Carbon::parse($formData['waktu_kejadian'])->format('Y-m-d') : '') }}"
                 class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 max="{{ date('Y-m-d') }}"
                 required
             >
-            @error('violance_data.waktu_kejadian')
+            @error('violence_data.waktu_kejadian')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -127,17 +127,17 @@
                 Deskripsi Kekerasan <span class="text-red-500">*</span>
             </label>
             <textarea
-                name="violance_data[deskripsi_kekerasan]"
+                name="violence_data[deskripsi_kekerasan]"
                 rows="6"
                 class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Jelaskan secara detail kronologi dan bentuk kekerasan yang terjadi..."
                 maxlength="3000"
                 required
-            >{{ old('violance_data.deskripsi_kekerasan', $formData['deskripsi_kekerasan'] ?? '') }}</textarea>
+            >{{ old('violence_data.deskripsi_kekerasan', $formData['deskripsi_kekerasan'] ?? '') }}</textarea>
             <div class="text-xs text-gray-500 mt-1">
                 <span id="violence-char-count">0</span>/3000 karakter
             </div>
-            @error('violance_data.deskripsi_kekerasan')
+            @error('violence_data.deskripsi_kekerasan')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>

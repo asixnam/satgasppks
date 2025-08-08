@@ -224,9 +224,9 @@
                             <div class="flex flex-col sm:flex-row">
                                 <span class="w-full sm:w-2/5 text-sm font-semibold text-gray-700 mb-1 sm:mb-0">Jenis Kekerasan:</span>
                                 <div class="flex-1">
-                                    @if($report->violance && $report->violance->jenis_kekerasan)
+                                    @if($report->violence && $report->violence->jenis_kekerasan)
                                         @php
-                                            $badgeClasses = match(strtolower($report->violance->jenis_kekerasan)) {
+                                            $badgeClasses = match(strtolower($report->violence->jenis_kekerasan)) {
                                                 'fisik' => 'bg-red-100 text-red-800 border-red-200',
                                                 'psikis', 'psikologis' => 'bg-yellow-100 text-yellow-800 border-yellow-200',
                                                 'seksual' => 'bg-purple-100 text-purple-800 border-purple-200',
@@ -235,7 +235,7 @@
                                             };
                                         @endphp
                                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border {{ $badgeClasses }}">
-                                            {{ $report->violance->jenis_kekerasan }}
+                                            {{ $report->violence->jenis_kekerasan }}
                                         </span>
                                     @else
                                         <span class="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg inline-block">-</span>
@@ -246,17 +246,17 @@
                             <div class="flex flex-col sm:flex-row">
                                 <span class="w-full sm:w-2/5 text-sm font-semibold text-gray-700 mb-1 sm:mb-0">Bentuk Kekerasan:</span>
                                 <div class="flex-1">
-                                    @if($report->violance && $report->violance->bentuk_kekerasan)
-                                        @if(is_array($report->violance->bentuk_kekerasan))
+                                    @if($report->violence && $report->violence->bentuk_kekerasan)
+                                        @if(is_array($report->violence->bentuk_kekerasan))
                                             <div class="flex flex-wrap gap-2">
-                                                @foreach($report->violance->bentuk_kekerasan as $bentuk)
+                                                @foreach($report->violence->bentuk_kekerasan as $bentuk)
                                                     <span class="inline-block bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full border border-gray-200">
                                                         {{ $bentuk }}
                                                     </span>
                                                 @endforeach
                                             </div>
                                         @else
-                                            <span class="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg inline-block">{{ $report->violance->bentuk_kekerasan }}</span>
+                                            <span class="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg inline-block">{{ $report->violence->bentuk_kekerasan }}</span>
                                         @endif
                                     @else
                                         <span class="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg inline-block">-</span>
@@ -266,14 +266,14 @@
                             
                             <div class="flex flex-col sm:flex-row">
                                 <span class="w-full sm:w-2/5 text-sm font-semibold text-gray-700 mb-1 sm:mb-0">Lokasi Kejadian:</span>
-                                <span class="flex-1 text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ $report->violance->lokasi_kejadian ?? '-' }}</span>
+                                <span class="flex-1 text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">{{ $report->violence->lokasi_kejadian ?? '-' }}</span>
                             </div>
                             
                             <div class="flex flex-col sm:flex-row">
                                 <span class="w-full sm:w-2/5 text-sm font-semibold text-gray-700 mb-1 sm:mb-0">Waktu Kejadian:</span>
                                 <span class="flex-1 text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-lg">
-                                    @if($report->violance->waktu_kejadian)
-                                        {{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('d/m/Y H:i') }}
+                                    @if($report->violence->waktu_kejadian)
+                                        {{ \Carbon\Carbon::parse($report->violence->waktu_kejadian)->format('d/m/Y H:i') }}
                                     @else
                                         -
                                     @endif
@@ -285,7 +285,7 @@
             </div>
 
             <!-- Violence Description -->
-            @if($report->violance && $report->violance->deskripsi_kekerasan)
+            @if($report->violence && $report->violence->deskripsi_kekerasan)
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-4">
                     <h2 class="text-xl font-bold text-white flex items-center">
@@ -297,7 +297,7 @@
                 </div>
                 <div class="p-6">
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl border border-gray-200">
-                        <p class="text-gray-900 leading-relaxed">{{ $report->violance->deskripsi_kekerasan }}</p>
+                        <p class="text-gray-900 leading-relaxed">{{ $report->violence->deskripsi_kekerasan }}</p>
                     </div>
                 </div>
             </div>

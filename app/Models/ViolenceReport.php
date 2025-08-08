@@ -15,7 +15,7 @@ class ViolenceReport extends Model
         'id_client',
         'id_reporter',
         'id_perpetrator',
-        'id_violance',
+        'id_violence',
         'status',
         'code'
     ];
@@ -24,7 +24,7 @@ class ViolenceReport extends Model
         'id_client' => 'string',
         'id_reporter' => 'string',
         'id_perpetrator' => 'string',
-        'id_violance' => 'string',
+        'id_violence' => 'string',
         'jenis_kekerasan' => 'string',
         'bentuk_kekerasan' => 'array',
     ];
@@ -59,7 +59,7 @@ class ViolenceReport extends Model
     // Scope untuk laporan berdasarkan jenis kekerasan
     public function scopeByViolenceType($query, $type)
     {
-        return $query->whereHas('violance', function ($q) use ($type) {
+        return $query->whereHas('violence', function ($q) use ($type) {
             $q->where('jenis_kekerasan', $type);
         });
     }
@@ -92,9 +92,9 @@ class ViolenceReport extends Model
         return $this->belongsTo(Perpetrator::class, 'id_perpetrator');
     }
 
-    public function violance()
+    public function violence()
     {
-        return $this->belongsTo(Violance::class, 'id_violance');
+        return $this->belongsTo(Violence::class, 'id_violence');
     }
 
     // Ringkasan laporan
@@ -104,10 +104,10 @@ class ViolenceReport extends Model
             'report_number' => $this->report_number,
             'client_name' => $this->client->nama_lengkap ?? '-',
             'reporter_name' => $this->reporter->nama_lengkap ?? '-',
-            'violence_type' => $this->violance->jenis_kekerasan ?? '-',
-            'incident_date' => $this->violance->waktu_kejadian ?? '-',
+            'violence_type' => $this->violence->jenis_kekerasan ?? '-',
+            'incident_date' => $this->violence->waktu_kejadian ?? '-',
             'report_date' => $this->created_at,
-            'location' => $this->violance->lokasi_kejadian ?? '-'
+            'location' => $this->violence->lokasi_kejadian ?? '-'
         ];
     }
 }

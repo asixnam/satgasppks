@@ -13,7 +13,7 @@ use App\Models\ViolenceReport;
 use App\Models\Client;
 use App\Models\Reporter;
 use App\Models\Perpetrator;
-use App\Models\Violance;
+use App\Models\Violence;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -120,7 +120,7 @@ class AppController extends Controller
      */
     public function createLaporan()
     {
-        return view('Frontend.violance-report.create');
+        return view('Frontend.violence-report.create');
     }
     public function successLaporan()
     {
@@ -130,7 +130,7 @@ class AppController extends Controller
 
         $reportId = session('report_id');
 
-        return view('Frontend.violance-report.success', compact('reportId'));
+        return view('Frontend.violence-report.success', compact('reportId'));
     }
 
 
@@ -202,14 +202,14 @@ class AppController extends Controller
         ];
 
         // Validation rules for violence data
-        $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|array',
-            'violance_data.jenis_kekerasan.*' => 'string',
-            'violance_data.bentuk_kekerasan' => 'required|array|min:1',
-            'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
-            'violance_data.lokasi_kejadian' => 'required|string|max:500',
-            'violance_data.waktu_kejadian' => 'required|date|before_or_equal:today',
-            'violance_data.deskripsi_kekerasan' => 'required|string|max:5000'
+        $violenceRules = [
+            'violence_data.jenis_kekerasan' => 'required|array',
+            'violence_data.jenis_kekerasan.*' => 'string',
+            'violence_data.bentuk_kekerasan' => 'required|array|min:1',
+            'violence_data.bentuk_kekerasan.*' => 'required|string|max:255',
+            'violence_data.lokasi_kejadian' => 'required|string|max:500',
+            'violence_data.waktu_kejadian' => 'required|date|before_or_equal:today',
+            'violence_data.deskripsi_kekerasan' => 'required|string|max:5000'
         ];
 
         // Custom error messages
@@ -233,7 +233,7 @@ class AppController extends Controller
 
         try {
             $validated = $request->validate(
-                array_merge($clientRules, $reporterRules, $perpetratorRules, $violanceRules),
+                array_merge($clientRules, $reporterRules, $perpetratorRules, $violenceRules),
                 $customMessages
             );
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -323,13 +323,13 @@ class AppController extends Controller
             ]);
 
             // Save violence data
-            $violanceData = $validated['violance_data'];
-            $violance = Violance::create([
-                'jenis_kekerasan' => json_encode($violanceData['jenis_kekerasan']),
-                'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
-                'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
-                'waktu_kejadian' => $violanceData['waktu_kejadian'],
-                'deskripsi_kekerasan' => $violanceData['deskripsi_kekerasan'],
+            $violenceData = $validated['violence_data'];
+            $violence = Violence::create([
+                'jenis_kekerasan' => json_encode($violenceData['jenis_kekerasan']),
+                'bentuk_kekerasan' => json_encode($violenceData['bentuk_kekerasan']),
+                'lokasi_kejadian' => $violenceData['lokasi_kejadian'],
+                'waktu_kejadian' => $violenceData['waktu_kejadian'],
+                'deskripsi_kekerasan' => $violenceData['deskripsi_kekerasan'],
             ]);
 
             // Save violence report relationship
@@ -337,7 +337,7 @@ class AppController extends Controller
                 'id_client' => $client->id,
                 'id_reporter' => $reporter->id,
                 'id_perpetrator' => $perpetrator->id,
-                'id_violance' => $violance->id,
+                'id_violence' => $violence->id,
                 'status' => 'terlapor',
                 'created_at' => now(),
             ]);
@@ -354,7 +354,7 @@ class AppController extends Controller
 
 
            return redirect()
-            ->route('Frontend.violance-report.success')
+            ->route('Frontend.violence-report.success')
             ->with([
                 'success' => 'Laporan kekerasan berhasil dibuat dan akan segera diproses.',
                 'report_id' => $violenceReport->code
@@ -413,7 +413,7 @@ class AppController extends Controller
                 $error = 'Format nomor tiket tidak valid. Gunakan format PPKS-YYYY-XXXXXXXXXX.';
             }
             else {
-                $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
+                $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violence'])
                     ->where('code', $code)
                     ->first();
 
@@ -430,7 +430,7 @@ class AppController extends Controller
     public function showLaporan($code)
     {
         try {
-            $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
+            $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violence'])
                 ->where('code', 'LIKE', "%$code")
                 ->firstOrFail();
 

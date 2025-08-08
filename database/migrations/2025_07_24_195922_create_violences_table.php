@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('violances', function (Blueprint $table) {
+        Schema::create('violences', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->uuid('id')->primary();
-
             $table->string('jenis_kekerasan'); // seksual, psikis, fisik, dll
             $table->json('bentuk_kekerasan'); // bentuk spesifik dalam jenis, misal: "Tatapan seksual", "Pemaksaan seksual"
             $table->string('lokasi_kejadian'); // rumah, kos, kampus, dll
@@ -23,6 +23,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('violances');
+        Schema::dropIfExists('violences');
     }
 };

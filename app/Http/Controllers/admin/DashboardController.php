@@ -8,19 +8,19 @@ use App\Models\Edukasi;
 use App\Models\Berita;
 use App\Models\Tim;
 use Illuminate\Support\Collection;
-use App\Models\Violance;
+use App\Models\Violence;
 use carbon\carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $totalReports = Violance::count(); // atau ViolenceReport::count()
-        $jumlahlaporanBulanIni = Violance::whereMonth('created_at', Carbon::now()->month)
+        $totalReports = Violence::count(); // atau ViolenceReport::count()
+        $jumlahlaporanBulanIni = Violence::whereMonth('created_at', Carbon::now()->month)
                                       ->whereYear('created_at', Carbon::now()->year)
                                       ->count();
 
-        $laporanTerbaru = Violance::latest()->take(3)->get(); // Ambil 3 laporan terbaru
+        $laporanTerbaru = Violence::latest()->take(3)->get(); // Ambil 3 laporan terbaru
    
 
         $jumlahTim = Tim::count(); 
@@ -61,7 +61,7 @@ class DashboardController extends Controller
                                 ];
                             });
 
-            $laporan = Violance::select('jenis_kekerasan', 'created_at')
+            $laporan = Violence::select('jenis_kekerasan', 'created_at')
                 ->latest()
                 ->take(5)
                 ->get()

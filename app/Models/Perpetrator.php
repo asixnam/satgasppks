@@ -42,8 +42,8 @@ class Perpetrator extends Model
     }
 
     // Relasi many-to-many dengan violances melalui violence_reports
-    public function violances()
+    public function violences()
     {
-        return $this->belongsToMany(Violance::class, 'violence_reports', 'id_perpetrator', 'id_violance');
+        return $this->belongsToMany(Violence::class, 'violence_reports', 'id_perpetrator', 'id_violence');
     }
 }

@@ -37,7 +37,7 @@ Route::get('/tentang-kami', [AppController::class, 'tentangKami'])->name('tentan
 // Violence Report Routes
 Route::get('/lapor-kekerasan', [AppController::class, 'createLaporan'])->name('lapor-kekerasan.create');
 Route::post('/lapor-kekerasan', [AppController::class, 'store'])->name('lapor-kekerasan.store');
-Route::get('/lapor-kekerasan/success', [AppController::class, 'successLaporan'])->name('Frontend.violance-report.success');
+Route::get('/lapor-kekerasan/success', [AppController::class, 'successLaporan'])->name('Frontend.violence-report.success');
 
 // Status Check Routes
 Route::get('/cek-status', [AppController::class, 'cekStatus'])->name('cek-status');

@@ -6,7 +6,7 @@ use App\Models\ViolenceReport;
 use App\Models\Client;
 use App\Models\Reporter;
 use App\Models\Perpetrator;
-use App\Models\Violance;
+use App\Models\Violence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -19,11 +19,11 @@ class ViolenceReportController extends Controller
     // Ambil semua laporan dengan relasi
     public function index(Request $request)
     {
-        $query = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance']);
+        $query = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violence']);
 
         // Apply filters
         if ($request->has('violence_type') && $request->violence_type) {
-            $query->whereHas('violance', function($q) use ($request) {
+            $query->whereHas('violence', function($q) use ($request) {
                 $q->where('jenis_kekerasan', 'like', '%' . $request->violence_type . '%');
             });
         }
@@ -41,7 +41,7 @@ class ViolenceReportController extends Controller
         }
 
         if ($request->has('start_date') && $request->has('end_date') && $request->start_date && $request->end_date) {
-            $query->whereHas('violance', function($q) use ($request) {
+            $query->whereHas('violence', function($q) use ($request) {
                 $q->whereBetween('waktu_kejadian', [$request->start_date, $request->end_date]);
             });
         }
@@ -91,7 +91,7 @@ class ViolenceReportController extends Controller
             'client',
             'reporter',
             'perpetrator',
-            'violance'
+            'violence'
         ])->findOrFail($id);
 
         return view('admin.violence-report.show', compact('report'));
@@ -142,14 +142,14 @@ class ViolenceReportController extends Controller
     //     ];
 
     //     // Validation rules for violence data
-    //     $violanceRules = [
-    //         'violance_data.jenis_kekerasan' => 'required|array',
-    //         'violance_data.jenis_kekerasan.*' => 'string',
-    //         'violance_data.bentuk_kekerasan' => 'required|array|min:1',
-    //         'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
-    //         'violance_data.lokasi_kejadian' => 'required|string|max:500',
-    //         'violance_data.waktu_kejadian' => 'required|date|before_or_equal:today',
-    //         'violance_data.deskripsi_kekerasan' => 'required|string|max:5000'
+    //     $violenceRules = [
+    //         'violence_data.jenis_kekerasan' => 'required|array',
+    //         'violence_data.jenis_kekerasan.*' => 'string',
+    //         'violence_data.bentuk_kekerasan' => 'required|array|min:1',
+    //         'violence_data.bentuk_kekerasan.*' => 'required|string|max:255',
+    //         'violence_data.lokasi_kejadian' => 'required|string|max:500',
+    //         'violence_data.waktu_kejadian' => 'required|date|before_or_equal:today',
+    //         'violence_data.deskripsi_kekerasan' => 'required|string|max:5000'
     //     ];
 
     //     // Custom error messages
@@ -173,7 +173,7 @@ class ViolenceReportController extends Controller
 
     //     try {
     //         $validated = $request->validate(
-    //             array_merge($clientRules, $reporterRules, $perpetratorRules, $violanceRules),
+    //             array_merge($clientRules, $reporterRules, $perpetratorRules, $violenceRules),
     //             $customMessages
     //         );
     //     } catch (\Illuminate\Validation\ValidationException $e) {
@@ -262,13 +262,13 @@ class ViolenceReportController extends Controller
     //         ]);
 
     //         // Save violence data
-    //         $violanceData = $validated['violance_data'];
-    //         $violance = Violance::create([
-    //             'jenis_kekerasan' => json_encode($violanceData['jenis_kekerasan']),
-    //             'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
-    //             'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
-    //             'waktu_kejadian' => $violanceData['waktu_kejadian'],
-    //             'deskripsi_kekerasan' => $violanceData['deskripsi_kekerasan'],
+    //         $violenceData = $validated['violence_data'];
+    //         $violence = Violance::create([
+    //             'jenis_kekerasan' => json_encode($violenceData['jenis_kekerasan']),
+    //             'bentuk_kekerasan' => json_encode($violenceData['bentuk_kekerasan']),
+    //             'lokasi_kejadian' => $violenceData['lokasi_kejadian'],
+    //             'waktu_kejadian' => $violenceData['waktu_kejadian'],
+    //             'deskripsi_kekerasan' => $violenceData['deskripsi_kekerasan'],
     //         ]);
 
     //         // Save violence report relationship
@@ -276,7 +276,7 @@ class ViolenceReportController extends Controller
     //             'id_client' => $client->id,
     //             'id_reporter' => $reporter->id,
     //             'id_perpetrator' => $perpetrator->id,
-    //             'id_violance' => $violance->id,
+    //             'id_violence' => $violence->id,
     //             'status' => 'terlapor',
     //             'created_at' => now(),
     //         ]);
@@ -383,6 +383,7 @@ class ViolenceReportController extends Controller
                         $fail('Email harus menggunakan domain UNU yang valid.');
                     }
                 },
+                // Rule::unique('reporters', 'email')->ignore($report->reporter->id ?? null),
             ],
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'
@@ -400,14 +401,14 @@ class ViolenceReportController extends Controller
         ];
 
         // Validation rules for violence data
-        $violanceRules = [
-            'violance_data.jenis_kekerasan' => 'required|array',
-            'violance_data.jenis_kekerasan.*' => 'string',
-            'violance_data.bentuk_kekerasan' => 'required|array|min:1',
-            'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
-            'violance_data.lokasi_kejadian' => 'required|string|max:500',
-            'violance_data.waktu_kejadian' => 'required|date|before_or_equal:today',
-            'violance_data.deskripsi_kekerasan' => 'required|string|max:5000'
+        $violenceRules = [
+            'violence_data.jenis_kekerasan' => 'required|array',
+            'violence_data.jenis_kekerasan.*' => 'string',
+            'violence_data.bentuk_kekerasan' => 'required|array|min:1',
+            'violence_data.bentuk_kekerasan.*' => 'required|string|max:255',
+            'violence_data.lokasi_kejadian' => 'required|string|max:500',
+            'violence_data.waktu_kejadian' => 'required|date|before_or_equal:today',
+            'violence_data.deskripsi_kekerasan' => 'required|string|max:5000'
         ];
 
         // Custom error messages
@@ -431,7 +432,7 @@ class ViolenceReportController extends Controller
 
         try {
             $validated = $request->validate(
-                array_merge($clientRules, $reporterRules, $perpetratorRules, $violanceRules),
+                array_merge($clientRules, $reporterRules, $perpetratorRules, $violenceRules),
                 $customMessages
             );
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -521,13 +522,13 @@ class ViolenceReportController extends Controller
             ]);
 
             // Save violence data
-            $violanceData = $validated['violance_data'];
-            $violance = Violance::create([
-                'jenis_kekerasan' => json_encode($violanceData['jenis_kekerasan']),
-                'bentuk_kekerasan' => json_encode($violanceData['bentuk_kekerasan']),
-                'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
-                'waktu_kejadian' => $violanceData['waktu_kejadian'],
-                'deskripsi_kekerasan' => $violanceData['deskripsi_kekerasan'],
+            $violenceData = $validated['violence_data'];
+            $violence = Violence::create([
+                'jenis_kekerasan' => json_encode($violenceData['jenis_kekerasan']),
+                'bentuk_kekerasan' => json_encode($violenceData['bentuk_kekerasan']),
+                'lokasi_kejadian' => $violenceData['lokasi_kejadian'],
+                'waktu_kejadian' => $violenceData['waktu_kejadian'],
+                'deskripsi_kekerasan' => $violenceData['deskripsi_kekerasan'],
             ]);
 
             // Save violence report relationship
@@ -535,7 +536,7 @@ class ViolenceReportController extends Controller
                 'id_client' => $client->id,
                 'id_reporter' => $reporter->id,
                 'id_perpetrator' => $perpetrator->id,
-                'id_violance' => $violance->id,
+                'id_violence' => $violence->id,
                 'status' => 'terlapor',
                 'created_at' => now(),
             ]);
@@ -611,7 +612,7 @@ class ViolenceReportController extends Controller
                 $error = 'Format nomor tiket tidak valid. Gunakan format PPKS-YYYY-XXXXXXXXXX.';
             }
             else {
-                $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])
+                $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violence'])
                     ->where('code', $code)
                     ->first();
 
@@ -632,12 +633,64 @@ class ViolenceReportController extends Controller
             'client',
             'reporter',
             'perpetrator',
-            'violance'
+            'violence'
         ])->findOrFail($id);
 
-        // Tampilkan form edit dan kirim data report
-        return view('admin.violence-report.edit', compact('report'));
-    }
+        //Pastikan relasi ada, kalau belum buat default kosong
+            if (!$report->client) {
+                $report->client()->create([
+                    'nama_lengkap' => '',
+                    'jenis_kelamin' => '',
+                    'status_korban' => '',
+                    'kategori_disable' => '',
+                    'status' => '',
+                    'sumber_informasi' => '',
+                ]);
+            }
+
+            if (!$report->reporter) {
+                $report->reporter()->create([
+                    'hubungan_pelapor_dengan_pelaku' => '',
+                    'nama_lengkap' => '',
+                    'tempat_lahir' => '',
+                    'tanggal_lahir' => null,
+                    'jenis_kelamin' => '',
+                    'usia' => '',
+                    'status_pelapor' => '',
+                    'no_telepon' => '',
+                    'email' => '',
+                    'alamat' => '',
+                    'keterangan_tambahan' => '',
+                ]);
+            }
+
+            if (!$report->perpetrator) {
+                $report->perpetrator()->create([
+                    'hubungan_dengan_korban' => '',
+                    'nama' => '',
+                    'telepon' => '',
+                    'jenis_kelamin' => '',
+                    'keterangan' => '',
+                    'upload_bukti' => '',
+                ]);
+            }
+
+            if (!$report->violence) {
+                $report->violence()->create([
+                    'jenis_kekerasan' => '',
+                    'bentuk_kekerasan' => '',
+                    'lokasi_kejadian' => '',
+                    'waktu_kejadian' => null,
+                    'deskripsi_kekerasan' => '',
+                ]);
+            }
+
+            // Refresh relasi
+            $report->load(['client', 'reporter', 'perpetrator', 'violence']);
+
+            return view('admin.violence-report.edit', compact('report'));
+}
+       
 
     // Update laporan
     public function update(Request $request, $id)
@@ -645,9 +698,9 @@ class ViolenceReportController extends Controller
     // Debug request data
     Log::info('Update request data:', $request->all());
     
-    $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violance'])->findOrFail($id);
+    $report = ViolenceReport::with(['client', 'reporter', 'perpetrator', 'violence'])->findOrFail($id);
 
-    // === VALIDASI ===
+    // // === VALIDASI ===
     $clientRules = [
         'client_data.nama_lengkap' => 'required|string|max:255',
         'client_data.jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
@@ -705,15 +758,25 @@ class ViolenceReportController extends Controller
         'perpetrator_data.upload_bukti.*' => 'sometimes|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
     ];
 
-    $violanceRules = [
-        'violance_data.jenis_kekerasan' => 'required|array',
-        'violance_data.jenis_kekerasan.*' => 'string',
-        'violance_data.bentuk_kekerasan' => 'required|array|min:1',
-        'violance_data.bentuk_kekerasan.*' => 'required|string|max:255',
-        'violance_data.lokasi_kejadian' => 'required|string|max:500',
-        'violance_data.waktu_kejadian' => 'required|date|before_or_equal:today',
-        'violance_data.deskripsi_kekerasan' => 'required|string|max:5000'
+    $violenceRules = [
+        'violence_data.jenis_kekerasan' => 'required|array',
+        'violence_data.jenis_kekerasan.*' => 'string',
+        'violence_data.bentuk_kekerasan' => 'required|array|min:1',
+        'violence_data.bentuk_kekerasan.*' => 'required|string|max:255',
+        'violence_data.lokasi_kejadian' => 'required|string|max:500',
+        'violence_data.waktu_kejadian' => 'required|date|before_or_equal:today',
+        'violence_data.deskripsi_kekerasan' => 'required|string|max:5000'
     ];
+    $rules = array_merge($clientRules, $reporterRules, $perpetratorRules, $violenceRules);
+
+        // 2. Validasi data request
+        $validatedData = $request->validate($rules);
+
+        // 3. Lakukan update pakai data yang sudah tervalidasi
+        $report->client->update($validatedData['client_data']);
+        $report->reporter->update($validatedData['reporter_data']);
+        $report->perpetrator->update($validatedData['perpetrator_data']);
+        $report->violence->update($validatedData['violence_data']);
 
     // Custom error messages
     $customMessages = [
@@ -734,7 +797,7 @@ class ViolenceReportController extends Controller
 
     try {
         $validated = $request->validate(
-            array_merge($clientRules, $reporterRules, $perpetratorRules, $violanceRules),
+            array_merge($clientRules, $reporterRules, $perpetratorRules, $violenceRules),
             $customMessages
         );
         
@@ -759,7 +822,7 @@ class ViolenceReportController extends Controller
 
     try {
         // Debug: Check if relations exist
-        if (!$report->client || !$report->reporter || !$report->perpetrator || !$report->violance) {
+        if (!$report->client || !$report->reporter || !$report->perpetrator || !$report->violence) {
             throw new \Exception('Missing required relations on report');
         }
         
@@ -864,26 +927,26 @@ class ViolenceReportController extends Controller
         ]);
 
         // === UPDATE VIOLENCE DATA ===
-        $violanceData = $validated['violance_data'];
+        $violenceData = $validated['violence_data'];
         
         // Ensure jenis_kekerasan is properly encoded
-        $jenisKekerasanJson = is_array($violanceData['jenis_kekerasan']) 
-            ? json_encode($violanceData['jenis_kekerasan']) 
-            : $violanceData['jenis_kekerasan'];
+        $jenisKekerasanJson = is_array($violenceData['jenis_kekerasan']) 
+            ? json_encode($violenceData['jenis_kekerasan']) 
+            : $violenceData['jenis_kekerasan'];
             
-        $bentukKekerasanJson = is_array($violanceData['bentuk_kekerasan']) 
-            ? json_encode($violanceData['bentuk_kekerasan']) 
-            : $violanceData['bentuk_kekerasan'];
+        $bentukKekerasanJson = is_array($violenceData['bentuk_kekerasan']) 
+            ? json_encode($violenceData['bentuk_kekerasan']) 
+            : $violenceData['bentuk_kekerasan'];
         
-        $violanceUpdated = $report->violance->update([
+        $violenceUpdated = $report->violence->update([
             'jenis_kekerasan' => $jenisKekerasanJson,
             'bentuk_kekerasan' => $bentukKekerasanJson,
-            'lokasi_kejadian' => $violanceData['lokasi_kejadian'],
-            'waktu_kejadian' => $violanceData['waktu_kejadian'],
-            'deskripsi_kekerasan' => $violanceData['deskripsi_kekerasan'],
+            'lokasi_kejadian' => $violenceData['lokasi_kejadian'],
+            'waktu_kejadian' => $violenceData['waktu_kejadian'],
+            'deskripsi_kekerasan' => $violenceData['deskripsi_kekerasan'],
         ]);
         
-        Log::info('Violence data update result: ' . ($violanceUpdated ? 'success' : 'failed'), [
+        Log::info('Violence data update result: ' . ($violenceUpdated ? 'success' : 'failed'), [
             'jenis_kekerasan' => $jenisKekerasanJson,
             'bentuk_kekerasan' => $bentukKekerasanJson
         ]);
@@ -905,7 +968,7 @@ class ViolenceReportController extends Controller
                 'client' => $clientUpdated,
                 'reporter' => $reporterUpdated, 
                 'perpetrator' => $perpetratorUpdated,
-                'violence' => $violanceUpdated
+                'violence' => $violenceUpdated
             ]
         ]);
 
@@ -944,7 +1007,7 @@ class ViolenceReportController extends Controller
                 'client' => isset($report) && $report->client ? 'exists' : 'missing',
                 'reporter' => isset($report) && $report->reporter ? 'exists' : 'missing',
                 'perpetrator' => isset($report) && $report->perpetrator ? 'exists' : 'missing',
-                'violance' => isset($report) && $report->violance ? 'exists' : 'missing'
+                'violence' => isset($report) && $report->violence ? 'exists' : 'missing'
             ]
         ]);
 
@@ -966,7 +1029,7 @@ class ViolenceReportController extends Controller
             $clientId = $report->id_client;
             $reporterId = $report->id_reporter;
             $perpetratorId = $report->id_perpetrator;
-            $violanceId = $report->id_violance;
+            $violenceId = $report->id_violence;
 
             // Hapus report terlebih dahulu
             $report->delete();
@@ -984,8 +1047,8 @@ class ViolenceReportController extends Controller
                 Perpetrator::find($perpetratorId)?->delete();
             }
 
-            if ($violanceId) {
-                Violance::find($violanceId)?->delete();
+            if ($violenceId) {
+                Violence::find($violenceId)?->delete();
             }
 
             DB::commit();
@@ -1005,7 +1068,7 @@ class ViolenceReportController extends Controller
         $reports = ViolenceReport::join('clients', 'violence_reports.id_client', '=', 'clients.id')
             ->join('reporters', 'violence_reports.id_reporter', '=', 'reporters.id')
             ->join('perpetrators', 'violence_reports.id_perpetrator', '=', 'perpetrators.id')
-            ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
+            ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
             ->select([
                 'violence_reports.*',
                 'clients.nama_lengkap as client_name',
@@ -1013,8 +1076,8 @@ class ViolenceReportController extends Controller
                 'clients.jenis_kelamin as client_gender',
                 'reporters.nama_lengkap as reporter_name',
                 'perpetrators.nama as perpetrator_name',
-                'violances.jenis_kekerasan',
-                'violances.waktu_kejadian'
+                'violences.jenis_kekerasan',
+                'violences.waktu_kejadian'
             ])
             ->latest('violence_reports.created_at')
             ->paginate(15);
@@ -1032,10 +1095,10 @@ class ViolenceReportController extends Controller
                          ->with('error', 'Jenis kekerasan harus dipilih.');
     }
 
-    $reports = ViolenceReport::whereHas('violance', function ($query) use ($type) {
+    $reports = ViolenceReport::whereHas('violence', function ($query) use ($type) {
         $query->whereJsonContains('bentuk_kekerasan', $type);
     })
-    ->with(['client', 'reporter', 'perpetrator', 'violance'])
+    ->with(['client', 'reporter', 'perpetrator', 'violence'])
     ->latest()
     ->paginate(15);
 
@@ -1057,7 +1120,7 @@ class ViolenceReportController extends Controller
 
         $reports = ViolenceReport::whereHas('client', function ($query) use ($status) {
             $query->where('status', 'like', '%' . $status . '%');
-        })->with(['client', 'reporter', 'perpetrator', 'violance'])
+        })->with(['client', 'reporter', 'perpetrator', 'violence'])
           ->latest()
           ->paginate(15);
 
@@ -1078,7 +1141,7 @@ class ViolenceReportController extends Controller
 
         $reports = ViolenceReport::whereHas('client', function ($query) use ($gender) {
             $query->where('jenis_kelamin', $gender);
-        })->with(['client', 'reporter', 'perpetrator', 'violance'])
+        })->with(['client', 'reporter', 'perpetrator', 'violence'])
           ->latest()
           ->paginate(15);
 
@@ -1098,9 +1161,9 @@ class ViolenceReportController extends Controller
                            ->with('error', 'Tanggal mulai dan akhir harus diisi.');
         }
 
-        $reports = ViolenceReport::whereHas('violance', function ($query) use ($startDate, $endDate) {
+        $reports = ViolenceReport::whereHas('violence', function ($query) use ($startDate, $endDate) {
             $query->whereBetween('waktu_kejadian', [$startDate, $endDate]);
-        })->with(['client', 'reporter', 'perpetrator', 'violance'])
+        })->with(['client', 'reporter', 'perpetrator', 'violence'])
           ->latest()
           ->paginate(15);
 
@@ -1130,16 +1193,16 @@ class ViolenceReportController extends Controller
                 })->count();
 
                 // Laporan bulan ini
-                $recentReports = ViolenceReport::whereHas('violance', function($q) {
+                $recentReports = ViolenceReport::whereHas('violence', function($q) {
                     $q->whereMonth('waktu_kejadian', now()->month)
                     ->whereYear('waktu_kejadian', now()->year);
                 })->count();
 
                 // Statistik jenis kekerasan
                 $violenceTypes = DB::table('violence_reports')
-                    ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
-                    ->select('violances.jenis_kekerasan', DB::raw('count(*) as total'))
-                    ->groupBy('violances.jenis_kekerasan')
+                    ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
+                    ->select('violences.jenis_kekerasan', DB::raw('count(*) as total'))
+                    ->groupBy('violences.jenis_kekerasan')
                     ->orderBy('total', 'desc')
                     ->limit(5)
                     ->get();
@@ -1153,13 +1216,13 @@ class ViolenceReportController extends Controller
 
                 // Statistik laporan per bulan (6 bulan terakhir)
                 $monthlyReports = DB::table('violence_reports')
-                    ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
+                    ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
                     ->select(
-                        DB::raw('YEAR(violances.waktu_kejadian) as year'),
-                        DB::raw('MONTH(violances.waktu_kejadian) as month'),
+                        DB::raw('YEAR(violences.waktu_kejadian) as year'),
+                        DB::raw('MONTH(violences.waktu_kejadian) as month'),
                         DB::raw('COUNT(*) as total')
                     )
-                    ->where('violances.waktu_kejadian', '>=', now()->subMonths(6))
+                    ->where('violences.waktu_kejadian', '>=', now()->subMonths(6))
                     ->groupBy('year', 'month')
                     ->orderBy('year', 'desc')
                     ->orderBy('month', 'desc')
@@ -1204,20 +1267,20 @@ class ViolenceReportController extends Controller
         try {
             // Data untuk chart jenis kekerasan
             $violenceTypeChart = DB::table('violence_reports')
-                ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
-                ->select('violances.jenis_kekerasan as label', DB::raw('count(*) as value'))
-                ->groupBy('violances.jenis_kekerasan')
+                ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
+                ->select('violences.jenis_kekerasan as label', DB::raw('count(*) as value'))
+                ->groupBy('violences.jenis_kekerasan')
                 ->orderBy('value', 'desc')
                 ->get();
 
             // Data untuk chart per bulan
             $monthlyChart = DB::table('violence_reports')
-                ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
+                ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
                 ->select(
-                    DB::raw('DATE_FORMAT(violances.waktu_kejadian, "%Y-%m") as month'),
+                    DB::raw('DATE_FORMAT(violences.waktu_kejadian, "%Y-%m") as month'),
                     DB::raw('COUNT(*) as total')
                 )
-                ->where('violances.waktu_kejadian', '>=', now()->subMonths(12))
+                ->where('violences.waktu_kejadian', '>=', now()->subMonths(12))
                 ->groupBy('month')
                 ->orderBy('month')
                 ->get();
@@ -1249,13 +1312,13 @@ class ViolenceReportController extends Controller
                 'disable_victims' => ViolenceReport::whereHas('client', function($q) {
                     $q->where('status_korban', 'Disable');
                 })->count(),
-                'recent_reports' => ViolenceReport::whereHas('violance', function($q) {
+                'recent_reports' => ViolenceReport::whereHas('violence', function($q) {
                     $q->where('waktu_kejadian', '>=', now()->subDays(30));
                 })->count(),
                 'violence_types' => DB::table('violence_reports')
-                    ->join('violances', 'violence_reports.id_violance', '=', 'violances.id')
-                    ->select('violances.jenis_kekerasan', DB::raw('count(*) as total'))
-                    ->groupBy('violances.jenis_kekerasan')
+                    ->join('violences', 'violence_reports.id_violence', '=', 'violences.id')
+                    ->select('violences.jenis_kekerasan', DB::raw('count(*) as total'))
+                    ->groupBy('violences.jenis_kekerasan')
                     ->orderBy('total', 'desc')
                     ->get(),
                 'gender_stats' => DB::table('violence_reports')
@@ -1286,7 +1349,7 @@ class ViolenceReportController extends Controller
             'client',
             'reporter',
             'perpetrator',
-            'violance'
+            'violence'
         ])->get();
 
         // Implementasi export sesuai kebutuhan (Excel, PDF, dll)

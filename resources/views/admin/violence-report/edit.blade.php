@@ -53,7 +53,7 @@
             <x-form.tab-client :old-data="old('client_data', [])" :edit-data="$report->client" />
             <x-form.tab-reporter :old-data="old('reporter_data', [])" :edit-data="$report->reporter" />
             <x-form.tab-perpetrator :old-data="old('perpetrator_data', [])" :edit-data="$report->perpetrator" />
-            <x-form.tab-violence :old-data="old('violance_data', [])" :edit-data="$report->violance" />
+            <x-form.tab-violence :old-data="old('violence_data', [])" :edit-data="$report->violence" />
 
             <!-- Footer -->
             <div class="border-t pt-6 mt-6 flex justify-between">

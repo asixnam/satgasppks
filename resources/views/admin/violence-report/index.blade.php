@@ -252,11 +252,11 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->reporter->nama_lengkap ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $report->perpetrator->nama ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
-                                        @if($report->violance && $report->violance->bentuk_kekerasan)
+                                        @if($report->violence && $report->violence->bentuk_kekerasan)
                                             @php
-                                                $bentukList = is_array($report->violance->bentuk_kekerasan) 
-                                                    ? $report->violance->bentuk_kekerasan 
-                                                    : json_decode($report->violance->bentuk_kekerasan, true);
+                                                $bentukList = is_array($report->violence->bentuk_kekerasan) 
+                                                    ? $report->violence->bentuk_kekerasan 
+                                                    : json_decode($report->violence->bentuk_kekerasan, true);
                                             @endphp
 
                                             @foreach ($bentukList as $bentuk)
@@ -279,10 +279,10 @@
                                     </td>
 
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                                        @if($report->violance && $report->violance->waktu_kejadian)
+                                        @if($report->violence && $report->violence->waktu_kejadian)
                                             <div class="flex flex-col">
-                                                <span class="font-medium">{{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('d/m/Y') }}</span>
-                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('H:i') }}</span>
+                                                <span class="font-medium">{{ \Carbon\Carbon::parse($report->violence->waktu_kejadian)->format('d/m/Y') }}</span>
+                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($report->violence->waktu_kejadian)->format('H:i') }}</span>
                                             </div>
                                         @else
                                             -

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Client;
 use App\Models\Reporter;
-use App\Models\Violance;
+use App\Models\Violence;
 use App\Models\Perpetrator;
 use App\Models\ViolenceReport;
 use Illuminate\Database\Seeder;
@@ -36,7 +36,7 @@ class ViolenceReportSeeder extends Seeder
             'keterangan_tambahan' => 'Saya melihat langsung kejadian tersebut.'
         ]);
 
-        $violance = Violance::create([
+        $violence = Violence::create([
             'jenis_kekerasan' => 'Kekerasan Seksual',
             'bentuk_kekerasan' => json_encode(['Ucapan seksual', 'Tatapan seksual']),
             'lokasi_kejadian' => 'Kampus',
@@ -57,7 +57,7 @@ class ViolenceReportSeeder extends Seeder
             'id_client' => $client->id,
             'id_reporter' => $reporter->id,
             'id_perpetrator' => $perpetrator->id,
-            'id_violance' => $violance->id,
+            'id_violence' => $violence->id,
             'status' => 'terlapor',
             'code' => 'VR-001'
         ]);
@@ -85,7 +85,7 @@ class ViolenceReportSeeder extends Seeder
             'keterangan_tambahan' => 'Melaporkan atas nama korban yang merasa tidak nyaman.'
         ]);
 
-        $violance2 = Violance::create([
+        $violence2 = Violence::create([
             'jenis_kekerasan' => 'Kekerasan Psikis',
             'bentuk_kekerasan' => json_encode(['Intimidasi', 'Ancaman']),
             'lokasi_kejadian' => 'Ruang Kerja',
@@ -106,7 +106,7 @@ class ViolenceReportSeeder extends Seeder
             'id_client' => $client2->id,
             'id_reporter' => $reporter2->id,
             'id_perpetrator' => $perpetrator2->id,
-            'id_violance' => $violance2->id,
+            'id_violence' => $violence2->id,
             'status' => 'diproses',
             'code' => 'VR-002'
         ]);

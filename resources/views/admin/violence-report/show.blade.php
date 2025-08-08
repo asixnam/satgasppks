@@ -216,9 +216,9 @@
                             <div class="flex">
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Jenis Kekerasan:</span>
                                 <span class="flex-1">
-                                    @if($report->violance && $report->violance->jenis_kekerasan)
+                                    @if($report->violence && $report->violence->jenis_kekerasan)
                                         @php
-                                            $badgeClasses = match(strtolower($report->violance->jenis_kekerasan)) {
+                                            $badgeClasses = match(strtolower($report->violence->jenis_kekerasan)) {
                                                 'fisik' => 'bg-red-100 text-red-800',
                                                 'psikis', 'psikologis' => 'bg-yellow-100 text-yellow-800',
                                                 'seksual' => 'bg-purple-100 text-purple-800',
@@ -227,7 +227,7 @@
                                             };
                                         @endphp
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeClasses }}">
-                                            {{ $report->violance->jenis_kekerasan }}
+                                            {{ $report->violence->jenis_kekerasan }}
                                         </span>
                                     @else
                                         <span class="text-sm text-gray-900">-</span>
@@ -238,15 +238,15 @@
                             <div class="flex">
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Bentuk Kekerasan:</span>
                                 <div class="flex-1">
-                                    @if($report->violance && $report->violance->bentuk_kekerasan)
-                                        @if(is_array($report->violance->bentuk_kekerasan))
-                                            @foreach($report->violance->bentuk_kekerasan as $bentuk)
+                                    @if($report->violence && $report->violence->bentuk_kekerasan)
+                                        @if(is_array($report->violence->bentuk_kekerasan))
+                                            @foreach($report->violence->bentuk_kekerasan as $bentuk)
                                                 <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 mb-1">
                                                     {{ $bentuk }}
                                                 </span>
                                             @endforeach
                                         @else
-                                            <span class="text-sm text-gray-900">{{ $report->violance->bentuk_kekerasan }}</span>
+                                            <span class="text-sm text-gray-900">{{ $report->violence->bentuk_kekerasan }}</span>
                                         @endif
                                     @else
                                         <span class="text-sm text-gray-900">-</span>
@@ -256,14 +256,14 @@
                             
                             <div class="flex">
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Lokasi Kejadian:</span>
-                                <span class="flex-1 text-sm text-gray-900">{{ $report->violance->lokasi_kejadian ?? '-' }}</span>
+                                <span class="flex-1 text-sm text-gray-900">{{ $report->violence->lokasi_kejadian ?? '-' }}</span>
                             </div>
                             
                             <div class="flex">
                                 <span class="w-2/5 text-sm font-medium text-gray-700">Waktu Kejadian:</span>
                                 <span class="flex-1 text-sm text-gray-900">
-                                    @if($report->violance->waktu_kejadian)
-                                        {{ \Carbon\Carbon::parse($report->violance->waktu_kejadian)->format('d/m/Y H:i') }}
+                                    @if($report->violence->waktu_kejadian)
+                                        {{ \Carbon\Carbon::parse($report->violence->waktu_kejadian)->format('d/m/Y H:i') }}
                                     @else
                                         -
                                     @endif
@@ -271,11 +271,11 @@
                             </div>
                         </div>
                         
-                        @if($report->violance && $report->violance->deskripsi_kekerasan)
+                        @if($report->violence && $report->violence->deskripsi_kekerasan)
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h3 class="text-sm font-medium text-gray-700 mb-3">Deskripsi Kekerasan:</h3>
                             <div class="bg-gray-50 p-4 rounded-lg text-sm text-gray-900 leading-relaxed">
-                                {{ $report->violance->deskripsi_kekerasan }}
+                                {{ $report->violence->deskripsi_kekerasan }}
                             </div>
                         </div>
                         @endif
