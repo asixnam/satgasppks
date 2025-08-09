@@ -19,7 +19,7 @@
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Pengaduan Aktif -->
+        <!-- Total Laporan -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
             <div class="flex items-center justify-between">
                 <div>
@@ -53,7 +53,7 @@
                 <div class="flex-1">
                     <p class="text-gray-600 text-sm font-medium">Jumlah Edukasi</p>
                     <p class="text-3xl font-bold text-blue-600">{{ $jumlahEdukasi }}</p>
-                    <p>+{{ $jumlahEdukasiBulanIni }} Edukasi Bulan ini  </p>
+                    <p class="text-xs text-gray-500">+{{ $jumlahEdukasiBulanIni }} Edukasi Bulan ini</p>
                 </div>
                 <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
                     <i class="fas fa-graduation-cap text-purple-600 text-xl"></i>
@@ -77,59 +77,49 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Recent Reports -->
+        <!-- Laporan Terbaru -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div class="p-6 border-b border-gray-100">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-semibold text-gray-900">Laporan Terbaru</h2>
-                    <a href="{{ route('admin.violence-reports.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
-                        Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
-                </div>
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <h2 class="text-lg font-semibold text-gray-900">Laporan Terbaru</h2>
+                <a href="{{ route('admin.violence-reports.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">
+                    Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
+                </a>
             </div>
             <div class="p-6">
                 <div class="space-y-4">
-                    @foreach ($laporanTerbaru as $laporan)
-                        <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border border-red-100">
-                            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-exclamation text-red-600 text-xs"></i>
+                    {{-- PERBAIKAN: Pastikan $laporanTerbaru adalah Collection dan gunakan foreach yang aman --}}
+                    @if($laporanTerbaru && $laporanTerbaru->isNotEmpty())
+                        @foreach ($laporanTerbaru as $laporan)
+                            <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border border-red-100">
+                                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-exclamation text-red-600 text-xs"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900">
+                                        {{ $laporan->jenis_kekerasan ?? 'Tidak diketahui' }}
+                                    </p>
+                                    <p class="text-xs text-gray-600 mt-1">
+                                        Dilaporkan {{ $laporan->created_at ? $laporan->created_at->diffForHumans() : 'Waktu tidak diketahui' }}
+                                    </p>
+                                    @if (isset($laporan->status) && $laporan->status == 'mendesak')
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-2">
+                                            Mendesak
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900">
-                                    {{ $laporan->jenis_kekerasan ?? 'Tidak diketahui' }}
-                                </p>
-                                <p class="text-xs text-gray-600 mt-1">
-                                    Dilaporkan {{ $laporan->created_at->diffForHumans() }}
-                                </p>
-                                @if ($laporan->status == 'mendesak')
-                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-2">
-                                        Mendesak
-                                    </span>
-                                @endif
-                            </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-8">
+                            <i class="fas fa-inbox text-gray-400 text-3xl mb-3"></i>
+                            <p class="text-gray-500">Belum ada laporan terbaru</p>
                         </div>
-                    @endforeach
+                    @endif
                 </div>
             </div>
-            <!-- <div class="p-6">
-                <div class="space-y-4">
-                    <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border border-red-100">
-                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <i class="fas fa-exclamation text-red-600 text-xs"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900">Pelecehan di Kampus</p>
-                            <p class="text-xs text-gray-600 mt-1">Dilaporkan 2 jam yang lalu</p>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-2">
-                                Mendesak
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
-        <!-- Quick Actions -->
+        <!-- Aksi Cepat -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100">
             <div class="p-6 border-b border-gray-100">
                 <h2 class="text-lg font-semibold text-gray-900">Aksi Cepat</h2>
@@ -168,33 +158,11 @@
                         <span class="text-sm font-medium text-red-700 mt-2">Kelola Laporan</span>
                     </a>
                 </div>
-
-                <!-- System Info -->
-                <!-- <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-100">
-                    <h3 class="text-sm font-semibold text-gray-900 mb-3">Informasi Sistem</h3>
-                    <div class="space-y-2 text-sm text-gray-600">
-                        <div class="flex justify-between">
-                            <span>Server Status:</span>
-                            <span class="flex items-center">
-                                <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                                Online
-                            </span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Last Backup:</span>
-                            <span>{{ now()->subHours(2)->format('H:i') }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Active Sessions:</span>
-                            <span>3</span>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Aktivitas Terbaru -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100">
         <div class="p-6 border-b border-gray-100">
             <h2 class="text-lg font-semibold text-gray-900">Aktivitas Terbaru</h2>
@@ -202,29 +170,40 @@
         <div class="p-6">
             <div class="flow-root">
                 <ul class="-mb-8">
-                    @foreach ($aktivitasTerbaru as $item)
-                        <li>
-                            <div class="relative pb-8">
-                                @if (!$loop->last)
-                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                                @endif
+                    {{-- PERBAIKAN: Gunakan is_array() dan pastikan data tidak null --}}
+                    @if($aktivitasTerbaru && (is_array($aktivitasTerbaru) || $aktivitasTerbaru instanceof \Illuminate\Support\Collection) && count($aktivitasTerbaru) > 0)
+                        @foreach ($aktivitasTerbaru as $index => $item)
+                            <li>
+                                <div class="relative pb-8">
+                                    @if (!$loop->last)
+                                        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    @endif
 
-                                <div class="relative flex space-x-3">
-                                    <div class="h-8 w-8 rounded-full bg-{{ $item['color'] }}-500 flex items-center justify-center ring-8 ring-white">
-                                        <i class="{{ $item['icon'] }} text-white text-xs"></i>
-                                    </div>
-                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                        <div>
-                                            <p class="text-sm text-gray-500">{!! $item['message'] !!}</p>
+                                    <div class="relative flex space-x-3">
+                                        <div class="h-8 w-8 rounded-full bg-{{ $item['color'] ?? 'gray' }}-500 flex items-center justify-center ring-8 ring-white">
+                                            <i class="{{ $item['icon'] ?? 'fas fa-info' }} text-white text-xs"></i>
                                         </div>
-                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                                            <time>{{ $item['created_at']->diffForHumans() }}</time>
+                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                            <div class="flex-1">
+                                                <p class="text-sm text-gray-500">{!! $item['message'] ?? 'Aktivitas tidak diketahui' !!}</p>
+                                            </div>
+                                            <div class="text-right text-sm whitespace-nowrap text-gray-500 flex flex-col items-end space-y-1">
+                                                <time>{{ isset($item['created_at']) ? \Carbon\Carbon::parse($item['created_at'])->diffForHumans() : 'Waktu tidak diketahui' }}</time>
+                                                @if(isset($item['url']))
+                                                    <a href="{{ $item['url'] }}" class="text-blue-600 underline text-sm hover:text-blue-800">Lihat</a>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    @endforeach
+                            </li>
+                        @endforeach
+                    @else
+                        <div class="text-center py-8">
+                            <i class="fas fa-clock text-gray-400 text-3xl mb-3"></i>
+                            <p class="text-gray-500">Belum ada aktivitas terbaru</p>
+                        </div>
+                    @endif
                 </ul>
             </div>
         </div>

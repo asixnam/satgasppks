@@ -16,11 +16,11 @@
             dalam pencegahan dan penanganan kekerasan seksual.
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/lapor" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center">
+            <a href="{{ route('lapor-kekerasan.create') }}" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
                 Laporkan Kasus
             </a>
-            <a href="/edukasi" class="bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center border border-white border-opacity-30">
+            <a href="{{ route('edukasi') }}" class="bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center border border-white border-opacity-30">
                 <i class="fas fa-info-circle mr-2"></i>
                 Pelajari Lebih Lanjut
             </a>

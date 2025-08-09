@@ -16,5 +16,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'),
             'email_verified_at' => now(),
         ]);
+           dd($user);
     }
+    
 }
