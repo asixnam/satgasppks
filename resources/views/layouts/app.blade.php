@@ -47,20 +47,20 @@
         }
         
         .navbar-gradient {
-            background: linear-gradient(135deg, #065f46 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #00272B 0%, #065f46 100%);
         }
         
         .navbar-scrolled {
-            background: linear-gradient(135deg, rgba(6, 95, 70, 0.95) 0%, rgba(124, 58, 237, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(0, 39, 43, 0.95) 0%, rgba(6, 95, 70, 0.95) 100%);
             backdrop-filter: blur(20px);
         }
         
         .footer-gradient {
-            background: linear-gradient(135deg, #065f46 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #065f46 0%,  #00272B 100%);
         }
         
         .mobile-menu-gradient {
-            background: linear-gradient(180deg, rgba(6, 95, 70, 0.98) 0%, rgba(124, 58, 237, 0.95) 100%);
+            background: linear-gradient(180deg, rgba(6, 95, 70, 0.98) 0%, rgba(20, 141, 115, 0.95) 100%);
             backdrop-filter: blur(20px);
         }
         
