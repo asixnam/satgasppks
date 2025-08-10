@@ -128,7 +128,7 @@
             $color = $colors[$index % count($colors)];
         @endphp
         <!-- Team Member Card -->
-        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 group border border-gray-100 transform hover:-translate-y-2">
+        <!-- <div class="bg-red rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 group border border-gray-100 transform hover:-translate-y-2"> -->
             <div class="text-center">
                 <!-- Photo Section -->
                 <div class="relative mb-2">
