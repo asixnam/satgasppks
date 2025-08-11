@@ -12,7 +12,7 @@
             Ciptakan Kampus yang Aman
         </h1>
         <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed opacity-90">
-            SATGAS PPKS Universitas Nahdlatul Ulama Yogyakarta merupakan lembaga garda terdepan
+            SATGAS PPKPT Universitas Nahdlatul Ulama Yogyakarta merupakan lembaga garda terdepan
             dalam pencegahan dan penanganan kekerasan seksual.
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
