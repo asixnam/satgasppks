@@ -40,37 +40,27 @@
         }
     </script> -->
     
-    <style>
-        /* Custom CSS untuk efek yang tidak bisa dicapai dengan Tailwind saja */
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-        
+   <style>
+        /* Custom gradients and animations */
         .navbar-gradient {
-            background: linear-gradient(135deg, #00272B 0%, #065f46 100%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
         }
         
-        .navbar-scrolled {
-            background: linear-gradient(135deg, rgba(0, 39, 43, 0.95) 0%, rgba(6, 95, 70, 0.95) 100%);
-            backdrop-filter: blur(20px);
-        }
-        
-        .footer-gradient {
-            background: linear-gradient(135deg, #065f46 0%,  #00272B 100%);
+        .navbar-gradient.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
         .mobile-menu-gradient {
-            background: linear-gradient(180deg, rgba(6, 95, 70, 0.98) 0%, rgba(20, 141, 115, 0.95) 100%);
+            background: linear-gradient(135deg, #166534 100%);
             backdrop-filter: blur(20px);
-        }
-        
-        .badge-pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            -webkit-backdrop-filter: blur(20px);
         }
         
         .glass-effect {
@@ -78,57 +68,116 @@
             -webkit-backdrop-filter: blur(10px);
         }
         
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
+        .badge-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
         
-        /* Prevent iOS zoom on input focus */
-        input, select, textarea {
-            font-size: 16px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        
-        /* Responsive text utilities */
-        @media (max-width: 475px) {
-            .text-responsive-xs {
-                font-size: 0.75rem;
-                line-height: 1rem;
-            }
+
+        /* Custom breakpoint for xs */
+        @media (min-width: 475px) {
+            .xs\:block { display: block; }
         }
-        
-        /* Better mobile menu positioning */
-        @media (max-width: 640px) {
-            #mobile-menu {
-                max-width: calc(100vw - 2rem);
-            }
+
+        /* Smooth transitions for all elements */
+        .navbar-gradient * {
+            transition: all 0.3s ease;
         }
-        
-        /* Improved focus states for accessibility */
-        .focus-visible:focus-visible {
-            outline: 2px solid #fbbf24;
-            outline-offset: 2px;
+
+        /* Logo animation when scrolled */
+        .navbar-gradient.scrolled .logo-container {
+            transform: scale(0.95);
         }
-        
-        /* Custom scrollbar for mobile menu */
-        #mobile-menu::-webkit-scrollbar {
-            width: 4px;
+
+        /* Text shadow for better readability when transparent */
+        .navbar-gradient:not(.scrolled) .nav-text {
+            color: #374151; /* gray-700 - dark color for better contrast */
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
         }
-        
-        #mobile-menu::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
+
+        /* Text color when scrolled - dark color */
+        .navbar-gradient.scrolled .nav-text {
+            color: #1f2937; /* gray-800 - dark color */
+            text-shadow: none;
         }
-        
-        #mobile-menu::-webkit-scrollbar-thumb {
-            background: rgba(251, 191, 36, 0.5);
-            border-radius: 2px;
+
+        /* Icon colors when transparent */
+        .navbar-gradient:not(.scrolled) .nav-icon {
+            color: #f59e0b; /* amber-500 */
         }
-        
-        /* Touch target improvements */
-        @media (pointer: coarse) {
-            .touch-target {
-                min-height: 44px;
-                min-width: 44px;
-            }
+
+        /* Icon colors when scrolled - dark color */
+        .navbar-gradient.scrolled .nav-icon {
+            color: #374151; /* gray-700 */
+        }
+
+        /* Mobile button colors when transparent */
+        .navbar-gradient:not(.scrolled) #mobile-menu-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #374151;
+        }
+
+        /* Mobile button colors when scrolled */
+        .navbar-gradient.scrolled #mobile-menu-btn {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            color: #1f2937;
+        }
+
+        /* Hover effects for scrolled state */
+        .navbar-gradient.scrolled .nav-link:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: #111827; /* gray-900 */
+        }
+
+        /* Hover effects for transparent state */
+        .navbar-gradient:not(.scrolled) .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #1f2937;
+        }
+
+        /* Active state for scrolled navbar */
+        .navbar-gradient.scrolled .nav-link.active {
+            background: rgba(59, 130, 246, 0.1) !important; /* blue tint */
+            color: #797979ff !important; /* blue-800 */
+        }
+
+        /* Active state for transparent navbar */
+        .navbar-gradient:not(.scrolled) .nav-link.active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #1f2937 !important;
+        }
+
+        /* Hero section for demo */
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Demo content sections */
+        .demo-section {
+            min-height: 100vh;
+            padding: 80px 0;
+        }
+
+        .demo-section:nth-child(even) {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .demo-section:nth-child(odd) {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        footer {
+            background-color: #191718;
+            color: #fff;
         }
     </style>
 </head>
@@ -139,7 +188,7 @@
     @include('components.HeaderApp')
 
     <!-- Main Content -->
-    <main class="min-h-screen pt-14 sm:pt-16 md:pt-18 lg:pt-20">
+    <main class="min-h-screen">
         @yield('content')
     </main>
 
@@ -148,194 +197,124 @@
 
     <!-- JavaScript -->
     <script>
-        // Mobile menu functionality with improved performance
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const mobileOverlay = document.getElementById('mobile-overlay');
         const mobileMenuClose = document.getElementById('mobile-menu-close');
-        const navbar = document.getElementById('navbar');
+        const mobileOverlay = document.getElementById('mobile-overlay');
 
-        let isMenuOpen = false;
-
-        function openMobileMenu() {
-            if (isMenuOpen) return;
+        // Sticky navbar with transparent effect
+        function handleNavbarScroll() {
+            const scrolled = window.pageYOffset > 50;
             
-            isMenuOpen = true;
-            mobileMenu.classList.remove('-translate-x-full');
-            mobileOverlay.classList.remove('opacity-0', 'invisible');
-            mobileMenuBtn.setAttribute('aria-expanded', 'true');
-            document.body.classList.add('overflow-hidden');
-            
-            // Focus management for accessibility
-            mobileMenuClose.focus();
-        }
-
-        function closeMobileMenu() {
-            if (!isMenuOpen) return;
-            
-            isMenuOpen = false;
-            mobileMenu.classList.add('-translate-x-full');
-            mobileOverlay.classList.add('opacity-0', 'invisible');
-            mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('overflow-hidden');
-            
-            // Return focus to menu button
-            mobileMenuBtn.focus();
-        }
-
-        // Event listeners with passive option for better performance
-        mobileMenuBtn?.addEventListener('click', openMobileMenu);
-        mobileMenuClose?.addEventListener('click', closeMobileMenu);
-        mobileOverlay?.addEventListener('click', closeMobileMenu);
-
-        // Close mobile menu when clicking on navigation links
-        const mobileNavLinks = document.querySelectorAll('#mobile-menu nav a');
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        // Optimized navbar scroll effect with throttling
-        let ticking = false;
-        
-        function updateNavbar() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('navbar-scrolled');
-                navbar.classList.remove('navbar-gradient');
+            if (scrolled) {
+                navbar.classList.add('scrolled');
             } else {
-                navbar.classList.remove('navbar-scrolled');
-                navbar.classList.add('navbar-gradient');
+                navbar.classList.remove('scrolled');
             }
-            ticking = false;
         }
 
-        function requestNavbarUpdate() {
+        // Throttle scroll event for better performance
+        let ticking = false;
+        function requestTick() {
             if (!ticking) {
-                requestAnimationFrame(updateNavbar);
+                requestAnimationFrame(handleNavbarScroll);
                 ticking = true;
             }
         }
 
-        window.addEventListener('scroll', requestNavbarUpdate, { passive: true });
+        window.addEventListener('scroll', function() {
+            ticking = false;
+            requestTick();
+        });
 
-        // Close mobile menu on window resize with debouncing
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                if (window.innerWidth >= 768 && isMenuOpen) {
-                    closeMobileMenu();
-                }
-            }, 150);
-        }, { passive: true });
+        // Mobile menu functionality
+        function openMobileMenu() {
+            mobileMenu.style.transform = 'translateX(0)';
+            mobileOverlay.classList.remove('invisible', 'opacity-0');
+            mobileOverlay.classList.add('opacity-100', 'visible');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
 
-        // Enhanced keyboard navigation support
+        function closeMobileMenu() {
+            mobileMenu.style.transform = 'translateX(-100%)';
+            mobileOverlay.classList.add('invisible', 'opacity-0');
+            mobileOverlay.classList.remove('opacity-100', 'visible');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners for mobile menu
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile menu on escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && isMenuOpen) {
+            if (e.key === 'Escape' && mobileMenu.style.transform === 'translateX(0px)') {
                 closeMobileMenu();
             }
-            
-            // Tab trapping in mobile menu
-            if (isMenuOpen && e.key === 'Tab') {
-                const focusableElements = mobileMenu.querySelectorAll(
-                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                );
-                const firstElement = focusableElements[0];
-                const lastElement = focusableElements[focusableElements.length - 1];
-                
-                if (e.shiftKey) {
-                    if (document.activeElement === firstElement) {
-                        lastElement.focus();
-                        e.preventDefault();
-                    }
-                } else {
-                    if (document.activeElement === lastElement) {
-                        firstElement.focus();
-                        e.preventDefault();
-                    }
-                }
-            }
         });
 
-        // Improved touch handling for mobile devices
-        if ('ontouchstart' in window) {
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            document.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-            
-            document.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, { passive: true });
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const swipeDistance = touchEndX - touchStartX;
-                
-                // Swipe right to open menu (when closed)
-                if (swipeDistance > swipeThreshold && !isMenuOpen && touchStartX < 50) {
-                    openMobileMenu();
-                }
-                
-                // Swipe left to close menu (when open)
-                if (swipeDistance < -swipeThreshold && isMenuOpen) {
-                    closeMobileMenu();
-                }
-            }
-        }
+        // Close mobile menu when clicking on mobile menu links
+        const mobileLinks = mobileMenu.querySelectorAll('nav a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
 
-        // Preload critical resources
-        function preloadCriticalResources() {
-            const criticalImages = [
-                '{{ asset("image/satgas-logo.png") }}'
-            ];
-            
-            criticalImages.forEach(src => {
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'image';
-                link.href = src;
-                document.head.appendChild(link);
+        // Active link management
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        function setActiveLink(targetId) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${targetId}`) {
+                    link.classList.add('active');
+                }
             });
         }
 
-        // Initialize on DOM content loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            preloadCriticalResources();
-            
-            // Add loading states
-            document.body.classList.add('loaded');
-            
-            // Initialize any tooltips or other interactive elements
-            const tooltipElements = document.querySelectorAll('[title]');
-            tooltipElements.forEach(el => {
-                el.addEventListener('mouseenter', function() {
-                    // Add custom tooltip logic if needed
-                });
+        // Handle navigation clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    setActiveLink(targetId);
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 
-        // Performance monitoring (optional)
-        if ('performance' in window) {
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    if (perfData.loadEventEnd - perfData.navigationStart > 3000) {
-                        console.warn('Page load time is over 3 seconds');
-                    }
-                }, 0);
+        // Update active link on scroll
+        const sections = document.querySelectorAll('section[id]');
+        
+        function updateActiveLink() {
+            const scrollPos = window.pageYOffset + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                    setActiveLink(section.id);
+                }
             });
         }
 
-        // Service Worker registration (optional for PWA features)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                // Uncomment if you have a service worker
-                // navigator.serviceWorker.register('/sw.js');
-            });
-        }
+        window.addEventListener('scroll', updateActiveLink);
+
+        // Initial calls
+        handleNavbarScroll();
+        updateActiveLink();
+    });
     </script>
 </body>
 </html>

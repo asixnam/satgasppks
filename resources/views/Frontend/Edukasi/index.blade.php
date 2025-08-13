@@ -52,13 +52,13 @@
                 <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-orange-200">
                     <div class="relative bg-gradient-to-br from-{{ $currentColor['from'] }} to-{{ $currentColor['to'] }} p-8 flex items-center justify-center h-48">
                         <div class="absolute inset-0 bg-gradient-to-br from-{{ $currentColor['icon'] }}/10 to-{{ $currentColor['icon'] }}/10 group-hover:from-{{ $currentColor['icon'] }}/20 group-hover:to-{{ $currentColor['icon'] }}/20 transition-all duration-500"></div>
-                        
+
                         @if($edukasi->gambar)
                             <!-- Display database image if available -->
-                            <div class="relative w-24 h-24 rounded-full overflow-hidden shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-500 border-4 border-white">
-                                <img src="{{ asset('storage/' . $edukasi->gambar) }}" 
-                                     alt="{{ $edukasi->judul }}" 
-                                     class="w-full h-full object-cover">
+                            <div class="relative aspect-video overflow-hidden rounded-t-xl">
+                                <img src="{{ asset('storage/' . $edukasi->gambar) }}"
+                                    alt="{{ $edukasi->judul }}"
+                                    class="w-full h-full object-cover object-center">
                             </div>
                         @else
                             <!-- Fallback to icon if no image -->
@@ -69,9 +69,9 @@
                             </div>
                         @endif
                         
-                        <div class="absolute top-4 right-4 bg-{{ $currentColor['badge'] }} text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        <!-- <div class="absolute top-4 right-4 bg-{{ $currentColor['badge'] }} text-white px-3 py-1 rounded-full text-xs font-semibold">
                             {{ $currentColor['label'] }}
-                        </div>
+                        </div> -->
                     </div>
                     <div class="p-8">
                         <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors duration-300">

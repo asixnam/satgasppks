@@ -6,9 +6,9 @@
     <!-- Header Section -->
     <div class="text-center mb-16">
         <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-44 mb-8 drop-shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 bg-gradient-to-r from-green-900 to-green-600 bg-clip-text text-transparent">
-            Tentang SATGAS PPKPT
-        </h1>
+            <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 text-[#166534]">
+                Tentang SATGAS PPKPT
+            </h1>
         <!-- <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8"></div> -->
         <p class="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
             {{ $visiMisi->about }}
@@ -22,10 +22,10 @@
             <!-- Vision Card -->
             <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-gray-100">
                 <div class="flex items-center mb-6">
-                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full mr-4">
-                        <i class="fas fa-eye text-white text-xl"></i>
+                    <div class=" rounded-full mr-4">
+                        <i class="fas fa-lightbulb text-green-600 text-xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800">VISI</h2>
+                    <h2 class="text-2xl font-bold text-green-800">VISI</h2>
                 </div>
                 <p class="text-gray-700 leading-relaxed">
                     {{ $visiMisi->visi }}
@@ -35,10 +35,10 @@
             <!-- Mission Card -->
             <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-gray-100">
                 <div class="flex items-center mb-6">
-                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-3 rounded-full mr-4">
-                        <i class="fas fa-bullseye text-white text-xl"></i>
+                    <div class=" rounded-full mr-4">
+                        <i class="fas fa-bullseye text-green-600 text-xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800">MISI</h2>
+                    <h2 class="text-2xl font-bold text-green-800">MISI</h2>
                 </div>
                 <ul class="text-gray-700 leading-relaxed space-y-3">
                     @foreach(explode("\n", $visiMisi->misi) as $item)
@@ -104,10 +104,10 @@
     <!-- Team Section -->
     <div class="text-center mb-12">
         <div class="flex items-center justify-center mb-8">
-            <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-3 rounded-full mr-4">
-                <i class="fas fa-users text-white text-xl"></i>
+            <div class=" rounded-full mr-4">
+                <i class="fas fa-users text-green-600 text-xl"></i>
             </div>
-            <h2 class="text-3xl font-bold text-gray-800">Tim Kami</h2>
+            <h2 class="text-3xl font-bold text-green-800">Tim Kami</h2>
         </div>
         <p class="text-gray-600 max-w-2xl mx-auto mb-12">
             Tim profesional yang berdedikasi untuk menciptakan lingkungan kampus yang aman dan nyaman bagi seluruh civitas akademika

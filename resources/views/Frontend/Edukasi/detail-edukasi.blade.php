@@ -2,45 +2,69 @@
 
 @section('content')
 
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16">
     <!-- Back Button -->
-    <div class="mb-6">
-        <a href="{{ route('edukasi') }}" class="inline-flex items-center text-purple-600 hover:text-purple-800 font-semibold transition-colors duration-300">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Kembali ke Daftar Edukasi
-        </a>
-    </div>
+    <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/edukasi" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                        </svg>
+                        Edukasi
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 truncate max-w-xs">
+                            {{ Str::limit($edukasi->judul, 50) }}
+                        </span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
 
     <!-- Header Section -->
-    <div class="text-center mb-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white shadow-xl">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $edukasi->judul }}</h1>
-        <div class="flex items-center justify-center text-sm opacity-90 space-x-4">
-            <div class="flex items-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4h4m6 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Dipublikasikan: {{ $edukasi->created_at->format('d F Y') }}
-            </div>
-            @if($edukasi->updated_at != $edukasi->created_at)
-                <div class="flex items-center">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                    </svg>
-                    Diperbarui: {{ $edukasi->updated_at->format('d F Y') }}
+    <header class="mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
+                    {{ $edukasi->judul }}
+                </h1>
+                
+                <div class="flex items-center gap-4 text-gray-600 mb-6">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <time datetime="{{ $edukasi->created_at->format('Y-m-d') }}">
+                            {{ $edukasi->created_at->format('l, d F Y') }}
+                        </time>
+                    </div>
+                    
+                    @if($edukasi->updated_at != $edukasi->created_at)
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            <span class="text-sm">
+                                Diperbarui: {{ $edukasi->updated_at->format('d F Y') }}
+                            </span>
+                        </div>
+                    @endif
                 </div>
-            @endif
-        </div>
-    </div>
+            </header>
 
     <!-- Image Section -->
     @if($edukasi->gambar)
-        <div class="text-center mb-12">
-            <img src="{{ asset('storage/' . $edukasi->gambar) }}" 
-                 alt="{{ $edukasi->judul }}" 
-                 class="w-full h-80 object-cover rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300">
-        </div>
+        <div class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="{{ asset('storage/' . $edukasi->gambar) }}" 
+                         alt="{{ $edukasi->judul }}"
+                         class="w-full h-64 md:h-96 object-cover">
+                </div>
     @else
         <!-- Default image if no image in database -->
         <div class="text-center mb-12">

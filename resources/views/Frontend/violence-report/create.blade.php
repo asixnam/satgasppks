@@ -21,7 +21,7 @@
 <div class="container mx-auto p-6">
     <div class="bg-white rounded-lg shadow-lg">
         <!-- Header -->
-        <div class="border-b px-6 py-4 flex justify-between items-center">
+        <div class="border-b px-6 py-4 flex justify-between items-center mt-16">
             <h3 class="text-xl font-semibold text-gray-800">Buat Laporan Kekerasan Baru</h3>
             <a href="" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition text-sm">
                 <i class="fas fa-arrow-left mr-2"></i>Kembali

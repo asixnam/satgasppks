@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20 pb-12">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20 pb-12 mt-16">
     <div class="container mx-auto px-4 py-8">
         
         <!-- Header Section -->
