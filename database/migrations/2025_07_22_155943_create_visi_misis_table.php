@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('visi_misis', function (Blueprint $table) {
             $table->id();
+            $table->text('about');
             $table->text('visi');
             $table->text('misi');
             $table->timestamps();

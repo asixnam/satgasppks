@@ -12,6 +12,17 @@
         @if($data)
             <!-- Content Card -->
             <div class="bg-white rounded-lg shadow-sm p-6">
+                
+
+                <div class="mb-8">
+                    <div class="flex items-center mb-4">
+                        <div class="w-1 h-8 bg-green-500 rounded-full mr-4"></div>
+                        <h2 class="text-lg font-semibold text-gray-800">Tentang</h2>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
+                        <p class="text-gray-700 leading-relaxed">{{ $data->about }}</p>
+                    </div>
+                </div>
                 <!-- Visi Section -->
                 <div class="mb-8">
                     <div class="flex items-center mb-4">

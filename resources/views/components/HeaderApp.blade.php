@@ -11,8 +11,8 @@
                 <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-3" aria-label="SATGAS PPKS UNU Yogyakarta Home">
                     <img src="{{ asset('image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0">
                     <div class="hidden xs:block min-w-0">
-                        <!-- <h1 class="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate">SATGAS PPKS</h1>
-                        <p class="text-yellow-300 text-xs md:text-sm font-medium opacity-90 truncate">UNU Yogyakarta</p> -->
+                        <h1 class="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate">SATGAS PPKS</h1>
+                        <p class="text-yellow-300 text-xs md:text-sm font-medium opacity-90 truncate">UNU Yogyakarta</p>
                     </div>
                 </a>
             </div>
@@ -30,8 +30,7 @@
                 <a href="{{ route('cek-status') }}" class="flex items-center space-x-1.5 xl:space-x-2 px-2.5 xl:px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Cek Status">
                     <i class="fas fa-search text-yellow-300 text-sm" aria-hidden="true"></i>
                     <span class="whitespace-nowrap">Cek Status</span>
-                    <!-- <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-1.5 py-0.5 rounded-full badge-pulse" aria-label="Segera hadir">Soon</span> -->
-                </a>
+                 </a>
                 <a href="{{ route('berita') }}" class="flex items-center space-x-1.5 xl:space-x-2 px-2.5 xl:px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:text-yellow-300 hover:-translate-y-0.5 border border-transparent hover:border-yellow-300 hover:border-opacity-30" aria-label="Berita">
                     <i class="fas fa-newspaper text-yellow-300 text-sm" aria-hidden="true"></i>
                     <span class="whitespace-nowrap">Berita</span>
@@ -120,7 +119,7 @@
         <a href="{{ route('cek-status') }}" class="flex items-center p-3 sm:p-4 mb-1.5 sm:mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
             <i class="fas fa-search w-5 sm:w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>
             <span class="font-medium text-sm sm:text-base">Cek Status</span>
-            <!-- <span class="bg-gradient-to-r from-yellow-300 to-yellow-500 text-black text-xs font-semibold px-2 py-1 rounded-full ml-auto badge-pulse">Soon</span> -->
+            
         </a>
         <a href="{{ route('berita') }}" class="flex items-center p-3 sm:p-4 mb-1.5 sm:mb-2 rounded-xl text-white transition-all duration-300 hover:bg-white hover:bg-opacity-10 hover:translate-x-1 border border-transparent hover:border-yellow-300 hover:border-opacity-30">
             <i class="fas fa-newspaper w-5 sm:w-6 text-center mr-3 text-yellow-300" aria-hidden="true"></i>

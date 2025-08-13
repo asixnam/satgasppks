@@ -15,6 +15,19 @@
                 @csrf
                 @method('PUT')
                 
+                <div>
+                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tentang
+                    </label>
+                    <textarea 
+                        name="about" 
+                        id="about"
+                        rows="4" 
+                        class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical" 
+                        placeholder="Masukkan visi organisasi..."
+                        required>{{ $visiMisi->about }}</textarea>
+                </div>
+
                 <!-- Visi Field -->
                 <div>
                     <label for="visi" class="block text-sm font-medium text-gray-700 mb-2">

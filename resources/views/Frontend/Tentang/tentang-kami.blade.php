@@ -6,14 +6,12 @@
     <!-- Header Section -->
     <div class="text-center mb-16">
         <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-44 mb-8 drop-shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 class="text-4xl md:text-5xl font-bold section-title mb-6 bg-gradient-to-r from-green-900 to-green-600 bg-clip-text text-transparent">
             Tentang SATGAS PPKPT
         </h1>
-        <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8"></div>
+        <!-- <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8"></div> -->
         <p class="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-            Satuan Tugas Pencegahan dan Penanganan Kekerasan Perguruan Tinggi Universitas Nahdlatul Ulama Yogyakarta
-            merupakan layanan pengaduan, penanganan, dan pencegahan kekerasan seksual di
-            tingkat kampus bagi Civitas Akademika (mahasiswa, dosen, dan tenaga pendidik)
+            {{ $visiMisi->about }}
         </p>
     </div>
 
@@ -118,7 +116,7 @@
 
     <!-- Team Grid - Modified to 3 columns with larger cards -->
     @if($tims->count() > 0)
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
         @php
             $colors = ['blue', 'purple', 'green', 'indigo', 'red', 'yellow', 'pink', 'teal'];
         @endphp
@@ -129,24 +127,26 @@
         @endphp
         <!-- Team Member Card -->
         <!-- <div class="bg-red rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 group border border-gray-100 transform hover:-translate-y-2"> -->
-            <div class="text-center">
-                <!-- Photo Section -->
-                <div class="relative mb-2">
-                    @if($tim->foto)
-                        <img src="{{ asset('storage/' . $tim->foto) }}" alt="Foto {{ $tim->nama }}" 
-                             class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
-                    @else
-                        <img src="/image/sampel.png" alt="Foto Default" 
-                             class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
-                    @endif
-                    <div class="absolute inset-0 bg-gradient-to-t from-{{ $color }}-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                
-                <!-- Info Section - Compact and tight -->
-                <div class="space-y-1 mt-1">
-                    <h3 class="font-bold text-lg text-gray-800 leading-tight">{{ $tim->nama }}</h3>
-                    <p class="text-{{ $color }}-600 text-sm font-medium">{{ $tim->jabatan }}</p>
-                </div>
+            <div class="text-center h-full flex flex-col items-center">
+        <!-- Photo Section -->
+            <div class="relative mb-2">
+                @if($tim->foto)
+                    <img src="{{ asset('storage/' . $tim->foto) }}" 
+                        alt="Foto {{ $tim->nama }}" 
+                        class="w-56 h-56 object-cover rounded-xl sm:size-48 lg:size-60 mx-auto">
+                @else
+                    <img src="/image/sampel.png" 
+                        alt="Foto Default" 
+                        class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
+                @endif
+                <div class="absolute inset-0 bg-gradient-to-t from-{{ $color }}-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Info Section -->
+            <div class="space-y-1 mt-1">
+                <h3 class="text-sm font-medium text-gray-800 sm:text-base lg:text-lg dark:text-neutral-200t">{{ $tim->nama }}</h3>
+                <p class="text-xs-{{ $color }}-400 sm:text-sm lg:text-base dark:text-neutral-500">{{ $tim->jabatan }}</p>
+                <p class="text-xs-{{ $color }}-600 sm:text-sm lg:text-base dark:text-neutral-500"> UNU Yogyakarta</p>
             </div>
         </div>
         @endforeach

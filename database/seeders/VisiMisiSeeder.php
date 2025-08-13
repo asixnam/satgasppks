@@ -18,6 +18,7 @@ class VisiMisiSeeder extends Seeder
                 '4. Mengembangkan sistem pelaporan dan pendataan yang transparan dan akuntabel.',
                 '5. Mendorong kebijakan yang berpihak pada korban dan menjamin hak-haknya.',
             ]),
+            'about' => 'Deskripsi singkat tentang lembaga ini.'
         ]);
     }
 }

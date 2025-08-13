@@ -14,6 +14,20 @@
             <form action="{{ route('admin.visi-misi.store') }}" method="POST" class="space-y-6">
                 @csrf
                 
+                <div>
+                    <label for="about" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tentang SATGAS PPKPT <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        name="about" 
+                        id="about"
+                        rows="4"
+                        class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 resize-none"
+                        placeholder="Masukkan Deskripsi SATGAS PPKPT"
+                        required
+                    ></textarea>
+                </div>
+
                 <!-- Visi Section -->
                 <div>
                     <label for="visi" class="block text-sm font-medium text-gray-700 mb-2">

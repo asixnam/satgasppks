@@ -39,6 +39,7 @@ class VisiMisiController extends Controller
     public function update(Request $request, VisiMisi $visiMisi)
     {
         $request->validate([
+            'about' => 'required|string',
             'visi' => 'required|string',
             'misi' => 'required|string',
         ]);
