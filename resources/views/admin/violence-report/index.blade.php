@@ -3,9 +3,7 @@
 @section('title', 'Laporan Kekerasan')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-4">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header Card -->
+<!-- Header Card -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -121,47 +119,37 @@
                 </form>
             </div>
 
-            <!-- Alerts -->
-            <div class="px-6">
-                @if(session('success'))
-                    <div class="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg alert" role="alert">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            {{ session('success') }}
-                            <button type="button" class="ml-auto text-green-700 hover:text-green-900" onclick="this.parentElement.parentElement.remove()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                @endif
-
-                @if(session('error'))
-                    <div class="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg alert" role="alert">
-                        <div class="flex items-center">
-                            <i class="fas fa-exclamation-circle mr-2"></i>
-                            {{ session('error') }}
-                            <button type="button" class="ml-auto text-red-700 hover:text-red-900" onclick="this.parentElement.parentElement.remove()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                @endif
-
-                @if(session('info'))
-                    <div class="mt-4 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg alert" role="alert">
-                        <div class="flex items-center">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            {{ session('info') }}
-                            <button type="button" class="ml-auto text-blue-700 hover:text-blue-900" onclick="this.parentElement.parentElement.remove()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                @endif
+    <!-- Card View untuk Mobile -->
+    <div class="space-y-4 sm:hidden">
+        @foreach($reports as $report)
+            <div class="bg-white shadow rounded-lg p-4 border">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold">{{ $report->client->nama_lengkap ?? '-' }}</span>
+                    <span class="text-xs px-2 py-1 rounded {{ $report->status == 'selesai' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                        {{ ucfirst($report->status) }}
+                    </span>
+                </div>
+                <p class="text-sm text-gray-600">Kode: {{ $report->code ?? 'N/A' }}</p>
+                <p class="text-sm">Pelapor: {{ $report->reporter->nama_lengkap ?? '-' }}</p>
+                <p class="text-sm">Pelaku: {{ $report->perpetrator->nama ?? '-' }}</p>
+                <div class="mt-3 flex gap-2 flex-wrap">
+                    <a href="{{ route('admin.violence-reports.show', $report->id) }}" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">Lihat</a>
+                    <a href="{{ route('admin.violence-reports.edit', $report->id) }}" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded text-xs">Edit</a>
+                    <form action="{{ route('admin.violence-reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin hapus laporan ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">Hapus</button>
+                    </form>
+                </div>
             </div>
+        @endforeach
+    </div>
 
-            <!-- Table -->
-            <div class="px-6 py-4">
+    
+    <!-- Card View untuk dekstop -->
+    
+        <div class="px-6 py-4 hidden sm:block">
+        
                 <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-300">
@@ -327,18 +315,12 @@
                         </table>
                     </div>
                 </div>
-
-                <!-- Pagination -->
-                @if(method_exists($reports, 'links'))
-                    <div class="mt-6 flex justify-center">
-                        {{ $reports->appends(request()->query())->links() }}
-                    </div>
-                @endif
-            </div>
-        </div>
+                
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $reports->links() }}
     </div>
 </div>
-
 @endsection
 
 @section('scripts')

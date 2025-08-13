@@ -1,7 +1,7 @@
 @extends('Layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-start py-12 px-4">
+<div class="min-h-screen bg-gradient-to-br from-white-50 to-indigo-100 flex flex-col items-center justify-start py-12 px-4">
     <!-- Header Section -->
     <div class="text-center mb-8 mt-16">
         <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">

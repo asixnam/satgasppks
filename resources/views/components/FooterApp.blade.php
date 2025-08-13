@@ -8,9 +8,17 @@
             <div class="md:col-span-1">
                 <!-- Logo dan Nama -->
                 <div class="flex items-center mb-4">
-                    <img src="{{ asset('image/logo-putih.png') }}" alt="SATGAS PPKS Logo" class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 mr-3">
-                    <h3 class="text-yellow-300 text-lg sm:text-xl font-semibold uppercase tracking-wide">SATGAS PPKPT</h3>
+                <img src="{{ asset('image/logoputih.png') }}" 
+                    alt="SATGAS PPKPT Logo" 
+                    class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 mr-3">
+                
+                <div class="flex flex-col leading-tight">
+                    <div class="hidden xs:block min-w-0">
+                        <h1 class="text-yellow-300 font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate nav-text">SATGAS PPKPT</h1>
+                        <p class="text-white text-xs md:text-sm font-medium opacity-90 truncate nav-text">UNU Yogyakarta</p>
+                    </div>
                 </div>
+            </div>
                 
                 <!-- Deskripsi -->
                 <p class="text-white text-sm sm:text-base leading-relaxed opacity-90 mb-6">
@@ -41,7 +49,7 @@
             </div>
 
             <!-- Kolom 2: Navigasi -->
-            <div class="md:col-span-1">
+            <div class="flex flex-col items-center md:col-span-1">
                 <h3 class="text-yellow-300 text-lg sm:text-xl font-semibold mb-4 sm:mb-6 uppercase tracking-wide">Navigasi</h3>
                 <nav>
                     <ul class="space-y-2 sm:space-y-3">
