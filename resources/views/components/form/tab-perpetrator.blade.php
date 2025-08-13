@@ -32,7 +32,7 @@
                     class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required>
                 @php
-                    $options = ['Teman', 'Pacar', 'Keluarga', 'Lainnya'];
+                    $options = ['Teman','Dosen','Rekan Kerja','Pacar', 'Keluarga', 'Lainnya'];
                     $selected = old('perpetrator_data.hubungan_dengan_korban', $formData['hubungan_dengan_korban'] ?? '');
                 @endphp
 

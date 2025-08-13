@@ -104,7 +104,7 @@
             class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required>
         @php
-            $statusOptions = ['Mahasiswa', 'Dosen', 'Tendik', 'Pegawai Lainnya'];
+            $statusOptions = ['Mahasiswa','Masyarakat','Atasan', 'Dosen', 'Tendik', 'Pegawai Lainnya'];
             $selectedStatus = old('client_data.status', $formData['status'] ?? '');
         @endphp
 

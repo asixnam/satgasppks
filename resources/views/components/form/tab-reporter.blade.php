@@ -48,7 +48,7 @@
                     class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required>
                 @php
-                    $hubunganPelaporOptions = ['Teman', 'Masyarakat', 'Tendik', 'Dosen', 'Tenaga Kerja', 'Lainnya'];
+                    $hubunganPelaporOptions = ['Teman', 'Masyarakat', 'Tendik','Rekan Kerja','Atasan','Dosen', 'Tenaga Kerja', 'Lainnya'];
                     $selected = old('reporter_data.hubungan_pelapor_dengan_pelaku', $formData['hubungan_pelapor_dengan_pelaku'] ?? '');
                 @endphp
 
@@ -135,6 +135,7 @@
                     required>
                 <option value="">-- Pilih Status --</option>
                 <option value="Mahasiswa" {{ old('reporter_data.status_pelapor') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                <option value="Atasan" {{ old('reporter_data.status_pelapor') == 'atasan' ? 'selected' : '' }}>Atasan</option>
                 <option value="Dosen" {{ old('reporter_data.status_pelapor') == 'dosen' ? 'selected' : '' }}>Dosen</option>
                 <option value="Tendik" {{ old('reporter_data.status_pelapor') == 'tendik' ? 'selected' : '' }}>Tendik</option>
                 <option value="Pegawai" {{ old('reporter_data.status_pelapor') == 'pegawai' ? 'selected' : '' }}>Pegawai Lainya</option>
