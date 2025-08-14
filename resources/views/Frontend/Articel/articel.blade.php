@@ -7,7 +7,7 @@
             <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
                 Berita & Artikel
             </h1>
-            <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-6"></div>
+            <div class="w-24 h-1 bg-gradient-to-r from-green-900 to-green-900 mx-auto mb-6"></div>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Informasi terkini seputar isu kekerasan seksual, pencegahan, dan dukungan untuk korban.
             </p>
