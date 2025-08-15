@@ -5,11 +5,15 @@
     </div>
 
     <div class="relative z-10 flex justify-between items-center px-6 py-4 h-full">
-        <div class="flex items-center space-x-4">
-            <a href="{{ url('/admin/dashboard') }}" class="relative block">
-                <img src="{{ asset('/image/logo-putih.png') }}" alt="SATGAS PPKS Logo" class="h-12 w-auto rounded shadow-lg">
-            </a>
-        </div>
+    <div class="flex items-center space-x-4">
+        <a href="{{ url('/admin/dashboard') }}" class="relative flex items-center space-x-3">
+            <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-12 w-auto rounded shadow-lg">
+            <div class="block min-w-0">
+                <h1 class="font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate text-white">Admin SATGAS PPKPT</h1>
+                <p class="text-xs md:text-sm font-medium opacity-90 truncate text-white">UNU Yogyakarta</p>
+            </div>
+        </a>
+    </div>
 
         <div class="flex items-center space-x-3">
             <!-- Notifications -->

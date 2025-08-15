@@ -147,8 +147,8 @@
     <div class="w-full max-w-xl mt-8 text-center">
         <p class="text-gray-600 text-sm">
             Tidak dapat menemukan nomor tiket Anda? 
-            <a href="{{ route('cek-status') }}" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors">
-                Cek Satatus Pelaporan
+            <a href="https://wa.me/6281323596022" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors">
+                Hubungi Petugas
             </a>
         </p>
     </div>
