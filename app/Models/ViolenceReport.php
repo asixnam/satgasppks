@@ -60,7 +60,7 @@ class ViolenceReport extends Model
     public function scopeByViolenceType($query, $type)
     {
         return $query->whereHas('violence', function ($q) use ($type) {
-            $q->where('jenis_kekerasan', $type);
+            $q->where('bentuk_kekerasan', $type);
         });
     }
 
@@ -104,7 +104,7 @@ class ViolenceReport extends Model
             'report_number' => $this->report_number,
             'client_name' => $this->client->nama_lengkap ?? '-',
             'reporter_name' => $this->reporter->nama_lengkap ?? '-',
-            'violence_type' => $this->violence->jenis_kekerasan ?? '-',
+            'violence_type' => $this->violence->bentuk_kekerasan ?? '-',
             'incident_date' => $this->violence->waktu_kejadian ?? '-',
             'report_date' => $this->created_at,
             'location' => $this->violence->lokasi_kejadian ?? '-'

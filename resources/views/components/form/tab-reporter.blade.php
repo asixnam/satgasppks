@@ -1,11 +1,11 @@
 @php
     // Tentukan data yang akan ditampilkan di form
     $formData = [];
-    
+
     // Jika ada old data (dari validation error), gunakan itu
     if (!empty($oldData)) {
         $formData = $oldData;
-    } 
+    }
     // Jika ada edit data (sedang edit record), gunakan itu
     elseif (isset($editData) && $editData) {
         $formData = [
@@ -16,6 +16,7 @@
             'jenis_kelamin' => $editData->jenis_kelamin ?? '',
             'usia' => $editData->usia ?? '',
             'status_pelapor' => $editData->status_pelapor ?? '',
+            'email' => $editData->email ?? '',
             'no_telepon' => $editData->no_telepon ?? '',
             'alamat' => $editData->alamat ?? '',
             'keterangan_tambahan' => $editData->keterangan_tambahan ?? ''
@@ -129,22 +130,24 @@
         </div>
 
         <div>
-           <label class="block text-sm font-medium text-gray-700 mb-1">Status Pelapor <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Status Pelapor <span class="text-red-500">*</span>
+            </label>
             <select name="reporter_data[status_pelapor]"
                     class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required>
-                <option value="">-- Pilih Status --</option>
-                <option value="Mahasiswa" {{ old('reporter_data.status_pelapor') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
-                <option value="Atasan" {{ old('reporter_data.status_pelapor') == 'atasan' ? 'selected' : '' }}>Atasan</option>
-                <option value="Dosen" {{ old('reporter_data.status_pelapor') == 'dosen' ? 'selected' : '' }}>Dosen</option>
-                <option value="Tendik" {{ old('reporter_data.status_pelapor') == 'tendik' ? 'selected' : '' }}>Tendik</option>
-                <option value="Pegawai" {{ old('reporter_data.status_pelapor') == 'pegawai' ? 'selected' : '' }}>Pegawai Lainya</option>
-                
+                <option value="">Pilih Status Pelapor</option>
+                <option value="Mahasiswa" {{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                <option value="Atasan" {{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') == 'Atasan' ? 'selected' : '' }}>Atasan</option>
+                <option value="Dosen" {{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                <option value="Tendik" {{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') == 'Tendik' ? 'selected' : '' }}>Tendik</option>
+                <option value="Pegawai" {{ old('reporter_data.status_pelapor', $formData['status_pelapor'] ?? '') == 'Pegawai' ? 'selected' : '' }}>Pegawai Lainnya</option>
             </select>
             @error('reporter_data.status_pelapor')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
+
 
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">No. Telepon <span class="text-red-500">*</span></label>

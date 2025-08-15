@@ -9,17 +9,17 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <h1 class="text-2xl font-semibold text-gray-900">Data Laporan Kekerasan</h1>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ route('admin.violence-reports.create') }}" 
+                        <a href="{{ route('admin.violence-reports.create') }}"
                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-plus mr-2"></i>
                             Tambah Laporan
                         </a>
-                        <a href="{{ route('admin.violence-reports.details.all') }}" 
+                        <a href="{{ route('admin.violence-reports.details.all') }}"
                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-list mr-2"></i>
                             View Details
                         </a>
-                        <a href="{{ route('admin.violence-reports.statistics') }}" 
+                        <a href="{{ route('admin.violence-reports.statistics') }}"
                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-chart-bar mr-2"></i>
                             Statistik
@@ -32,12 +32,12 @@
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <form id="filterForm" method="GET" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                        
+
                         <div>
                             <label for="violence_type" class="block text-sm font-medium text-gray-700 mb-2">
                                 Bentuk Kekerasan
                             </label>
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                     id="filter-violence-form" name="violence_type">
                                 <option value="">Semua Bentuk</option>
                                 <option value="Fisik" {{ request('violence_type') == 'Fisik' ? 'selected' : '' }}>Fisik</option>
@@ -53,54 +53,56 @@
                             <label for="filter-status" class="block text-sm font-medium text-gray-700 mb-2">
                                 Status Korban
                             </label>
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                     id="filter-status" name="status">
                                 <option value="">Semua Status</option>
                                 <option value="Mahasiswa" {{ request('status') == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
                                 <option value="Dosen" {{ request('status') == 'Dosen' ? 'selected' : '' }}>Dosen</option>
                                 <option value="Tendik" {{ request('status') == 'Tendik' ? 'selected' : '' }}>Tendik</option>
+                                <option value="Atasan" {{ request('status') == 'Atasan' ? 'selected' : '' }}>Atasan</option>
                                 <option value="Masyarakat" {{ request('status') == 'Masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                                <option value="Pegawai Lainya" {{ request('status') == 'Pegawai Lainya' ? 'selected' : '' }}>Pegawai Lainya</option>
                             </select>
                         </div>
-                        
+
                         <div>
                             <label for="filter-gender" class="block text-sm font-medium text-gray-700 mb-2">
                                 Jenis Kelamin
                             </label>
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                     id="filter-gender" name="gender">
                                 <option value="">Semua</option>
                                 <option value="Laki-laki" {{ request('gender') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                 <option value="Perempuan" {{ request('gender') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                         </div>
-                        
+
                         <div>
                             <label for="start-date" class="block text-sm font-medium text-gray-700 mb-2">
                                 Tanggal Mulai
                             </label>
-                            <input type="date" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                            <input type="date"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                    id="start-date" name="start_date" value="{{ request('start_date') }}">
                         </div>
-                        
+
                         <div>
                             <label for="end-date" class="block text-sm font-medium text-gray-700 mb-2">
                                 Tanggal Akhir
                             </label>
-                            <input type="date" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" 
+                            <input type="date"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
                                    id="end-date" name="end_date" value="{{ request('end_date') }}">
                         </div>
                     </div>
-                    
+
                     <div class="flex flex-wrap gap-2">
-                        <button type="submit" 
+                        <button type="submit"
                                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-filter mr-2"></i>
                             Jalankan Filter
                         </button>
-                        <a href="{{ route('admin.violence-reports.index') }}" 
+                        <a href="{{ route('admin.violence-reports.index') }}"
                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-refresh mr-2"></i>
                             Reset
@@ -109,7 +111,7 @@
                             @csrf
                             <input type="hidden" name="selected_reports" id="selected-reports">
                         </form>
-                        <button type="button" onclick="bulkDelete()" 
+                        <button type="button" onclick="bulkDelete()"
                                 class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm"
                                 id="bulk-delete-btn" style="display: none;">
                             <i class="fas fa-trash mr-2"></i>
@@ -145,11 +147,11 @@
         @endforeach
     </div>
 
-    
+
     <!-- Card View untuk dekstop -->
-    
+
         <div class="px-6 py-4 hidden sm:block">
-        
+
                 <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-300">
@@ -175,7 +177,7 @@
                                 @forelse($reports as $index => $report)
                                 <tr class="hover:bg-gray-50 transition-colors duration-150">
                                     <td class="px-4 py-3 whitespace-nowrap">
-                                        <input type="checkbox" class="report-checkbox rounded border-gray-300 text-green-600 focus:ring-green-500" 
+                                        <input type="checkbox" class="report-checkbox rounded border-gray-300 text-green-600 focus:ring-green-500"
                                                value="{{ $report->id }}">
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ $loop->iteration + (($reports->currentPage() - 1) * $reports->perPage()) }}</td>
@@ -242,8 +244,8 @@
                                     <td class="px-4 py-3 whitespace-nowrap text-sm">
                                         @if($report->violence && $report->violence->bentuk_kekerasan)
                                             @php
-                                                $bentukList = is_array($report->violence->bentuk_kekerasan) 
-                                                    ? $report->violence->bentuk_kekerasan 
+                                                $bentukList = is_array($report->violence->bentuk_kekerasan)
+                                                    ? $report->violence->bentuk_kekerasan
                                                     : json_decode($report->violence->bentuk_kekerasan, true);
                                             @endphp
 
@@ -278,12 +280,12 @@
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-1">
-                                            <a href="{{ route('admin.violence-reports.show', $report->id) }}" 
+                                            <a href="{{ route('admin.violence-reports.show', $report->id) }}"
                                                class="bg-green-500 hover:bg-green-600 text-white p-2 rounded transition-colors duration-200"
                                                title="Lihat Detail">
                                                 <i class="fas fa-eye text-xs"></i>
                                             </a>
-                                            <a href="{{ route('admin.violence-reports.edit', $report->id) }}" 
+                                            <a href="{{ route('admin.violence-reports.edit', $report->id) }}"
                                                class="bg-amber-500 hover:bg-amber-600 text-white p-2 rounded transition-colors duration-200"
                                                title="Edit">
                                                 <i class="fas fa-edit text-xs"></i>
@@ -291,7 +293,7 @@
                                             <form action="{{ route('admin.violence-reports.destroy', $report->id) }}" method="POST" onsubmit="return confirmDelete(event)" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" 
+                                                <button type="submit"
                                                     class="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors duration-200"
                                                     title="Hapus">
                                                 <i class="fas fa-trash text-xs"></i>
@@ -315,7 +317,7 @@
                         </table>
                     </div>
                 </div>
-                
+
     <!-- Pagination -->
     <div class="mt-6">
         {{ $reports->links() }}
