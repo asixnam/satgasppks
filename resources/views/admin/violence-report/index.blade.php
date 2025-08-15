@@ -61,7 +61,7 @@
                                 <option value="Tendik" {{ request('status') == 'Tendik' ? 'selected' : '' }}>Tendik</option>
                                 <option value="Atasan" {{ request('status') == 'Atasan' ? 'selected' : '' }}>Atasan</option>
                                 <option value="Masyarakat" {{ request('status') == 'Masyarakat' ? 'selected' : '' }}>Masyarakat</option>
-                                <option value="Pegawai Lainya" {{ request('status') == 'Pegawai Lainya' ? 'selected' : '' }}>Pegawai Lainya</option>
+                                <option value="Pegawai" {{ request('status') == 'Pegawai' ? 'selected' : '' }}>Pegawai Lainya</option>
                             </select>
                         </div>
 
