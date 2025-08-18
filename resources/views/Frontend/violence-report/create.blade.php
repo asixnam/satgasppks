@@ -5,7 +5,7 @@
 @section('content')
 <!-- Error Messages -->
 @if ($errors->any())
-    <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+    <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 mt-16">
         <div class="flex items-center mb-2">
             <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
             <h4 class="text-red-800 font-medium">Terdapat kesalahan dalam form:</h4>

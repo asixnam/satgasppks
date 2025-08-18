@@ -12,7 +12,9 @@
         <div class="bg-gray-100 text-gray-800 p-4 rounded mb-4">
             <p class="font-semibold">Kode Laporan Anda:</p>
             <p class="text-lg font-mono">{{ $reportId }}</p>
+            
         </div>
+        <p><p>Salin tiket anda jika ingin mengecek di kemudian waktu</p></p>
 
         <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Kembali ke Beranda</a>
     </div>
