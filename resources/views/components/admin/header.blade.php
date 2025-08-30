@@ -23,6 +23,7 @@
                     <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-6 w-6 flex items-center justify-center font-semibold notification-pulse shadow-lg">3</span>
                 </button>
             </div>
+            
 
             <!-- User Profile Dropdown - BAGIAN YANG DIPERBAIKI -->
             @php $user = Auth::user(); @endphp
