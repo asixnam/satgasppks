@@ -31,9 +31,9 @@ class AppController extends Controller
         $hero = $heroes->first();
 
         if (!$hero) {
-            // Buat hero kosong dengan gambar default (tanpa menyimpan ke DB)
             $hero = new \stdClass();
             $hero->gambar = 'images/gedung-unujogja.jpg';
+            $heroes = collect([$hero]);
         }
         
             // Ambil berita terbaru (misal 3 untuk tampil di homepage)
