@@ -10,9 +10,13 @@
             <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0 min-w-0 logo-container">
                 <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-3" aria-label="SATGAS PPKS UNU Yogyakarta Home">
                     <img src="{{ asset('image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 transition-all duration-300">
-                    <div class="hidden xs:block min-w-0">
-                        <h1 class="font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate nav-text">SATGAS PPKPT</h1>
-                        <p class="text-xs md:text-sm font-medium opacity-90 truncate nav-text">UNU Yogyakarta</p>
+                    <div class="hidden sm:block min-w-0">
+                        <h1 class="font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate nav-text">
+                            SATGAS PPKPT
+                        </h1>
+                        <p class="text-xs md:text-sm font-medium opacity-90 truncate nav-text">
+                            UNU Yogyakarta
+                        </p>
                     </div>
                 </a>
             </div>
