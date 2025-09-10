@@ -13,7 +13,7 @@
                     class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 mr-3">
                 
                 <div class="flex flex-col leading-tight">
-                    <div class="hidden xs:block min-w-0">
+                    <div class="hidden sm:block min-w-0">
                         <h1 class="text-yellow-300 font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight truncate nav-text">SATGAS PPKPT</h1>
                         <p class="text-white text-xs md:text-sm font-medium opacity-90 truncate nav-text">UNU Yogyakarta</p>
                     </div>
