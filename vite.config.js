@@ -16,10 +16,9 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     server: {
-        host: '0.0.0.0', // biar bisa diakses dari ngrok / jaringan lain
+        host: 'localhost',
         port: 5173,
         strictPort: true,
-        https: false, // kalau pakai ngrok https sudah di-handle oleh ngrok, jadi di sini tetap false
     },
     plugins: [
         laravel({

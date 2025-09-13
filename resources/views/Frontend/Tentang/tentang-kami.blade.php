@@ -11,7 +11,7 @@
             </h1>
         <!-- <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8"></div> -->
         <p class="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
-            {{ $visiMisi->about }}
+            {{ $visiMisi->about ?? 'Deskripsi tentang SATGAS PPKPT belum tersedia.' }}
         </p>
     </div>
 

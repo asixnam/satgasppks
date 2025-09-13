@@ -27,7 +27,7 @@
     
     <!-- Tailwind CSS -->
     
-    <script>
+    <!-- <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -39,7 +39,7 @@
                     }
                 }
             }
-        }
+        } -->
     </script>
     
    <style>

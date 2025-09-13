@@ -105,7 +105,7 @@
     
     <div class="p-4 sm:p-6 text-center border-b border-white border-opacity-10">
         <div class="w-12 h-12 sm:w-16 sm:h-16 bg-white bg-opacity-10 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 glass-effect border border-white border-opacity-20">
-            <img src="{{ asset('image/logo-unu.png') }}" alt="SATGAS PPKS Logo" class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 transition-all duration-300">
+            <img src="{{ asset('image/satgas-logo.png') }}" alt="SATGAS PPKS Logo" class="h-7 sm:h-8 md:h-10 lg:h-12 w-auto object-contain flex-shrink-0 transition-all duration-300">
         </div>
         <h2 id="mobile-menu-title" class="text-white text-lg sm:text-xl font-bold mb-1">SATGAS PPKPT</h2>
         <p class="text-white text-xs sm:text-sm font-medium opacity-80">UNU Yogyakarta</p>

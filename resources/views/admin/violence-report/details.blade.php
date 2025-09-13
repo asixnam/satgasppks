@@ -3,37 +3,34 @@
 @section('title', 'Detail Laporan Kekerasan')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-4">
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
     <div class="max-w-7xl mx-auto">
-        <!-- Header Card -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-            <div class="px-6 py-4 border-b border-gray-200">
+            <div class="px-4 py-4 sm:px-6 sm:py-4 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div class="flex items-center gap-3">
                         <a href="{{ route('admin.violence-reports.index') }}" 
                            class="text-gray-600 hover:text-gray-800 transition-colors duration-200">
                             <i class="fas fa-arrow-left text-lg"></i>
                         </a>
-                        <h1 class="text-2xl font-semibold text-gray-900">Detail Laporan Kekerasan</h1>
+                        <h1 class="text-xl sm:text-2xl font-semibold text-gray-900">Detail Laporan Kekerasan</h1>
                     </div>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mt-2 sm:mt-0">
                         <a href="{{ route('admin.violence-reports.create') }}" 
-                           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
+                           class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-plus mr-2"></i>
                             Tambah Laporan
                         </a>
                         <a href="{{ route('admin.violence-reports.statistics') }}" 
-                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
+                           class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors duration-200 inline-flex items-center text-sm">
                             <i class="fas fa-chart-bar mr-2"></i>
                             Statistik
                         </a>
-                       
                     </div>
                 </div>
             </div>
 
-            <!-- Filter Section -->
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div class="px-4 py-4 sm:px-6 border-b border-gray-200 bg-gray-50">
                 <form id="filterForm" method="GET" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
@@ -101,8 +98,7 @@
                 </form>
             </div>
 
-            <!-- Alerts -->
-            <div class="px-6">
+            <div class="px-4 sm:px-6">
                 @if(session('success'))
                     <div class="mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg" role="alert">
                         <div class="flex items-center">
@@ -122,58 +118,26 @@
                 @endif
             </div>
 
-            <!-- Summary Stats -->
-            <!-- <div class="px-6 py-4 border-b border-gray-200 bg-blue-50">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-blue-600">{{ $reports->total() }}</div>
-                        <div class="text-sm text-gray-600">Total Laporan</div>
-                    </div>
-                    <div class="text-center">
-                    <div class="text-2xl font-bold text-red-600">
-                        {{ $jumlah_kekerasan['Kekerasan Fisik'] ?? 0 }}
-                    </div>
-                    <div class="text-sm text-gray-600">Kekerasan Fisik</div>
-                </div>
-
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-yellow-600">
-                        {{ $jumlah_kekerasan['Kekerasan Psikis'] ?? 0 }}
-                    </div>
-                    <div class="text-sm text-gray-600">Kekerasan Psikis</div>
-                </div>
-
-                <div class="text-center">
-                    <div class="text-2xl font-bold text-purple-600">
-                        {{ $jumlah_kekerasan['Kekerasan Seksual'] ?? 0 }}
-                    </div>
-                    <div class="text-sm text-gray-600">Kekerasan Seksual</div>
-                </div>
-                </div>
-            </div> -->
-
-            <!-- Detailed Cards View -->
-            <div class="p-6">
+            <div class="p-4 sm:p-6">
                 @forelse($reports as $report)
                 <div class="bg-white border border-gray-200 rounded-lg shadow-sm mb-6 hover:shadow-md transition-shadow duration-200">
-                    <!-- Card Header -->
-                    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                        <div class="flex justify-between items-start">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                    <i class="fas fa-user text-green-600 text-lg"></i>
+                    <div class="px-4 py-4 sm:px-6 border-b border-gray-200 bg-gray-50">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                            <div class="flex items-center gap-3 mb-2 sm:mb-0">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-green-600 text-base sm:text-lg"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-gray-900">
+                                    <h3 class="text-base sm:text-lg font-semibold text-gray-900">
                                         {{ is_array($report->client_name) ? implode(', ', $report->client_name) : ($report->client_name ?? '-') }}
                                     </h3>
-                                    <p class="text-sm text-gray-600">
+                                    <p class="text-xs sm:text-sm text-gray-600">
                                         Laporan #{{ $report->id }} • 
                                         {{ $report->created_at ? $report->created_at->format('d M Y, H:i') : '-' }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 flex-wrap">
                                 @if($report->jenis_kekerasan)
                                     @php
                                         $badgeClasses = match($report->jenis_kekerasan) {
@@ -184,7 +148,7 @@
                                             default => 'bg-gray-100 text-gray-800'
                                         };
                                     @endphp
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $badgeClasses }}">
+                                    <span class="inline-flex items-center px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium {{ $badgeClasses }}">
                                         {{ $report->jenis_kekerasan }}
                                     </span>
                                 @endif
@@ -204,23 +168,21 @@
                         </div>
                     </div>
 
-                    <!-- Card Content -->
-                    <div class="px-6 py-4">
+                    <div class="px-4 py-4 sm:px-6 sm:py-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- Informasi Korban -->
                             <div class="space-y-3">
                                 <h4 class="font-semibold text-gray-900 flex items-center">
                                     <i class="fas fa-user-injured mr-2 text-red-500"></i>
                                     Informasi Korban
                                 </h4>
                                 <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col sm:flex-row justify-between">
                                         <span class="text-gray-600">Nama:</span>
-                                        <span class="font-medium">{{ is_array($report->client_name) ? implode(', ', $report->client_name) : ($report->client_name ?? '-') }}</span>
+                                        <span class="font-medium text-right sm:text-left">{{ is_array($report->client_name) ? implode(', ', $report->client_name) : ($report->client_name ?? '-') }}</span>
                                     </div>
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col sm:flex-row justify-between">
                                         <span class="text-gray-600">Jenis Kelamin:</span>
-                                        <div>
+                                        <div class="text-right">
                                             @if($report->client_gender == 'Laki-laki')
                                                 <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                     <i class="fas fa-mars mr-1"></i>
@@ -236,7 +198,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col sm:flex-row justify-between">
                                         <span class="text-gray-600">Status:</span>
                                         <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                             {{ $report->client_status ?? '-' }}
@@ -245,49 +207,60 @@
                                 </div>
                             </div>
 
-                            <!-- Informasi Pelapor -->
                             <div class="space-y-3">
                                 <h4 class="font-semibold text-gray-900 flex items-center">
                                     <i class="fas fa-user-shield mr-2 text-blue-500"></i>
                                     Informasi Pelapor
                                 </h4>
                                 <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col sm:flex-row justify-between">
                                         <span class="text-gray-600">Nama:</span>
-                                        <span class="font-medium">{{ $report->reporter_name ?? '-' }}</span>
+                                        <span class="font-medium text-right sm:text-left">{{ $report->reporter_name ?? '-' }}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Informasi Pelaku -->
                             <div class="space-y-3">
                                 <h4 class="font-semibold text-gray-900 flex items-center">
                                     <i class="fas fa-user-times mr-2 text-orange-500"></i>
                                     Informasi Pelaku
                                 </h4>
                                 <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col sm:flex-row justify-between">
                                         <span class="text-gray-600">Nama:</span>
-                                        <span class="font-medium">{{ $report->perpetrator_name ?? '-' }}</span>
+                                        <span class="font-medium text-right sm:text-left">{{ $report->perpetrator_name ?? '-' }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Informasi Kejadian -->
                         <div class="mt-6 pt-6 border-t border-gray-200">
                             <h4 class="font-semibold text-gray-900 flex items-center mb-4">
                                 <i class="fas fa-calendar-alt mr-2 text-purple-500"></i>
                                 Informasi Kejadian
                             </h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Jenis Kekerasan:</span>
-                                <div>
-                                    @if(!empty($report->jenis_kekerasan) && is_array($report->jenis_kekerasan))
-                                        @foreach($report->jenis_kekerasan as $jk)
+                                <div class="flex flex-col sm:flex-row justify-between">
+                                    <span class="text-gray-600">Jenis Kekerasan:</span>
+                                    <div class="text-right">
+                                        @if(!empty($report->jenis_kekerasan) && is_array($report->jenis_kekerasan))
+                                            @foreach($report->jenis_kekerasan as $jk)
+                                                @php
+                                                    $badgeClasses = match($jk) {
+                                                        'Kekerasan Fisik' => 'bg-red-100 text-red-800',
+                                                        'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
+                                                        'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
+                                                        'Kekerasan Ekonomi' => 'bg-blue-100 text-blue-800',
+                                                        default => 'bg-gray-100 text-gray-800'
+                                                    };
+                                                @endphp
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $badgeClasses }}">
+                                                    {{ $jk }}
+                                                </span>
+                                            @endforeach
+                                        @elseif(!empty($report->jenis_kekerasan))
                                             @php
-                                                $badgeClasses = match($jk) {
+                                                $badgeClasses = match($report->jenis_kekerasan) {
                                                     'Kekerasan Fisik' => 'bg-red-100 text-red-800',
                                                     'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
                                                     'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
@@ -296,30 +269,14 @@
                                                 };
                                             @endphp
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $badgeClasses }}">
-                                                {{ $jk }}
+                                                {{ $report->jenis_kekerasan }}
                                             </span>
-                                        @endforeach
-                                    @elseif(!empty($report->jenis_kekerasan))
-                                        @php
-                                            $badgeClasses = match($report->jenis_kekerasan) {
-                                                'Kekerasan Fisik' => 'bg-red-100 text-red-800',
-                                                'Kekerasan Psikis' => 'bg-yellow-100 text-yellow-800',
-                                                'Kekerasan Seksual' => 'bg-purple-100 text-purple-800',
-                                                'Kekerasan Ekonomi' => 'bg-blue-100 text-blue-800',
-                                                default => 'bg-gray-100 text-gray-800'
-                                            };
-                                        @endphp
-                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $badgeClasses }}">
-                                            {{ $report->jenis_kekerasan }}
-                                        </span>
-                                    @else
-                                        <span class="text-gray-500">-</span>
-                                    @endif
+                                        @else
+                                            <span class="text-gray-500">-</span>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                                </div>
-                                <div class="flex justify-between">
+                                <div class="flex flex-col sm:flex-row justify-between">
                                     <span class="text-gray-600">Waktu Kejadian:</span>
                                     <div class="text-right">
                                         @if($report->waktu_kejadian)
@@ -338,8 +295,8 @@
                 <div class="text-center py-12">
                     <div class="flex flex-col items-center">
                         <i class="fas fa-inbox text-6xl mb-4 text-gray-400"></i>
-                        <p class="text-xl font-medium mb-2 text-gray-600">Tidak ada data laporan kekerasan</p>
-                        <p class="text-gray-500 mb-6">Data yang Anda cari tidak ditemukan atau belum ada laporan</p>
+                        <p class="text-lg sm:text-xl font-medium mb-2 text-gray-600">Tidak ada data laporan kekerasan</p>
+                        <p class="text-sm sm:text-base text-gray-500 mb-6">Data yang Anda cari tidak ditemukan atau belum ada laporan</p>
                         <a href="{{ route('admin.violence-reports.create') }}" 
                            class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 inline-flex items-center">
                             <i class="fas fa-plus mr-2"></i>
@@ -349,7 +306,6 @@
                 </div>
                 @endforelse
 
-                <!-- Pagination -->
                 @if(method_exists($reports, 'links') && $reports->hasPages())
                     <div class="mt-8 flex justify-center">
                         {{ $reports->appends(request()->query())->links() }}
@@ -359,9 +315,9 @@
         </div>
     </div>
 </div>
-@endsection
 
-@section('scripts')
+
+
 <script>
 // Auto-hide alerts after 5 seconds
 document.addEventListener('DOMContentLoaded', function() {
