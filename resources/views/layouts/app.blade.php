@@ -59,12 +59,12 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
-        .mobile-menu-gradient {
-            background: linear-gradient(135deg, #166534 100%);
+       .mobile-menu-gradient {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
-        
+                
         .glass-effect {
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);

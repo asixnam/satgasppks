@@ -137,7 +137,7 @@
                 <!-- Logo and Title Section -->
                 <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-shrink-0">
                     <a href="{{ route('admin.dashboard') }}" class="relative flex items-center space-x-2 sm:space-x-3">
-                        <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-12 w-auto rounded shadow-lg">
+                        <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-10 w-auto rounded shadow-lg">
                     </a>
                     <div class="hidden xs:block sm:block min-w-0">
                         <h1 class="font-bold text-xs sm:text-sm leading-tight truncate text-white">Admin SATGAS PPKS</h1>
@@ -196,14 +196,6 @@
                                 <p class="text-xs text-gray-500">{{ $user->email ?? 'admin@example.com' }}</p>
                             </div>
                             
-                            <div class="py-1">
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                    <i class="fas fa-user-cog mr-3 text-gray-400"></i>Pengaturan Profil
-                                </a>
-                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                    <i class="fas fa-cog mr-3 text-gray-400"></i>Pengaturan
-                                </a>
-                            </div>
                             
                             <div class="border-t border-gray-100 my-1"></div>
                                 <a href="{{ route('logout') }}" class="flex items-center px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
@@ -226,9 +218,7 @@
             <!-- Mobile Menu Header -->
             <div class="flex items-center justify-between p-4 border-b border-white/10">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
-                        <i class="fas fa-shield-alt text-green-700 text-lg"></i>
-                    </div>
+                    <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-10 w-auto rounded shadow-lg">
                     <div>
                         <h2 id="mobile-menu-title" class="text-white font-bold text-sm">Admin SATGAS PPKS</h2>
                         <p class="text-gray-300 text-xs">UNU Yogyakarta</p>
@@ -239,50 +229,44 @@
                 </button>
             </div>
 
-            <!-- User Info Section -->
-            <div class="p-4 border-b border-white/10">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-user text-green-700 text-xl"></i>
-                    </div>
-                    <div>
-                        <p class="text-white font-semibold text-sm">Admin User</p>
-                        <p class="text-gray-300 text-xs">admin@example.com</p>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- Mobile Navigation Links -->
             <nav class="py-4">
                 <div class="space-y-1 px-4">
-                    <a href="/admin/dashboard" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-white bg-white/15 font-medium transition-all duration-200">
+                    <a href="{{ route('admin.dashboard') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-white bg-white/15 font-medium transition-all duration-200">
                         <i class="fas fa-home mr-3 text-sm w-5"></i>Dashboard
                     </a>
-                    <a href="/admin/violence-reports" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{ route('admin.violence-reports.index') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-exclamation-triangle mr-3 text-sm w-5"></i>Laporan Kekerasan
                     </a>
-                    <a href="/admin/beritas" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{ route('admin.beritas.index') }}"  class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-newspaper mr-3 text-sm w-5"></i>Berita
                     </a>
-                    <a href="/admin/edukasis" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{route('admin.edukasis.index') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-graduation-cap mr-3 text-sm w-5"></i>Edukasi
                     </a>
-                    <a href="/admin/visi-misi" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{route('admin.visi-misi.index') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-eye mr-3 text-sm w-5"></i>Visi & Misi
                     </a>
-                    <a href="/admin/tims" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{route('admin.tims.index') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-users mr-3 text-sm w-5"></i>Profile Tim
                     </a>
-                    <a href="/admin/hero" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
+                    <a href="{{route('admin.hero.index') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">
                         <i class="fas fa-cogs mr-3 text-sm w-5"></i>Sistem
                     </a>
                 </div>
 
                 <!-- Mobile Menu Footer -->
                 <div class="mt-8 pt-4 border-t border-white/10 px-4">
-                    <a href="#" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-red-400 hover:bg-red-900/20 transition-all duration-200" onclick="handleLogout(event)">
-                        <i class="fas fa-sign-out-alt mr-3 text-sm w-5"></i>Keluar
+                    <a href="{{ route('logout') }}" class="mobile-menu-item flex items-center px-3 py-3 rounded-lg text-red-400 hover:bg-red-900/20 transition-all duration-200"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">    
+                            <i class="fas fa-sign-out-alt mr-3 text-sm w-5"></i>Keluar
                     </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                         @csrf
+                    </form>
+                            
                 </div>
             </nav>
         </div>

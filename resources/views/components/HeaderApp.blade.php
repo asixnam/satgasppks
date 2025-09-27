@@ -97,7 +97,7 @@
 >
     <button 
         id="mobile-menu-close" 
-        class="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white bg-opacity-10 border border-white border-opacity-20 text-white p-2.5 rounded-full transition-all duration-300 hover:bg-opacity-20 hover:text-yellow-300 hover:scale-110 glass-effect"
+        class="absolute top-3 right-3 sm:top-4 sm:right-4  text-white p-2.5 rounded-full transition-all duration-300 hover:bg-opacity-20 hover:text-yellow-300 hover:scale-110 glass-effect"
         aria-label="Close mobile menu"
     >
         <i class="fas fa-times text-sm" aria-hidden="true"></i>
