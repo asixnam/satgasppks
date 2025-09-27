@@ -6,8 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SATGAS PPKS')</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    @stack('styles')
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- @stack('styles') -->
+     @vite('resources/css/app.css')
 </head>
 <body>
     @yield('content')
