@@ -114,43 +114,93 @@
         </p>
     </div>
 
-    <!-- Team Grid - Modified to 3 columns with larger cards -->
+    <!-- Team Grid/Slider -->
     @if($tims->count() > 0)
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
-        @php
-            $colors = ['blue', 'purple', 'green', 'indigo', 'red', 'yellow', 'pink', 'teal'];
-        @endphp
+    @php
+        $colors = ['blue', 'purple', 'green', 'indigo', 'red', 'yellow', 'pink', 'teal'];
+    @endphp
+    
+    <!-- Mobile Slider (visible on mobile only) -->
+    <div class="lg:hidden relative max-w-md mx-auto mb-8">
+        <div class="overflow-hidden">
+            <div id="teamSlider" class="flex transition-transform duration-300 ease-in-out">
+                @foreach($tims as $index => $tim)
+                @php
+                    $color = $colors[$index % count($colors)];
+                @endphp
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="text-center flex flex-col items-center">
+                        <!-- Photo Section -->
+                        <div class="relative mb-4">
+                            @if($tim->foto)
+                                <img src="{{ asset('storage/' . $tim->foto) }}" 
+                                    alt="Foto {{ $tim->nama }}" 
+                                    class="w-64 h-64 object-cover rounded-xl mx-auto shadow-lg">
+                            @else
+                                <img src="/image/sampel.png" 
+                                    alt="Foto Default" 
+                                    class="w-64 h-64 object-cover rounded-xl mx-auto shadow-lg">
+                            @endif
+                        </div>
+                        
+                        <!-- Info Section -->
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-semibold text-gray-800">{{ $tim->nama }}</h3>
+                            <p class="text-sm text-gray-600">{{ $tim->jabatan }}</p>
+                            <p class="text-sm text-green-600">UNU Yogyakarta</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
         
+        <!-- Navigation Buttons -->
+        <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors">
+            <i class="fas fa-chevron-left text-gray-600"></i>
+        </button>
+        <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors">
+            <i class="fas fa-chevron-right text-gray-600"></i>
+        </button>
+        
+        <!-- Dots Indicator -->
+        <div class="flex justify-center gap-2 mt-6">
+            @foreach($tims as $index => $tim)
+            <button class="slider-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-index="{{ $index }}"></button>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Desktop Grid (visible on desktop only) -->
+    <div class="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl mx-auto">
         @foreach($tims as $index => $tim)
         @php
             $color = $colors[$index % count($colors)];
         @endphp
-        <!-- Team Member Card -->
-        <!-- <div class="bg-red rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 group border border-gray-100 transform hover:-translate-y-2"> -->
-            <div class="text-center h-full flex flex-col items-center">
-        <!-- Photo Section -->
+        <div class="text-center h-full flex flex-col items-center">
+            <!-- Photo Section -->
             <div class="relative mb-2">
                 @if($tim->foto)
                     <img src="{{ asset('storage/' . $tim->foto) }}" 
                         alt="Foto {{ $tim->nama }}" 
-                        class="w-56 h-56 object-cover rounded-xl sm:size-48 lg:size-60 mx-auto">
+                        class="w-56 h-56 object-cover rounded-xl lg:size-60 mx-auto">
                 @else
                     <img src="/image/sampel.png" 
                         alt="Foto Default" 
-                        class="w-56 h-56 object-cover rounded-2xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 border-4 border-white">
+                        class="w-56 h-56 object-cover rounded-xl lg:size-60 mx-auto shadow-lg">
                 @endif
-                <div class="absolute inset-0 bg-gradient-to-t from-{{ $color }}-500/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             
             <!-- Info Section -->
             <div class="space-y-1 mt-1">
-                <h3 class="text-sm font-medium text-gray-800 sm:text-base lg:text-lg dark:text-neutral-200t">{{ $tim->nama }}</h3>
-                <p class="text-xs-{{ $color }}-400 sm:text-sm lg:text-base dark:text-neutral-500">{{ $tim->jabatan }}</p>
-                <p class="text-xs-{{ $color }}-600 sm:text-sm lg:text-base dark:text-neutral-500"> UNU Yogyakarta</p>
+                <h3 class="text-base lg:text-lg font-medium text-gray-800">{{ $tim->nama }}</h3>
+                <p class="text-sm lg:text-base text-gray-600">{{ $tim->jabatan }}</p>
+                <p class="text-sm lg:text-base text-green-600">UNU Yogyakarta</p>
             </div>
         </div>
         @endforeach
     </div>
+    
     @else
     <!-- Empty State untuk Tim -->
     <div class="text-center py-12">
@@ -162,5 +212,85 @@
     </div>
     @endif
 </div>
+
+<!-- Slider JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('teamSlider');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dots = document.querySelectorAll('.slider-dot');
+    const totalSlides = dots.length;
+    let currentIndex = 0;
+
+    function updateSlider() {
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.remove('bg-gray-300');
+                dot.classList.add('bg-green-600', 'w-8');
+            } else {
+                dot.classList.remove('bg-green-600', 'w-8');
+                dot.classList.add('bg-gray-300');
+            }
+        });
+    }
+
+    prevBtn?.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    });
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentIndex = index;
+            updateSlider();
+        });
+    });
+
+    // Auto slide (optional)
+    let autoSlide = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    }, 5000);
+
+    // Pause auto slide on hover
+    slider?.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    slider?.addEventListener('mouseleave', () => {
+        autoSlide = setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }, 5000);
+    });
+
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slider?.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    slider?.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) {
+            // Swipe left
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        } else if (touchEndX - touchStartX > 50) {
+            // Swipe right
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+    });
+});
+</script>
 
 @endsection

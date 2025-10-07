@@ -135,9 +135,9 @@
             <!-- Footer -->
             <!-- <footer class="footer-gradient text-white text-center py-4 mt-auto">
                 <p class="text-sm">© {{ date('Y') }} SATGAS PPKS UNU Yogyakarta. All rights reserved.</p>
-            </footer>
+            </footer> -->
         </div>
-    </div> -->
+    </div>
 
     <!-- Mobile Sidebar Overlay -->
     <div class="fixed inset-0 hidden duration-300 md:hidden bg-black bg-opacity-50" id="sidebarOverlay"></div>
