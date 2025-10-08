@@ -26,22 +26,33 @@ class AppController extends Controller
      * Display the homepage
      */
     public function home()
-    {
-         $heroes = Hero::all(); // Ambil semua hero dari database
-        $hero = $heroes->first();
+        {
+            $heroes = Hero::all(); // Ambil semua hero dari database
+            $hero = $heroes->first();
 
-        if (!$hero) {
-            $hero = new \stdClass();
-            $hero->gambar = 'images/gedung-unujogja.jpg';
-            $heroes = collect([$hero]);
-        }
-        
-            // Ambil berita terbaru (misal 3 untuk tampil di homepage)
+            if (!$hero) {
+                $hero = new \stdClass();
+                $hero->gambar = 'images/gedung-unujogja.jpg';
+                $heroes = collect([$hero]);
+            }
+
             $beritas = Berita::orderBy('created_at', 'desc')->limit(3)->get();
             $edukasis = Edukasi::latest()->limit(3)->get();
 
-            return view('Frontend.Pages.pages', compact('heroes', 'beritas','edukasis','hero'));
+            // Tambahkan ini jika dibutuhkan oleh view
+            $konten = [
+                ['judul' => 'Masuk ke halaman pelaporan', 'deskripsi' => 'Akses halaman pelaporan melalui menu yang tersedia di website.'],
+                ['judul' => 'Isi data pelapor', 'deskripsi' => 'Lengkapi data diri Anda dengan benar termasuk nama, kontak, dan alamat.'],
+                ['judul' => 'Lengkapi data korban', 'deskripsi' => 'Isi informasi korban dan jenis kekerasan yang terjadi secara detail.'],
+                ['judul' => 'Unggah bukti pendukung', 'deskripsi' => 'Tambahkan foto, dokumen, atau bukti lain yang mendukung laporan (opsional).'],
+                ['judul' => 'Periksa kembali data', 'deskripsi' => 'Pastikan semua informasi yang diisi sudah benar dan lengkap.'],
+                ['judul' => 'Kirim laporan', 'deskripsi' => "Klik tombol 'Kirim Laporan' untuk menyimpan dan mengirimkan laporan Anda."],
+                ['judul' => 'Tunggu konfirmasi', 'deskripsi' => 'Petugas pendamping akan menghubungi Anda melalui email atau telepon.'],
+            ];
+
+            return view('Frontend.Pages.pages', compact('heroes','konten', 'beritas','edukasis','hero'));
         }
+
 
     /**
      * Display all berita with search functionality
@@ -166,25 +177,6 @@ class AppController extends Controller
                 'string',
                 'email',
                 'max:255',
-                function ($attribute, $value, $fail) {
-                    $allowedDomains = [
-                        '@unu-jogja.ac.id',
-                        '@student.unu-jogja.ac.id',
-                        '@staff.unu-jogja.ac.id',
-                    ];
-
-                    $isValid = false;
-                    foreach ($allowedDomains as $domain) {
-                        if (str_ends_with($value, $domain)) {
-                            $isValid = true;
-                            break;
-                        }
-                    }
-
-                    if (! $isValid) {
-                        $fail('Email harus menggunakan domain UNU yang valid.');
-                    }
-                },
             ],
             'reporter_data.alamat' => 'required|string|max:1000',
             'reporter_data.keterangan_tambahan' => 'nullable|string|max:2000'

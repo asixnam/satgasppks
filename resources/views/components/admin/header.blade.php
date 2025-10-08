@@ -140,7 +140,7 @@
                         <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-10 w-auto rounded shadow-lg">
                     </a>
                     <div class="hidden xs:block sm:block min-w-0">
-                        <h1 class="font-bold text-xs sm:text-sm leading-tight truncate text-white">Admin SATGAS PPKS</h1>
+                        <h1 class="font-bold text-xs sm:text-sm leading-tight truncate text-white">Admin SATGAS PPKPT</h1>
                         <p class="text-xs font-medium opacity-90 truncate text-white hidden sm:block">UNU Yogyakarta</p>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                 <div class="flex items-center space-x-3">
                     <img src="{{ asset('/image/logoputih.png') }}" alt="SATGAS PPKS Logo" class="h-10 w-auto rounded shadow-lg">
                     <div>
-                        <h2 id="mobile-menu-title" class="text-white font-bold text-sm">Admin SATGAS PPKS</h2>
+                        <h2 id="mobile-menu-title" class="text-white font-bold text-sm">Admin SATGAS PPKPT</h2>
                         <p class="text-gray-300 text-xs">UNU Yogyakarta</p>
                     </div>
                 </div>

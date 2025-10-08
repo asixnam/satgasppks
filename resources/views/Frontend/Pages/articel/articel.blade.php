@@ -1,8 +1,14 @@
 <div class="container mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">Berita Terkini</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+        Berita Terkini
+    </h2>
+    <p class="text-center text-gray-600 mb-4">
+        Dapatkan informasi terbaru seputar berita terkini di sini.
+     </p>
+
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach ($beritas as $berita)
+        @forelse ($beritas as $berita)
             <article class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
 
                 {{-- Gambar --}}
@@ -27,6 +33,12 @@
                     </a>
                 </div>
             </article>
-        @endforeach
+        @empty
+            <div class="col-span-full flex flex-col items-center justify-center text-gray-500 py-20">
+                    <i class="fas fa-newspaper text-6xl mb-4 text-gray-400"></i>
+                    <p class="text-lg font-medium">Belum ada berita yang tersedia saat ini.</p>
+                    <p class="text-sm text-gray-400 mt-1">Silakan cek kembali nanti untuk pembaruan terbaru.</p>
+                </div>
+        @endforelse
     </div>
 </div>

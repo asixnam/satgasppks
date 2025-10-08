@@ -3,6 +3,11 @@
 @section('content')
     {{-- Tampilan Hero --}}
     @include('Frontend.Pages.hero.hero')
+    
+    <!-- Latest konten -->
+    <section class="py-16 bg-black-50">
+         @include('Frontend.Pages.konten.index')
+    </section>
 
     <!-- Latest News -->
     <section class="py-16 bg-gray-50">
@@ -19,11 +24,14 @@
     <style>
         /* Custom styles khusus untuk halaman home */
         .hero-section {
-            background: linear-gradient(135deg, #00492C 0%, #8B5CF6 100%);
+            background: linear-gradient(135deg, #000000ff 0%, #8B5CF6 100%);
+        }
+        .konten-section{
+            background-color: #ffffffff;
         }
         
         .news-section {
-            background-color: #f9fafb;
+            background-color: #ffffffff;
         }
         
         .education-section {

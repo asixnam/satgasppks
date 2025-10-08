@@ -132,25 +132,6 @@ class ViolenceReportController extends Controller
                 'string',
                 'email',
                 'max:255',
-                function ($attribute, $value, $fail) {
-                    $allowedDomains = [
-                        '@unu-jogja.ac.id',
-                        '@student.unu-jogja.ac.id',
-                        '@staff.unu-jogja.ac.id',
-                    ];
-
-                    $isValid = false;
-                    foreach ($allowedDomains as $domain) {
-                        if (str_ends_with($value, $domain)) {
-                            $isValid = true;
-                            break;
-                        }
-                    }
-
-                    if (! $isValid) {
-                        $fail('Email harus menggunakan domain UNU yang valid.');
-                    }
-                },
                 // Rule::unique('reporters', 'email')->ignore($report->reporter->id ?? null),
             ],
             'reporter_data.alamat' => 'required|string|max:1000',

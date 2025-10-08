@@ -167,7 +167,7 @@
                 name="reporter_data[email]"
                 value="{{ old('reporter_data.email', $formData['email'] ?? '') }}"
                 class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Harus Menggunakan @unu-jogja.ac.id"
+                placeholder="masukan email aktif anda"
                 required>
             @error('reporter_data.email')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
