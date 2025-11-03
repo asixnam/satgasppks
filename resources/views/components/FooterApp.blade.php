@@ -35,8 +35,8 @@
                     </div>
                     <div class="flex items-center space-x-3">
                         <i class="fas fa-phone text-yellow-300 text-sm w-4 text-center flex-shrink-0" aria-hidden="true"></i>
-                        <a href="https://wa.me/6281323596022" class="text-white text-xs sm:text-sm hover:text-yellow-300 transition-colors">
-                            0813-2359-6022
+                        <a href="https://wa.me/6287762703887" class="text-white text-xs sm:text-sm hover:text-yellow-300 transition-colors">
+                            0887762703887
                         </a>
                     </div>
                     <div class="flex items-center space-x-3">
@@ -85,7 +85,7 @@
                         <a href="mailto:satgasppks@unu-jogja.ac.id" class="text-yellow-300 hover:text-white transition-colors duration-200" aria-label="Email">
                             <i class="fas fa-envelope text-2xl" aria-hidden="true"></i>
                         </a>
-                        <a href="https://wa.me/6281323596022" target="_blank" rel="noopener noreferrer" class="text-yellow-300 hover:text-white transition-colors duration-200" aria-label="WhatsApp">
+                        <a href="https://wa.me/6287762703887" target="_blank" rel="noopener noreferrer" class="text-yellow-300 hover:text-white transition-colors duration-200" aria-label="WhatsApp">
                             <i class="fab fa-whatsapp text-2xl" aria-hidden="true"></i>
                         </a>
                     </div>
