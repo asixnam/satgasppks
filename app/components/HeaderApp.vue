@@ -119,7 +119,7 @@ const toggleMobileMenu = () => {
               :class="isHeaderTransparent ? 'border-white text-white bg-transparent hover:bg-white hover:text-slate-900' : 'border-theme-primary text-theme-primary bg-transparent hover-bg-theme-primary hover:text-white'"
             >
               <i class="fas fa-exclamation-triangle mr-1.5"></i>
-              Lapor
+              Lapor Kekerasan
             </NuxtLink>
 
             <!-- Dashboard Admin access -->

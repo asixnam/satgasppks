@@ -69,39 +69,40 @@ onUnmounted(() => {
       <!-- Default view if no banners uploaded -->
       <div v-if="!heroes || heroes.length === 0" class="w-full h-full">
         <div 
-          class="w-full h-full flex items-center bg-slate-900 text-white relative pt-14"
-          style="background: linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.45) 50%, rgba(15, 23, 42, 0.15) 100%), url('/image/gedung-unujogja.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
+          class="w-full h-full flex items-center text-white relative pt-14"
+          style="background: linear-gradient(to right, rgba(105, 76, 3) 0%, rgba(153, 101, 21, 0.6) 60%, rgba(212, 175, 55, 0.2) 100%), url('/image/gedung-unujogja.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
         >
           <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-            <div class="max-w-2xl space-y-6 text-left">
+            <div class="max-w-4xl space-y-6 text-left">
               <div class="space-y-3">
-                <div>
-                  <span class="inline-block px-3.5 py-1.5 bg-yellow-400/20 text-yellow-300 border border-yellow-400/20 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                <div class="flex items-center">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 text-xs font-bold rounded-md uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                     Garda Keamanan Kampus
                   </span>
                 </div>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
-                  Bersama <span class="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">SATGAS UNU JOGJA</span><br>
+                <h1 class="text-4xl sm:text-5xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight text-white">
+                  Bersama
+                  <span class="relative inline-block pb-3 bg-[url('/image/ornament-coret.webp')] bg-no-repeat bg-[length:100%_12px] bg-bottom">SATGAS UNU Yogyakarta</span><br>
                   Ciptakan Kampus yang Aman
                 </h1>
               </div>
-              <p class="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-xl">
+              <p class="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl">
                 SATGAS PPKPT Universitas Nahdlatul Ulama Yogyakarta merupakan lembaga garda terdepan
                 dalam pencegahan, perlindungan, dan penanganan tindakan kekerasan seksual.
               </p>
               <div class="flex flex-wrap items-center gap-3 pt-2">
                 <NuxtLink 
                   to="/lapor-kekerasan"
-                  class="bg-theme-primary hover-bg-theme-primary-dark text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
+                  class="bg-white hover:bg-[#8c6710] text-[#8c6710] hover:text-white border border-[#8c6710] font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider shadow-lg"
                 >
-                  <i class="fas fa-exclamation-triangle mr-2"></i>
                   Laporkan Kasus
+                  <i class="fas fa-chevron-right ml-2.5 text-[10px]"></i>
                 </NuxtLink>
                 <NuxtLink 
                   to="/edukasi"
-                  class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold py-3 px-6 rounded-xl border border-white/20 transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
+                  class="bg-transparent hover:bg-white/10 text-white border border-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
                 >
-                  <i class="fas fa-info-circle mr-2"></i>
                   Pelajari Lebih Lanjut
                 </NuxtLink>
               </div>
@@ -119,39 +120,40 @@ onUnmounted(() => {
           :class="{ 'opacity-100 z-10': currentSlide === idx, 'opacity-0 z-0': currentSlide !== idx }"
         >
           <div 
-            class="w-full h-full flex items-center bg-slate-900 text-white relative pt-14"
-            :style="`background: linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.45) 50%, rgba(15, 23, 42, 0.15) 100%), url('${getImageUrl(slide.gambar)}'); background-size: cover; background-position: center; background-attachment: fixed;`"
+            class="w-full h-full flex items-center text-white relative pt-14"
+            :style="`background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(153, 101, 21, 0.6) 60%, rgba(0, 0, 0, 0.2) 100%), url('${getImageUrl(slide.gambar)}'); background-size: cover; background-position: center; background-attachment: fixed;`"
           >
             <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
-              <div class="max-w-2xl space-y-6 text-left">
+              <div class="max-w-4xl space-y-6 text-left">
                 <div class="space-y-3">
-                  <div>
-                    <span class="inline-block px-3.5 py-1.5 bg-yellow-400/20 text-yellow-300 border border-yellow-400/20 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                  <div class="flex items-center">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 text-xs font-bold rounded-full uppercase tracking-wider">
+                      <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
                       SATGAS PPKPT
                     </span>
                   </div>
-                  <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
-                    Bersama <span class="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">SATGAS UNU JOGJA</span><br>
+                  <h1 class="text-4xl sm:text-5xl lg:text-5xl font-extrabold leading-[1.15] tracking-tight text-white">
+                    Bersama
+                    <span class="relative inline-block pb-3 bg-[url('/image/ornament-coret.webp')] bg-no-repeat bg-[length:100%_12px] bg-bottom">SATGAS UNU Yogyakarta</span><br>
                     Ciptakan Kampus yang Aman
                   </h1>
                 </div>
-                <p class="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-xl">
+                <p class="text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-3xl">
                   SATGAS PPKPT Universitas Nahdlatul Ulama Yogyakarta merupakan lembaga garda terdepan
                   dalam pencegahan, perlindungan, dan penanganan tindakan kekerasan seksual.
                 </p>
                 <div class="flex flex-wrap items-center gap-3 pt-2">
                   <NuxtLink 
                     to="/lapor-kekerasan"
-                    class="bg-theme-primary hover-bg-theme-primary-dark text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
+                    class="bg-white hover:bg-[#8c6710] text-[#8c6710] hover:text-white border border-[#8c6710] font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider shadow-lg"
                   >
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
                     Laporkan Kasus
+                    <i class="fas fa-chevron-right ml-2.5 text-[10px]"></i>
                   </NuxtLink>
                   <NuxtLink 
                     to="/edukasi"
-                    class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold py-3 px-6 rounded-xl border border-white/20 transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
+                    class="bg-transparent hover:bg-white/10 text-white border border-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] inline-flex items-center justify-center text-xs uppercase tracking-wider"
                   >
-                    <i class="fas fa-info-circle mr-2"></i>
                     Pelajari Lebih Lanjut
                   </NuxtLink>
                 </div>
@@ -233,54 +235,62 @@ onUnmounted(() => {
         <div class="lg:col-span-2 flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0">
           
           <!-- Card 1 (Top Left) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
-            <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
-              <i class="fas fa-edit text-lg"></i>
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[1.5rem] p-5 flex flex-col justify-between h-48 sm:h-52 w-[260px] sm:w-auto flex-shrink-0 snap-center shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 bg-white flex items-center justify-center rounded-lg shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-edit text-base"></i>
+              </div>
+              <div class="text-white/20 text-3xl font-black italic tracking-tighter">#01</div>
             </div>
             <div>
-              <div class="text-white text-5xl font-extrabold mb-1">#01</div>
-              <div class="text-white/80 text-[10px] font-bold uppercase tracking-wider mb-1">Langkah Pertama</div>
+              <div class="text-white/80 text-[9px] font-bold uppercase tracking-wider mb-0.5">Langkah Pertama</div>
               <h3 class="text-white text-base font-bold">Isi Formulir Laporan</h3>
-              <p class="text-white/70 text-xs leading-relaxed mt-1">Akses menu Lapor dan lengkapi data kasus serta kronologi kejadian secara jujur.</p>
+              <p class="text-white/75 text-[11px] leading-relaxed mt-0.5">Akses menu Lapor dan lengkapi data kasus serta kronologi kejadian secara jujur.</p>
             </div>
           </div>
 
           <!-- Card 2 (Top Right) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
-            <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
-              <i class="fas fa-file-upload text-lg"></i>
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[1.5rem] p-5 flex flex-col justify-between h-48 sm:h-52 w-[260px] sm:w-auto flex-shrink-0 snap-center shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 bg-white flex items-center justify-center rounded-lg shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-file-upload text-base"></i>
+              </div>
+              <div class="text-white/20 text-3xl font-black italic tracking-tighter">#02</div>
             </div>
             <div>
-              <div class="text-white text-5xl font-extrabold mb-1">#02</div>
-              <div class="text-white/80 text-[10px] font-bold uppercase tracking-wider mb-1">Langkah Kedua</div>
+              <div class="text-white/80 text-[9px] font-bold uppercase tracking-wider mb-0.5">Langkah Kedua</div>
               <h3 class="text-white text-base font-bold">Unggah Bukti Kejadian</h3>
-              <p class="text-white/70 text-xs leading-relaxed mt-1">Lampirkan bukti pendukung berupa dokumen, foto, rekaman suara, atau screenshot chat.</p>
+              <p class="text-white/75 text-[11px] leading-relaxed mt-0.5">Lampirkan bukti pendukung berupa dokumen, foto, rekaman suara, atau screenshot chat.</p>
             </div>
           </div>
 
           <!-- Card 3 (Bottom Left) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
-            <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
-              <i class="fas fa-shield-alt text-lg"></i>
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[1.5rem] p-5 flex flex-col justify-between h-48 sm:h-52 w-[260px] sm:w-auto flex-shrink-0 snap-center shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 bg-white flex items-center justify-center rounded-lg shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-shield-alt text-base"></i>
+              </div>
+              <div class="text-white/20 text-3xl font-black italic tracking-tighter">#03</div>
             </div>
             <div>
-              <div class="text-white text-5xl font-extrabold mb-1">#03</div>
-              <div class="text-white/80 text-[10px] font-bold uppercase tracking-wider mb-1">Langkah Ketiga</div>
+              <div class="text-white/80 text-[9px] font-bold uppercase tracking-wider mb-0.5">Langkah Ketiga</div>
               <h3 class="text-white text-base font-bold">Kirim Pengaduan Aman</h3>
-              <p class="text-white/70 text-xs leading-relaxed mt-1">Kirimkan laporan Anda. Seluruh informasi dan identitas pelapor dijamin aman.</p>
+              <p class="text-white/75 text-[11px] leading-relaxed mt-0.5">Kirimkan laporan Anda. Seluruh informasi dan identitas pelapor dijamin aman.</p>
             </div>
           </div>
 
           <!-- Card 4 (Bottom Right) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
-            <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
-              <i class="fas fa-user-shield text-lg"></i>
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[1.5rem] p-5 flex flex-col justify-between h-48 sm:h-52 w-[260px] sm:w-auto flex-shrink-0 snap-center shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 bg-white flex items-center justify-center rounded-lg shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-user-shield text-base"></i>
+              </div>
+              <div class="text-white/20 text-3xl font-black italic tracking-tighter">#04</div>
             </div>
             <div>
-              <div class="text-white text-5xl font-extrabold mb-1">#04</div>
-              <div class="text-white/80 text-[10px] font-bold uppercase tracking-wider mb-1">Langkah Keempat</div>
+              <div class="text-white/80 text-[9px] font-bold uppercase tracking-wider mb-0.5">Langkah Keempat</div>
               <h3 class="text-white text-base font-bold">Tindak Lanjut Satgas</h3>
-              <p class="text-white/70 text-xs leading-relaxed mt-1">Tim Satgas segera memverifikasi laporan dan menghubungi Anda untuk pendampingan.</p>
+              <p class="text-white/75 text-[11px] leading-relaxed mt-0.5">Tim Satgas segera memverifikasi laporan dan menghubungi Anda untuk pendampingan.</p>
             </div>
           </div>
 
