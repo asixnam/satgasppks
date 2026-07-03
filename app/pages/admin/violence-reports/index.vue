@@ -9,7 +9,9 @@ import {
   ChevronRight, 
   Eye, 
   FileSpreadsheet,
-  AlertCircle
+  AlertCircle,
+  CheckCircle2,
+  Trash2
 } from 'lucide-vue-next'
 import type { ViolenceReport } from '~/types/database'
 
@@ -19,6 +21,11 @@ definePageMeta({
 })
 
 const supabase = useSupabaseClient()
+
+// Status and notifications
+const successMsg = ref('')
+const errorMsg = ref('')
+const isLoading = ref(false)
 
 // Filter states
 const search = ref('')
@@ -40,6 +47,10 @@ const { data: reports, pending, refresh } = useLazyAsyncData<ViolenceReport[]>('
       status,
       code,
       created_at,
+      id_client,
+      id_reporter,
+      id_perpetrator,
+      id_violence,
       client:id_client(*),
       reporter:id_reporter(*),
       perpetrator:id_perpetrator(*),
@@ -48,6 +59,77 @@ const { data: reports, pending, refresh } = useLazyAsyncData<ViolenceReport[]>('
     .order('created_at', { ascending: false })
   return (data as unknown as ViolenceReport[]) || []
 }, { default: () => [] })
+
+// Delete report function
+const deleteReport = async (rep: ViolenceReport) => {
+  if (!confirm(`Apakah Anda yakin ingin menghapus laporan dengan kode ${rep.code}? Semua data terkait (korban, pelapor, pelaku, rincian kejadian, dan bukti file) akan ikut terhapus secara permanen.`)) return
+
+  isLoading.value = true
+  successMsg.value = ''
+  errorMsg.value = ''
+
+  try {
+    // 1. Delete files if any
+    const raw = rep.perpetrator?.upload_bukti
+    let files: string[] = []
+    if (raw) {
+      if (typeof raw === 'string') {
+        try {
+          files = JSON.parse(raw)
+        } catch {
+          files = [raw]
+        }
+      } else if (Array.isArray(raw)) {
+        files = raw
+      }
+    }
+
+    if (files.length > 0) {
+      try {
+        const { error: storageError } = await supabase.storage
+          .from('evidence')
+          .remove(files)
+        if (storageError) {
+          console.warn('Failed to delete some evidence files from storage:', storageError)
+        }
+      } catch (storageErr) {
+        console.warn('Storage deletion error:', storageErr)
+      }
+    }
+
+    // 2. Delete the main report row
+    const { error: reportError } = await supabase
+      .from('violence_reports')
+      .delete()
+      .eq('id', rep.id)
+
+    if (reportError) throw reportError
+
+    // 3. Delete related parents
+    if (rep.id_client) {
+      await supabase.from('clients').delete().eq('id', rep.id_client)
+    }
+    if (rep.id_reporter) {
+      await supabase.from('reporters').delete().eq('id', rep.id_reporter)
+    }
+    if (rep.id_perpetrator) {
+      await supabase.from('perpetrators').delete().eq('id', rep.id_perpetrator)
+    }
+    if (rep.id_violence) {
+      await supabase.from('violences').delete().eq('id', rep.id_violence)
+    }
+
+    successMsg.value = `Laporan ${rep.code} berhasil dihapus!`
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    await refresh()
+  } catch (err: any) {
+    console.error(err)
+    errorMsg.value = err.message || 'Gagal menghapus laporan.'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } finally {
+    isLoading.value = false
+  }
+}
 
 // Client-side filtering logic
 const filteredReports = computed(() => {
@@ -215,6 +297,16 @@ const exportToExcel = () => {
       </div>
     </div>
 
+    <!-- Alert Notifications -->
+    <div v-if="successMsg" class="bg-green-50 border border-green-200 text-green-800 p-4 rounded-xl flex items-start space-x-2 text-sm font-semibold shadow-sm">
+      <CheckCircle2 class="w-5 h-5 shrink-0 text-green-600" />
+      <span>{{ successMsg }}</span>
+    </div>
+    <div v-if="errorMsg" class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl flex items-start space-x-2 text-sm font-semibold shadow-sm">
+      <AlertCircle class="w-5 h-5 shrink-0 text-red-600" />
+      <span>{{ errorMsg }}</span>
+    </div>
+
     <!-- Filters Section -->
     <div class="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
       <div class="flex items-center space-x-2 text-sm font-bold text-slate-700 border-b border-gray-100 pb-2">
@@ -364,14 +456,24 @@ const exportToExcel = () => {
                     {{ rep.status }}
                   </span>
                 </td>
-                <td class="py-3.5 text-center">
-                  <NuxtLink 
-                    :to="`/admin/violence-reports/${rep.id}`"
-                    class="p-2 hover:bg-slate-100 rounded-xl text-green-700 inline-flex items-center"
-                    title="Lihat Detail Laporan"
-                  >
-                    <Eye class="w-4 h-4" />
-                  </NuxtLink>
+                <td class="py-3.5 text-center whitespace-nowrap">
+                  <div class="flex items-center justify-center space-x-1">
+                    <NuxtLink 
+                      :to="`/admin/violence-reports/${rep.id}`"
+                      class="p-2 hover:bg-slate-100 rounded-xl text-green-700 inline-flex items-center"
+                      title="Lihat Detail Laporan"
+                    >
+                      <Eye class="w-4 h-4" />
+                    </NuxtLink>
+                    <button 
+                      @click="deleteReport(rep)"
+                      class="p-2 hover:bg-red-50 rounded-xl text-red-600 inline-flex items-center"
+                      title="Hapus Laporan"
+                      :disabled="isLoading"
+                    >
+                      <Trash2 class="w-4 h-4" />
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr v-if="filteredReports.length === 0">

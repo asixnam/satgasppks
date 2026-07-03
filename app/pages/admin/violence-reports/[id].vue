@@ -15,7 +15,8 @@ import {
   FileText,
   Download,
   AlertCircle,
-  Loader2
+  Loader2,
+  Trash2
 } from 'lucide-vue-next'
 import type { ViolenceReport } from '~/types/database'
 
@@ -328,6 +329,83 @@ const changeStatus = async (newStatus: 'terlapor' | 'diproses' | 'ditolak' | 'se
   } catch (err: any) {
     console.error(err)
     errorMsg.value = 'Gagal memperbarui status laporan. Silakan coba kembali.'
+  } finally {
+    updateStatusLoading.value = false
+  }
+}
+
+// Delete report function
+const deleteReport = async () => {
+  if (!report.value) return
+  if (!confirm(`Apakah Anda yakin ingin menghapus laporan dengan kode ${report.value.code}? Semua data terkait (korban, pelapor, pelaku, rincian kejadian, dan bukti file) akan ikut terhapus secara permanen.`)) return
+
+  updateStatusLoading.value = true
+  successMsg.value = ''
+  errorMsg.value = ''
+
+  try {
+    // 1. Delete files if any
+    const raw = report.value.perpetrator?.upload_bukti
+    let files: string[] = []
+    if (raw) {
+      if (typeof raw === 'string') {
+        try {
+          files = JSON.parse(raw)
+        } catch {
+          files = [raw]
+        }
+      } else if (Array.isArray(raw)) {
+        files = raw
+      }
+    }
+
+    if (files.length > 0) {
+      try {
+        const { error: storageError } = await supabase.storage
+          .from('evidence')
+          .remove(files)
+        if (storageError) {
+          console.warn('Failed to delete some evidence files from storage:', storageError)
+        }
+      } catch (storageErr) {
+        console.warn('Storage deletion error:', storageErr)
+      }
+    }
+
+    // 2. Delete the main report row
+    const { error: reportError } = await supabase
+      .from('violence_reports')
+      .delete()
+      .eq('id', report.value.id)
+
+    if (reportError) throw reportError
+
+    // 3. Delete related parents
+    const rep = report.value
+    if (rep.id_client) {
+      await supabase.from('clients').delete().eq('id', rep.id_client)
+    }
+    if (rep.id_reporter) {
+      await supabase.from('reporters').delete().eq('id', rep.id_reporter)
+    }
+    if (rep.id_perpetrator) {
+      await supabase.from('perpetrators').delete().eq('id', rep.id_perpetrator)
+    }
+    if (rep.id_violence) {
+      await supabase.from('violences').delete().eq('id', rep.id_violence)
+    }
+
+    successMsg.value = 'Laporan berhasil dihapus! Mengalihkan ke daftar laporan...'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    
+    // Redirect after a short delay
+    setTimeout(() => {
+      router.push('/admin/violence-reports')
+    }, 1500)
+  } catch (err: any) {
+    console.error(err)
+    errorMsg.value = err.message || 'Gagal menghapus laporan.'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   } finally {
     updateStatusLoading.value = false
   }
@@ -760,14 +838,25 @@ const exportToWord = () => {
               <span v-else-if="activeTab === 'kejadian'">Detail Kejadian</span>
             </h2>
             
-            <button 
-              v-if="!isEditing"
-              @click="startEdit"
-              class="px-3.5 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center transition"
-            >
-              <i class="fas fa-edit text-slate-500 mr-1.5"></i>
-              <span>Edit Laporan</span>
-            </button>
+            <div class="flex items-center space-x-2">
+              <button 
+                v-if="!isEditing"
+                @click="startEdit"
+                class="px-3.5 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center transition"
+              >
+                <i class="fas fa-edit text-slate-500 mr-1.5"></i>
+                <span>Edit Laporan</span>
+              </button>
+              <button 
+                v-if="!isEditing"
+                @click="deleteReport"
+                class="px-3.5 py-1.5 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl text-xs font-bold text-red-700 flex items-center transition"
+                :disabled="updateStatusLoading"
+              >
+                <Trash2 class="w-3.5 h-3.5 mr-1.5" />
+                <span>Hapus Laporan</span>
+              </button>
+            </div>
           </div>
 
           <!-- Tab Korban -->
