@@ -25,7 +25,25 @@ const handleLogin = async () => {
   isLoading.value = true
   errorMsg.value = ''
 
-  // Fallback Check
+  try {
+    // Coba login asli menggunakan Supabase Auth terlebih dahulu
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value
+    })
+
+    if (!error) {
+      const authFallback = useCookie('auth_fallback')
+      authFallback.value = null
+      router.push('/admin/dashboard')
+      isLoading.value = false
+      return
+    }
+  } catch (err: any) {
+    console.error('Supabase Auth error:', err)
+  }
+
+  // Jika login asli gagal, gunakan Fallback Check sebagai cadangan developer
   if (email.value === FALLBACK_EMAIL && password.value === FALLBACK_PASSWORD) {
     const authFallback = useCookie('auth_fallback')
     authFallback.value = 'true'
@@ -34,26 +52,8 @@ const handleLogin = async () => {
     return
   }
 
-  try {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email.value,
-      password: password.value
-    })
-
-    if (error) {
-      errorMsg.value = 'Email atau password salah. Silakan coba kembali.'
-    } else {
-      const authFallback = useCookie('auth_fallback')
-      authFallback.value = null
-      router.push('/admin/dashboard')
-    }
-  } catch (err: any) {
-    console.error(err)
-    // If Supabase fails due to network/placeholder URL, suggest backup developer login
-    errorMsg.value = 'Terjadi kesalahan sistem. Silakan masuk menggunakan kredensial cadangan developer.'
-  } finally {
-    isLoading.value = false
-  }
+  errorMsg.value = 'Email atau password salah. Silakan coba kembali.'
+  isLoading.value = false
 }
 
 // Reset Password Modal State
