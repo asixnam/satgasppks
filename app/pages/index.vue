@@ -229,11 +229,11 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <!-- Right Column: 2x2 Grid of Leaf Cards -->
-        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Right Column: Horizontal Scroll on Mobile, 2x2 Grid on Tablet/Desktop -->
+        <div class="lg:col-span-2 flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0">
           
           <!-- Card 1 (Top Left) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-7 flex flex-col justify-between h-72 shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
             <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
               <i class="fas fa-edit text-lg"></i>
             </div>
@@ -246,7 +246,7 @@ onUnmounted(() => {
           </div>
 
           <!-- Card 2 (Top Right) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-7 flex flex-col justify-between h-72 shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
             <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
               <i class="fas fa-file-upload text-lg"></i>
             </div>
@@ -259,7 +259,7 @@ onUnmounted(() => {
           </div>
 
           <!-- Card 3 (Bottom Left) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-7 flex flex-col justify-between h-72 shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tr-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
             <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
               <i class="fas fa-shield-alt text-lg"></i>
             </div>
@@ -272,7 +272,7 @@ onUnmounted(() => {
           </div>
 
           <!-- Card 4 (Bottom Right) -->
-          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-7 flex flex-col justify-between h-72 shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
+          <div class="bg-gradient-to-br from-[#b38820] to-[#8c6710] rounded-tl-none rounded-[2rem] p-6 sm:p-7 flex flex-col justify-between h-64 sm:h-72 w-[280px] sm:w-auto flex-shrink-0 snap-center shadow-lg shadow-amber-900/5 hover:shadow-xl hover:shadow-amber-900/10 transition-all duration-300 transform hover:-translate-y-1 group">
             <div class="w-11 h-11 bg-white flex items-center justify-center rounded-xl shadow-sm text-[#8c6710] transform group-hover:scale-105 transition-transform duration-300">
               <i class="fas fa-user-shield text-lg"></i>
             </div>

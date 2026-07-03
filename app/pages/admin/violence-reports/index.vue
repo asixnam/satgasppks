@@ -31,7 +31,7 @@ const page = ref(1)
 const itemsPerPage = 10
 
 // Fetch reports
-const { data: reports, pending, refresh } = await useAsyncData<ViolenceReport[]>('admin-reports-list', async () => {
+const { data: reports, pending, refresh } = useLazyAsyncData<ViolenceReport[]>('admin-reports-list', async () => {
   const { data } = await supabase
     .from('violence_reports')
     .select(`
@@ -46,7 +46,7 @@ const { data: reports, pending, refresh } = await useAsyncData<ViolenceReport[]>
     `)
     .order('created_at', { ascending: false })
   return (data as unknown as ViolenceReport[]) || []
-})
+}, { default: () => [] })
 
 // Client-side filtering logic
 const filteredReports = computed(() => {
@@ -176,7 +176,7 @@ const exportToCSV = () => {
         <span>Penyaringan Data</span>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="grid grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
         <!-- Search -->
         <div class="space-y-1.5 lg:col-span-2">
           <label class="block text-xs font-bold text-slate-600">Pencarian Teks</label>
@@ -221,7 +221,7 @@ const exportToCSV = () => {
 
         <!-- Violence Type -->
         <div class="space-y-1.5">
-          <label class="block text-xs font-bold text-slate-600">Kategori Kekerasan</label>
+          <label class="block text-xs font-bold text-slate-600">Kategori</label>
           <select 
             v-model="typeFilter"
             class="w-full p-2 bg-slate-50 border border-gray-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-green-600 transition-colors"

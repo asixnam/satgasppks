@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   Upload, 
@@ -36,6 +36,26 @@ const reporterForm = ref({
   email: '',
   alamat: '',
   keterangan_tambahan: ''
+})
+
+// Auto-fill age from birthdate
+watch(() => reporterForm.value.tanggal_lahir, (newVal) => {
+  if (!newVal) {
+    reporterForm.value.usia = null
+    return
+  }
+  const birthDate = new Date(newVal)
+  if (isNaN(birthDate.getTime())) {
+    reporterForm.value.usia = null
+    return
+  }
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const m = today.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  reporterForm.value.usia = age >= 0 ? age : null
 })
 
 const perpetratorForm = ref({

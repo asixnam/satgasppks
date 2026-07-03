@@ -35,13 +35,13 @@ const imagePreview = ref('')
 const existingImage = ref<string | null>(null)
 
 // Fetch hero banners list
-const { data: heroes, pending, refresh } = await useAsyncData<Hero[]>('admin-heroes-list', async () => {
+const { data: heroes, pending, refresh } = useLazyAsyncData<Hero[]>('admin-heroes-list', async () => {
   const { data } = await supabase
     .from('heroes')
     .select('*')
     .order('id', { ascending: true })
   return (data as Hero[]) || []
-})
+}, { default: () => [] })
 
 // Image helper
 const getImageUrl = (path: string | null) => {
@@ -318,13 +318,12 @@ const deleteHero = async (id: number) => {
                   class="hidden"
                   @change="handleFileChange"
                 />
-                <button 
-                  type="button"
-                  @click="() => document.getElementById('banner-input')?.click()"
-                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all"
+                <label 
+                  for="banner-input"
+                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all cursor-pointer inline-block"
                 >
                   Pilih Gambar
-                </button>
+                </label>
                 <p class="text-[10px] text-gray-400">JPG, PNG atau WEBP. Maksimal 5MB.</p>
               </div>
             </div>

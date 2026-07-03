@@ -10,12 +10,17 @@
           <!-- Logo dan Nama -->
           <div class="flex items-center space-x-3.5">
             <img 
-              src="/image/logoputih.png" 
+              src="/image/unu-putih.png" 
               alt="SATGAS PPKS Logo" 
               class="h-10 sm:h-12 w-auto object-contain"
             >
+            <img 
+              src="/image/logo-warna.png" 
+              alt="SATGAS PPKS Logo" 
+              class="h-10 sm:h-12 w-auto object-contain brightness-0 invert"
+            >
             <div class="flex flex-col leading-none">
-              <span class="text-yellow-400 font-extrabold text-sm sm:text-base uppercase tracking-wider">SATGAS PPKS</span>
+              <span class="text-yellow-400 font-extrabold text-sm sm:text-base uppercase tracking-wider">SATGAS PPKPT</span>
               <span class="text-xs font-semibold text-slate-100 opacity-90 mt-0.5">UNU Yogyakarta</span>
             </div>
           </div>

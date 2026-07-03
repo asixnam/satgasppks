@@ -38,13 +38,13 @@ const imagePreview = ref('')
 const existingImage = ref<string | null>(null)
 
 // Fetch team members list
-const { data: tims, pending, refresh } = await useAsyncData<Tim[]>('admin-tims-list', async () => {
+const { data: tims, pending, refresh } = useLazyAsyncData<Tim[]>('admin-tims-list', async () => {
   const { data } = await supabase
     .from('tims')
     .select('*')
     .order('id', { ascending: true })
   return (data as Tim[]) || []
-})
+}, { default: () => [] })
 
 // Image helper
 const getImageUrl = (path: string | null) => {
@@ -350,13 +350,12 @@ const deleteMember = async (id: number) => {
                   class="hidden"
                   @change="handleFileChange"
                 />
-                <button 
-                  type="button"
-                  @click="() => document.getElementById('photo-input')?.click()"
-                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all"
+                <label 
+                  for="photo-input"
+                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all cursor-pointer inline-block"
                 >
                   Pilih Foto
-                </button>
+                </label>
                 <p class="text-[10px] text-gray-400">JPG, PNG atau WEBP. Maksimal 2MB.</p>
               </div>
             </div>

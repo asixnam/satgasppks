@@ -62,25 +62,25 @@ body {
 
 /* Custom theme color utility classes */
 .text-theme-primary {
-  color: #f1c40f;
+  color: #8c6710;
 }
 
 .hover-text-theme-primary:hover {
-  color: #f1c40f;
+  color: #8c6710;
 }
 
 .border-theme-primary {
-  border-color: #f1c40f;
+  border-color: #8c6710;
 }
 
 .bg-theme-primary {
-  background-color: #f1c40f;
+  background-color: #8c6710;
 }
 
 .hover-bg-theme-primary:hover {
-  background-color: #f1c40f;
+  background-color: #8c6710;
 }
 
 .hover-bg-theme-primary-dark:hover {
-  background-color: #f1c40f;
+  background-color: #8c6710;
 }

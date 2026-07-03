@@ -13,7 +13,8 @@ import {
   XCircle,
   FileText,
   Download,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from 'lucide-vue-next'
 import type { ViolenceReport } from '~/types/database'
 
@@ -33,7 +34,7 @@ const successMsg = ref('')
 const errorMsg = ref('')
 
 // Fetch report data
-const { data: report, refresh } = await useAsyncData<ViolenceReport>(`admin-report-${reportId}`, async () => {
+const { data: report, pending, refresh } = useLazyAsyncData<ViolenceReport>(`admin-report-${reportId}`, async () => {
   const { data } = await supabase
     .from('violence_reports')
     .select(`
@@ -114,7 +115,13 @@ const getEvidenceFiles = computed(() => {
         <span>Kembali ke Daftar Laporan</span>
       </NuxtLink>
 
-      <div v-if="report" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <!-- Loading State -->
+      <div v-if="pending" class="bg-white border border-gray-100 rounded-3xl p-12 flex flex-col items-center justify-center space-y-4 shadow-sm">
+        <Loader2 class="w-10 h-10 animate-spin text-green-700" />
+        <p class="text-sm text-gray-500 font-bold animate-pulse">Memuat Detail Laporan...</p>
+      </div>
+
+      <div v-else-if="report" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-black text-slate-800 flex items-center space-x-3">
             <span>Detail Laporan</span>
@@ -177,7 +184,7 @@ const getEvidenceFiles = computed(() => {
     </div>
 
     <!-- Main View content tabs -->
-    <div v-if="report" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div v-if="report && !pending" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
       <!-- Left: Navigation Tab Content (Span 8) -->
       <div class="lg:col-span-8 space-y-6">

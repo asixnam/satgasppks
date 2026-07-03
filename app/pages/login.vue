@@ -27,6 +27,8 @@ const handleLogin = async () => {
 
   // Fallback Check
   if (email.value === FALLBACK_EMAIL && password.value === FALLBACK_PASSWORD) {
+    const authFallback = useCookie('auth_fallback')
+    authFallback.value = 'true'
     isLoading.value = false
     router.push('/admin/dashboard')
     return
@@ -41,6 +43,8 @@ const handleLogin = async () => {
     if (error) {
       errorMsg.value = 'Email atau password salah. Silakan coba kembali.'
     } else {
+      const authFallback = useCookie('auth_fallback')
+      authFallback.value = null
       router.push('/admin/dashboard')
     }
   } catch (err: any) {
@@ -221,7 +225,7 @@ const handleResetPassword = async () => {
           </div>
 
           <!-- Google Login & Register Placeholders matching the reference image -->
-          <div class="space-y-4 pt-2">
+          <!-- <div class="space-y-4 pt-2">
             <div class="relative flex py-1 items-center">
               <div class="flex-grow border-t border-white/10"></div>
               <span class="flex-shrink mx-4 text-[9px] text-white/40 uppercase tracking-widest">Atau masuk dengan</span>
@@ -249,7 +253,7 @@ const handleResetPassword = async () => {
                 Daftar Sekarang
               </a>
             </div>
-          </div>
+          </div> -->
         </form>
 
       </div>

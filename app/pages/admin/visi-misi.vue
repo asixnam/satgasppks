@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { 
   Eye, 
   Save, 
@@ -29,7 +29,7 @@ const formVisi = ref('')
 const formMisi = ref('')
 
 // Fetch current Vision Mission data
-const { data: currentData, pending, refresh } = await useAsyncData<VisiMisi>('admin-visimisi-data', async () => {
+const { data: currentData, pending, refresh } = useLazyAsyncData<VisiMisi>('admin-visimisi-data', async () => {
   const { data } = await supabase
     .from('visi_misis')
     .select('*')
@@ -37,15 +37,18 @@ const { data: currentData, pending, refresh } = await useAsyncData<VisiMisi>('ad
     .limit(1)
     .maybeSingle()
   
-  if (data) {
-    rowId.value = data.id
-    formAbout.value = data.about
-    formVisi.value = data.visi
-    formMisi.value = data.misi
-  }
-  
   return data as VisiMisi
 })
+
+// Keep form fields synchronized when data resolves
+watch(currentData, (newData) => {
+  if (newData) {
+    rowId.value = newData.id
+    formAbout.value = newData.about
+    formVisi.value = newData.visi
+    formMisi.value = newData.misi
+  }
+}, { immediate: true })
 
 // Save Visi Misi details
 const saveVisiMisi = async () => {

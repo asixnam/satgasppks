@@ -20,7 +20,7 @@ definePageMeta({
 const supabase = useSupabaseClient()
 
 // Fetch reports with relationships for client-side stats calculation
-const { data: reports, pending, refresh } = await useAsyncData<ViolenceReport[]>('admin-dashboard-stats', async () => {
+const { data: reports, pending, refresh } = useLazyAsyncData<ViolenceReport[]>('admin-dashboard-stats', async () => {
   const { data } = await supabase
     .from('violence_reports')
     .select(`
@@ -33,7 +33,7 @@ const { data: reports, pending, refresh } = await useAsyncData<ViolenceReport[]>
     `)
     .order('created_at', { ascending: false })
   return (data as unknown as ViolenceReport[]) || []
-})
+}, { default: () => [] })
 
 // Stats computation
 const totalReports = computed(() => reports.value?.length || 0)
@@ -108,60 +108,60 @@ const typeStats = computed(() => {
     </div>
 
     <!-- Summary Count Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+    <div class="grid grid-cols-6 sm:grid-cols-2 lg:grid-cols-5 gap-6">
       
       <!-- Total Laporan -->
-      <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div class="space-y-1.5">
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Laporan</p>
-          <p class="text-3xl font-black text-slate-800">{{ totalReports }}</p>
+      <div class="bg-white border border-gray-100 p-4 sm:p-6 rounded-2xl shadow-sm flex items-center justify-between col-span-3 sm:col-span-1 lg:col-span-1">
+        <div class="space-y-1 min-w-0">
+          <p class="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider truncate">Total Laporan</p>
+          <p class="text-2xl sm:text-3xl font-black text-slate-800">{{ totalReports }}</p>
         </div>
-        <div class="p-3 bg-slate-50 text-slate-700 rounded-xl border border-slate-100">
-          <FileText class="w-6 h-6" />
+        <div class="p-2 sm:p-3 bg-slate-50 text-slate-700 rounded-xl border border-slate-100 shrink-0">
+          <FileText class="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </div>
 
       <!-- Terlapor -->
-      <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div class="space-y-1.5">
-          <p class="text-xs font-bold text-yellow-600 uppercase tracking-wider">Terlapor (Baru)</p>
-          <p class="text-3xl font-black text-slate-800">{{ statusCounts.terlapor }}</p>
+      <div class="bg-white border border-gray-100 p-4 sm:p-6 rounded-2xl shadow-sm flex items-center justify-between col-span-3 sm:col-span-1 lg:col-span-1">
+        <div class="space-y-1 min-w-0">
+          <p class="text-[10px] sm:text-xs font-bold text-yellow-600 uppercase tracking-wider truncate">Terlapor (Baru)</p>
+          <p class="text-2xl sm:text-3xl font-black text-slate-800">{{ statusCounts.terlapor }}</p>
         </div>
-        <div class="p-3 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-          <FileWarning class="w-6 h-6" />
+        <div class="p-2 sm:p-3 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100 shrink-0">
+          <FileWarning class="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </div>
 
       <!-- Diproses -->
-      <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div class="space-y-1.5">
-          <p class="text-xs font-bold text-blue-600 uppercase tracking-wider">Sedang Diproses</p>
-          <p class="text-3xl font-black text-slate-800">{{ statusCounts.diproses }}</p>
+      <div class="bg-white border border-gray-100 p-4 sm:p-6 rounded-2xl shadow-sm flex items-center justify-between col-span-2 sm:col-span-1 lg:col-span-1">
+        <div class="space-y-1 min-w-0">
+          <p class="text-[10px] sm:text-xs font-bold text-blue-600 uppercase tracking-wider truncate">Diproses</p>
+          <p class="text-2xl sm:text-3xl font-black text-slate-800">{{ statusCounts.diproses }}</p>
         </div>
-        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
-          <RefreshCw class="w-6 h-6" />
+        <div class="p-2 sm:p-3 bg-blue-50 text-blue-600 rounded-xl border border-blue-100 shrink-0">
+          <RefreshCw class="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </div>
 
       <!-- Selesai -->
-      <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div class="space-y-1.5">
-          <p class="text-xs font-bold text-green-600 uppercase tracking-wider">Kasus Selesai</p>
-          <p class="text-3xl font-black text-slate-800">{{ statusCounts.selesai }}</p>
+      <div class="bg-white border border-gray-100 p-4 sm:p-6 rounded-2xl shadow-sm flex items-center justify-between col-span-2 sm:col-span-1 lg:col-span-1">
+        <div class="space-y-1 min-w-0">
+          <p class="text-[10px] sm:text-xs font-bold text-green-600 uppercase tracking-wider truncate">Selesai</p>
+          <p class="text-2xl sm:text-3xl font-black text-slate-800">{{ statusCounts.selesai }}</p>
         </div>
-        <div class="p-3 bg-green-50 text-green-600 rounded-xl border border-green-100">
-          <CheckCircle2 class="w-6 h-6" />
+        <div class="p-2 sm:p-3 bg-green-50 text-green-600 rounded-xl border border-green-100 shrink-0">
+          <CheckCircle2 class="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </div>
 
       <!-- Ditolak -->
-      <div class="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm flex items-center justify-between">
-        <div class="space-y-1.5">
-          <p class="text-xs font-bold text-red-600 uppercase tracking-wider">Ditolak</p>
-          <p class="text-3xl font-black text-slate-800">{{ statusCounts.ditolak }}</p>
+      <div class="bg-white border border-gray-100 p-4 sm:p-6 rounded-2xl shadow-sm flex items-center justify-between col-span-2 sm:col-span-1 lg:col-span-1">
+        <div class="space-y-1 min-w-0">
+          <p class="text-[10px] sm:text-xs font-bold text-red-600 uppercase tracking-wider truncate">Ditolak</p>
+          <p class="text-2xl sm:text-3xl font-black text-slate-800">{{ statusCounts.ditolak }}</p>
         </div>
-        <div class="p-3 bg-red-50 text-red-600 rounded-xl border border-red-100">
-          <XCircle class="w-6 h-6" />
+        <div class="p-2 sm:p-3 bg-red-50 text-red-600 rounded-xl border border-red-100 shrink-0">
+          <XCircle class="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
       </div>
 

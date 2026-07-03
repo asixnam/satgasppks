@@ -57,9 +57,11 @@ const prevSlide = () => {
   <div class="container mx-auto px-4 py-8 max-w-7xl">
     <!-- Header Section -->
     <div class="text-center mb-16">
-      <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-44 mb-8 drop-shadow-lg object-contain">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-[#166534]">
-        Tentang SATGAS PPKPT
+      <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="mx-auto h-32 mb-6 drop-shadow-md object-contain">
+      <h1 class="font-bold mb-4 text-theme-primary">
+        <span class="block text-2xl md:text-3xl">Tentang Satuan Tugas</span>
+        <span class="block text-2xl md:text-3xl">Pencegahan & Penanganan Kekerasan di Perguruan Tinggi</span>
+        <span class="block text-lg md:text-xl font-normal mt-2">Universitas Nahdlatul Ulama Yogyakarta</span>
       </h1>
       <p class="text-gray-600 text-lg max-w-4xl mx-auto leading-relaxed">
         {{ visiMisi?.about || 'Deskripsi tentang SATGAS PPKPT belum tersedia.' }}

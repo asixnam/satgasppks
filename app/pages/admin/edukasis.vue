@@ -37,13 +37,13 @@ const imagePreview = ref('')
 const existingImage = ref<string | null>(null)
 
 // Fetch educational materials
-const { data: edukasis, pending, refresh } = await useAsyncData<Edukasi[]>('admin-edukasis-list', async () => {
+const { data: edukasis, pending, refresh } = useLazyAsyncData<Edukasi[]>('admin-edukasis-list', async () => {
   const { data } = await supabase
     .from('edukasis')
     .select('*')
     .order('created_at', { ascending: false })
   return (data as Edukasi[]) || []
-})
+}, { default: () => [] })
 
 // Image helper
 const getImageUrl = (path: string | null) => {
@@ -337,13 +337,12 @@ const deleteEdukasi = async (id: number) => {
                   class="hidden"
                   @change="handleFileChange"
                 />
-                <button 
-                  type="button"
-                  @click="() => document.getElementById('image-input-edu')?.click()"
-                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all"
+                <label 
+                  for="image-input-edu"
+                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all cursor-pointer inline-block"
                 >
                   Pilih Berkas Gambar
-                </button>
+                </label>
                 <p class="text-[10px] text-gray-400">JPG, PNG atau WEBP. Maksimal 2MB.</p>
               </div>
             </div>

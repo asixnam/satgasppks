@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { 
   LayoutDashboard, 
   FileWarning, 
@@ -18,13 +18,32 @@ import {
 
 const supabase = useSupabaseClient()
 const router = useRouter()
-const isSidebarOpen = ref(true)
+const route = useRoute()
+const isSidebarOpen = ref(false)
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    isSidebarOpen.value = window.innerWidth >= 768
+  }
+})
+
+// Auto-close sidebar on mobile after navigating
+watch(() => route.path, () => {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    isSidebarOpen.value = false
+  }
+})
 
 const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut()
-  if (!error) {
-    router.push('/')
+  const authFallback = useCookie('auth_fallback')
+  authFallback.value = null
+  
+  try {
+    await supabase.auth.signOut()
+  } catch (e) {
+    console.error('Supabase signout bypassed:', e)
   }
+  router.push('/')
 }
 
 const toggleSidebar = () => {
@@ -33,26 +52,32 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 flex">
+  <div class="min-h-screen bg-white flex relative">
     
+    <!-- Mobile Sidebar Overlay -->
+    <div 
+      v-if="isSidebarOpen" 
+      @click="isSidebarOpen = false" 
+      class="fixed inset-0 bg-black/50 z-40 md:hidden"
+    ></div>
+
     <!-- Sidebar -->
     <aside 
-      class="bg-slate-900 text-white transition-all duration-300 flex flex-col justify-between shrink-0 relative z-40 border-r border-slate-800"
-      :class="{ 'w-64': isSidebarOpen, 'w-20': !isSidebarOpen }"
+      class="bg-black text-white transition-all duration-300 flex flex-col justify-between shrink-0 fixed inset-y-0 left-0 z-50 border-r border-slate-800 md:relative md:translate-x-0"
+      :class="{ 
+        'w-64 translate-x-0': isSidebarOpen, 
+        'w-64 -translate-x-full md:w-20 md:translate-x-0': !isSidebarOpen 
+      }"
     >
       <div>
         <!-- Sidebar Brand Header -->
-        <div class="h-16 flex items-center px-4 justify-between border-b border-slate-800">
+        <div class="h-16 flex items-center px-4 justify-between border-b border-black-800">
           <div class="flex items-center space-x-3 overflow-hidden" v-if="isSidebarOpen">
-            <div class="w-8 h-8 bg-green-700 text-yellow-300 font-bold rounded-lg flex items-center justify-center shrink-0">
-              P
-            </div>
+            <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="h-8 w-auto object-contain shrink-0 brightness-0 invert" />
             <span class="font-extrabold text-sm tracking-wider uppercase">SATGAS ADMIN</span>
           </div>
           <div v-else class="w-full flex justify-center">
-            <div class="w-8 h-8 bg-green-700 text-yellow-300 font-bold rounded-lg flex items-center justify-center shrink-0">
-              P
-            </div>
+            <img src="/image/logo-warna.png" alt="SATGAS PPKS Logo" class="h-8 w-auto object-contain shrink-0 brightness-0 invert" />
           </div>
         </div>
 
@@ -61,7 +86,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/dashboard" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Dashboard' : ''"
           >
             <LayoutDashboard class="w-5 h-5 shrink-0" />
@@ -71,7 +96,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/violence-reports" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Laporan Kekerasan' : ''"
           >
             <FileWarning class="w-5 h-5 shrink-0" />
@@ -81,7 +106,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/beritas" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Kelola Berita' : ''"
           >
             <Newspaper class="w-5 h-5 shrink-0" />
@@ -91,7 +116,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/edukasis" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Kelola Edukasi' : ''"
           >
             <BookOpen class="w-5 h-5 shrink-0" />
@@ -101,7 +126,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/tims" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Kelola Tim' : ''"
           >
             <Users class="w-5 h-5 shrink-0" />
@@ -111,7 +136,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/visi-misi" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Kelola Visi Misi' : ''"
           >
             <Eye class="w-5 h-5 shrink-0" />
@@ -121,7 +146,7 @@ const toggleSidebar = () => {
           <NuxtLink 
             to="/admin/hero" 
             class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-colors"
-            active-class="bg-green-800 hover:bg-green-700 font-semibold"
+            active-class="bg-theme-primary text-white font-semibold"
             :title="!isSidebarOpen ? 'Kelola Banner Slider' : ''"
           >
             <Image class="w-5 h-5 shrink-0" />
@@ -164,7 +189,7 @@ const toggleSidebar = () => {
           <Menu class="w-5 h-5" />
         </button>
         
-        <div class="text-sm font-semibold text-slate-600">
+        <div class="text-xs sm:text-sm font-semibold text-slate-600 truncate max-w-[200px] sm:max-w-none">
           Sistem Informasi Administrasi SATGAS PPKS
         </div>
       </header>

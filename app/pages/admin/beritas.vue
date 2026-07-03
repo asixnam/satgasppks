@@ -37,13 +37,13 @@ const imagePreview = ref('')
 const existingImage = ref<string | null>(null)
 
 // Fetch news articles list
-const { data: beritas, pending, refresh } = await useAsyncData<Berita[]>('admin-beritas-list', async () => {
+const { data: beritas, pending, refresh } = useLazyAsyncData<Berita[]>('admin-beritas-list', async () => {
   const { data } = await supabase
     .from('beritas')
     .select('*')
     .order('created_at', { ascending: false })
   return (data as Berita[]) || []
-})
+}, { default: () => [] })
 
 // Image helper
 const getImageUrl = (path: string | null) => {
@@ -335,13 +335,12 @@ const deleteBerita = async (id: number) => {
                   class="hidden"
                   @change="handleFileChange"
                 />
-                <button 
-                  type="button"
-                  @click="() => document.getElementById('image-input')?.click()"
-                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all"
+                <label 
+                  for="image-input"
+                  class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all cursor-pointer inline-block animate-pulse-subtle"
                 >
                   Pilih Berkas Gambar
-                </button>
+                </label>
                 <p class="text-[10px] text-gray-400">JPG, PNG atau WEBP. Maksimal 2MB.</p>
               </div>
             </div>
