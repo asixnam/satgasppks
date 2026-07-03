@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import * as XLSX from 'xlsx'
 import { 
   Search, 
   Filter, 
@@ -110,36 +111,81 @@ const resetFilters = () => {
   page.value = 1
 }
 
-// CSV Export
-const exportToCSV = () => {
+// Excel Export
+const exportToExcel = () => {
   if (filteredReports.value.length === 0) return
   
-  const headers = ['Kode Tiket', 'Tanggal Lapor', 'Nama Korban', 'Gender Korban', 'Status Akademik', 'Pelapor', 'Hubungan Pelaku', 'Nama Pelaku', 'Lokasi Kejadian', 'Waktu Kejadian', 'Kategori Kekerasan', 'Status Kasus']
+  const headers = [
+    'Kode Tiket', 
+    'Tanggal Lapor', 
+    'Status Kasus',
+    'Nama Korban', 
+    'Gender Korban', 
+    'Status Akademik Korban', 
+    'Status Disabilitas Korban',
+    'Kategori Disabilitas Korban',
+    'Sumber Informasi Korban',
+    'Nama Pelapor',
+    'Hubungan Pelapor dengan Pelaku',
+    'Tempat Lahir Pelapor',
+    'Tanggal Lahir Pelapor',
+    'Usia Pelapor',
+    'Gender Pelapor',
+    'Status Pelapor',
+    'No. Telp Pelapor',
+    'Email Pelapor',
+    'Alamat Pelapor',
+    'Keterangan Tambahan Pelapor',
+    'Nama Pelaku',
+    'Hubungan Pelaku dengan Korban',
+    'No. Telp Pelaku',
+    'Gender Pelaku',
+    'Ciri Fisik & Keterangan Pelaku',
+    'Bentuk Kekerasan',
+    'Jenis Kekerasan Spesifik',
+    'Lokasi Kejadian',
+    'Waktu Kejadian',
+    'Deskripsi Kejadian'
+  ]
+
   const rows = filteredReports.value.map(r => [
     r.code,
-    new Date(r.created_at).toLocaleDateString('id-ID'),
+    new Date(r.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+    r.status.toUpperCase(),
     r.client?.nama_lengkap || '',
     r.client?.jenis_kelamin || '',
     r.client?.status || '',
+    r.client?.status_korban || '',
+    r.client?.kategori_disable || '',
+    r.client?.sumber_informasi || '',
     r.reporter?.nama_lengkap || '',
-    r.perpetrator?.hubungan_dengan_korban || '',
+    r.reporter?.hubungan_pelapor_dengan_pelaku || '',
+    r.reporter?.tempat_lahir || '',
+    r.reporter?.tanggal_lahir ? new Date(r.reporter.tanggal_lahir).toLocaleDateString('id-ID') : '',
+    r.reporter?.usia || '',
+    r.reporter?.jenis_kelamin || '',
+    r.reporter?.status_pelapor || '',
+    r.reporter?.no_telepon || '',
+    r.reporter?.email || '',
+    r.reporter?.alamat || '',
+    r.reporter?.keterangan_tambahan || '',
     r.perpetrator?.nama || '',
+    r.perpetrator?.hubungan_dengan_korban || '',
+    r.perpetrator?.telepon || '',
+    r.perpetrator?.jenis_kelamin || '',
+    r.perpetrator?.keterangan || '',
+    r.violence?.bentuk_kekerasan?.join(', ') || '',
+    r.violence?.jenis_kekerasan?.join(', ') || '',
     r.violence?.lokasi_kejadian || '',
     r.violence?.waktu_kejadian ? new Date(r.violence.waktu_kejadian).toLocaleDateString('id-ID') : '',
-    r.violence?.bentuk_kekerasan?.join('; ') || '',
-    r.status
+    r.violence?.deskripsi_kekerasan || ''
   ])
 
-  let csvContent = "data:text/csv;charset=utf-8," 
-    + [headers.join(','), ...rows.map(e => e.map(val => `"${val.replace(/"/g, '""')}"`).join(','))].join('\n')
-  
-  const encodedUri = encodeURI(csvContent)
-  const link = document.createElement('a')
-  link.setAttribute('href', encodedUri)
-  link.setAttribute('download', `laporan_kekerasan_export_${Date.now()}.csv`)
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows])
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Laporan Kekerasan')
+
+  XLSX.writeFile(workbook, `laporan_kekerasan_export_${Date.now()}.xlsx`)
 }
 </script>
 
@@ -153,12 +199,12 @@ const exportToCSV = () => {
       </div>
       <div class="flex gap-2">
         <button 
-          @click="exportToCSV"
+          @click="exportToExcel"
           :disabled="filteredReports.length === 0"
           class="px-4 py-2.5 bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white font-bold rounded-xl text-sm transition-colors shadow-md inline-flex items-center space-x-1.5"
         >
           <FileSpreadsheet class="w-4 h-4" />
-          <span>Ekspor CSV</span>
+          <span>Ekspor Excel</span>
         </button>
         <button 
           @click="resetFilters"

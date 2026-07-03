@@ -27,29 +27,24 @@
           
           <!-- Deskripsi -->
           <p class="text-slate-200 text-sm leading-relaxed max-w-md">
-            Bersama SATGAS UNU JOGJA, kita wujudkan lingkungan akademik yang inklusif, sehat, aman, serta bebas dari segala bentuk kekerasan seksual.
+            SATGAS PPKPT Universitas Nahdlatul Ulama Yogyakarta merupakan lembaga garda terdepan
+            dalam pencegahan, perlindungan, dan penanganan tindakan kekerasan seksual.
           </p>
           
           <!-- Contact Info -->
-          <div class="space-y-2 pt-2 text-sm text-slate-200">
-            <div class="flex items-center space-x-3">
-              <i class="fas fa-map-marker-alt text-yellow-400 text-sm w-4 shrink-0" aria-hidden="true"></i>
-              <a href="https://maps.app.goo.gl/PHN93G8Ybga3AVeJ7" target="_blank" rel="noopener noreferrer" class="hover:text-yellow-400 transition-colors">
-                Jl. Ringroad Barat, Dowangan, Banyuraden, Sleman
-              </a>
-            </div>
-            <div class="flex items-center space-x-3">
+          <div class="space-y-2.5 pt-2 text-sm text-slate-200">
+            <a href="https://maps.app.goo.gl/PHN93G8Ybga3AVeJ7" target="_blank" rel="noopener noreferrer" class="flex items-start space-x-3 hover:text-yellow-400 transition-colors group">
+              <i class="fas fa-map-marker-alt text-yellow-400 text-sm w-4 shrink-0 mt-0.5" aria-hidden="true"></i>
+              <span>Jl. Ringroad Barat, Dowangan, Banyuraden, Sleman</span>
+            </a>
+            <a href="https://wa.me/6287762703887" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 hover:text-yellow-400 transition-colors group">
               <i class="fas fa-phone text-yellow-400 text-sm w-4 shrink-0" aria-hidden="true"></i>
-              <a href="https://wa.me/6287762703887" target="_blank" rel="noopener noreferrer" class="hover:text-yellow-400 transition-colors">
-                +62 877-6270-3887
-              </a>
-            </div>
-            <div class="flex items-center space-x-3">
+              <span>+62 877-6270-3887</span>
+            </a>
+            <a href="mailto:satgas.ppks@unu-jogja.ac.id" class="flex items-center space-x-3 hover:text-yellow-400 transition-colors group">
               <i class="fas fa-envelope text-yellow-400 text-sm w-4 shrink-0" aria-hidden="true"></i>
-              <a href="mailto:satgasppks@unu-jogja.ac.id" class="hover:text-yellow-400 transition-colors">
-                satgasppks@unu-jogja.ac.id
-              </a>
-            </div>
+              <span>satgas.ppks@unu-jogja.ac.id</span>
+            </a>
           </div>
         </div>
 
@@ -86,7 +81,7 @@
               <a href="https://www.instagram.com/satgasppks.unuyo" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-white transition-colors duration-200" aria-label="Instagram">
                 <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
               </a>
-              <a href="mailto:satgasppks@unu-jogja.ac.id" class="text-yellow-400 hover:text-white transition-colors duration-200" aria-label="Email">
+              <a href="mailto:satgas.ppks@unu-jogja.ac.id" class="text-yellow-400 hover:text-white transition-colors duration-200" aria-label="Email">
                 <i class="fas fa-envelope text-xl" aria-hidden="true"></i>
               </a>
               <a href="https://wa.me/6287762703887" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-white transition-colors duration-200" aria-label="WhatsApp">

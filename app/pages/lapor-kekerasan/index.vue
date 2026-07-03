@@ -77,6 +77,11 @@ const violenceForm = ref({
 // File upload state
 const selectedFiles = ref<File[]>([])
 const fileError = ref('')
+const fileInput = ref<HTMLInputElement | null>(null)
+
+const triggerFileInput = () => {
+  fileInput.value?.click()
+}
 
 const handleFileChange = (e: Event) => {
   const target = e.target as HTMLInputElement
@@ -648,21 +653,22 @@ const submitReport = async () => {
               <div class="flex items-center space-x-3">
                 <input 
                   type="file" 
+                  ref="fileInput"
                   id="bukti-upload" 
                   multiple 
                   class="hidden" 
-                  accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
+                  accept="image/*,video/*,audio/*,.pdf,.doc,.docx"
                   @change="handleFileChange" 
                 />
                 <button 
                   type="button" 
-                  @click="() => document.getElementById('bukti-upload')?.click()"
+                  @click="triggerFileInput"
                   class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center space-x-1.5 transition"
                 >
                   <Upload class="w-4 h-4 text-slate-500" />
                   <span>Pilih File</span>
                 </button>
-                <span class="text-xs text-gray-400">PDF, JPG, PNG, DOCX. Maks 5MB/file.</span>
+                <span class="text-xs text-gray-400">Gambar, Video, Audio, PDF, DOCX. Maks 5MB/file.</span>
               </div>
               <p v-if="fileError" class="text-xs text-red-650 font-bold">{{ fileError }}</p>
 

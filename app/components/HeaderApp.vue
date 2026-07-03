@@ -123,13 +123,13 @@ const toggleMobileMenu = () => {
             </NuxtLink>
 
             <!-- Dashboard Admin access -->
-            <NuxtLink 
+            <!-- <NuxtLink 
               v-if="user" 
               to="/admin/dashboard" 
               class="px-4 py-2 bg-theme-primary hover-bg-theme-primary text-white text-xs font-bold rounded-xl shadow-sm transition-colors uppercase tracking-wider"
             >
               Dashboard
-            </NuxtLink>
+            </NuxtLink> -->
           </nav>
 
           <!-- Mobile navigation menu trigger -->
