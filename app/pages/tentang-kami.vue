@@ -167,7 +167,7 @@ const prevSlide = () => {
     <div v-if="tims && tims.length > 0">
       
       <!-- Mobile Slider (visible on mobile only) -->
-      <div class="lg:hidden relative max-w-md mx-auto mb-8 overflow-hidden">
+      <div class="lg:hidden relative max-w-[280px] mx-auto mb-8 overflow-hidden">
         <div class="w-full">
           <div 
             class="flex transition-transform duration-500 ease-in-out"
@@ -176,23 +176,25 @@ const prevSlide = () => {
             <div 
               v-for="tim in tims" 
               :key="tim.id"
-              class="w-full flex-shrink-0 px-4"
+              class="w-full flex-shrink-0 px-2"
             >
-              <div class="text-center flex flex-col items-center">
+              <div class="text-black p-3 text-left flex flex-col">
                 <!-- Photo Section -->
-                <div class="relative mb-4">
+                <div class="relative w-full aspect-square mb-4 overflow-hidden rounded-sm border border-neutral-750/60">
                   <img 
                     :src="getImageUrl(tim.foto)" 
                     :alt="`Foto ${tim.nama}`" 
-                    class="w-64 h-64 object-cover rounded-xl mx-auto shadow-lg"
+                    class="w-full h-full object-cover"
                   />
                 </div>
                 
                 <!-- Info Section -->
                 <div class="space-y-2">
-                  <h3 class="text-lg font-semibold text-gray-800">{{ tim.nama }}</h3>
-                  <p class="text-sm text-gray-600">{{ tim.jabatan }}</p>
-                  <p class="text-sm text-green-600 font-semibold">UNU Yogyakarta</p>
+                  <h3 class="text-xl font-extrabold text-black tracking-wide leading-tight">{{ tim.nama }}</h3>
+                  <div class="flex items-start gap-2">
+                    <span class="inline-block w-3.5 h-[1.5px] bg-zinc-500 mt-2 shrink-0"></span>
+                    <p class="text-xs text-theme-primary font-medium leading-relaxed">{{ tim.jabatan }} UNU Yogyakarta</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,7 +202,7 @@ const prevSlide = () => {
         </div>
 
         <!-- Navigation Buttons -->
-        <button 
+        <!-- <button 
           @click="prevSlide"
           class="absolute left-0 top-1/3 -translate-y-1/2 bg-white/90 border border-gray-150 rounded-full p-3 shadow-md hover:bg-gray-100 transition-colors z-20"
         >
@@ -211,7 +213,7 @@ const prevSlide = () => {
           class="absolute right-0 top-1/3 -translate-y-1/2 bg-white/90 border border-gray-150 rounded-full p-3 shadow-md hover:bg-gray-100 transition-colors z-20"
         >
           <i class="fas fa-chevron-right text-gray-600"></i>
-        </button>
+        </button> -->
         
         <!-- Dots Indicator -->
         <div class="flex justify-center gap-2 mt-6">
@@ -231,22 +233,24 @@ const prevSlide = () => {
         <div 
           v-for="tim in tims" 
           :key="tim.id"
-          class="text-center h-full flex flex-col items-center group"
+          class="text-white flex flex-col text-left group"
         >
           <!-- Photo Section -->
-          <div class="relative mb-2 overflow-hidden rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300">
+          <div class="relative w-full aspect-square mb-5 overflow-hidden rounded-sm">
             <img 
               :src="getImageUrl(tim.foto)" 
               :alt="`Foto ${tim.nama}`" 
-              class="w-56 h-56 lg:w-60 lg:h-60 object-cover rounded-xl mx-auto group-hover:scale-105 transition-transform duration-500"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
           
           <!-- Info Section -->
-          <div class="space-y-1 mt-3">
-            <h3 class="text-base lg:text-lg font-medium text-gray-800 leading-snug">{{ tim.nama }}</h3>
-            <p class="text-sm lg:text-base text-gray-600">{{ tim.jabatan }}</p>
-            <p class="text-sm lg:text-base text-green-700 font-semibold">UNU Yogyakarta</p>
+          <div class="space-y-2">
+            <h3 class="text-2xl lg:text-3xl font-extrabold text-black tracking-wide leading-tight">{{ tim.nama }}</h3>
+            <div class="flex items-start gap-2">
+              <span class="inline-block w-3.5 h-[1.5px] bg-zinc-500 mt-2 shrink-0"></span>
+              <p class="text-xs md:text-sm text-theme-primary font-medium leading-relaxed">{{ tim.jabatan }} UNU Yogyakarta</p>
+            </div>
           </div>
         </div>
       </div>

@@ -199,10 +199,11 @@ const deleteBerita = async (id: number) => {
       </div>
       <button 
         @click="openCreateModal"
-        class="px-4 py-2.5 bg-green-700 hover:bg-green-600 text-white font-bold rounded-xl text-sm transition-colors shadow-md inline-flex items-center space-x-1.5"
+        class="px-3 py-2.5 sm:px-4 sm:py-2.5 bg-green-700 hover:bg-green-600 text-white font-bold rounded-xl text-sm transition-colors shadow-md inline-flex items-center justify-center gap-1.5 shrink-0"
+        title="Buat Berita Baru"
       >
         <Plus class="w-4 h-4" />
-        <span>Buat Berita Baru</span>
+        <span class="hidden sm:inline">Buat Berita Baru</span>
       </button>
     </div>
 

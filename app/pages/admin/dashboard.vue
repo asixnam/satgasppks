@@ -100,10 +100,11 @@ const typeStats = computed(() => {
       <button 
         @click="refresh()" 
         :disabled="pending"
-        class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-white text-sm font-semibold transition-colors flex items-center space-x-1.5 disabled:opacity-50"
+        class="px-3 py-2 sm:px-4 sm:py-2 border border-gray-200 rounded-xl hover:bg-white text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 shrink-0"
+        title="Refresh Data"
       >
         <RefreshCw class="w-4 h-4" :class="{ 'animate-spin': pending }" />
-        <span>Refresh Data</span>
+        <span class="hidden sm:inline">Refresh Data</span>
       </button>
     </div>
 

@@ -192,6 +192,14 @@ const deleteMember = async (id: number) => {
     isLoading.value = false
   }
 }
+
+// Word limit helper for descriptions
+const limitWords = (text: string | null, limit: number = 10) => {
+  if (!text) return '-'
+  const words = text.trim().split(/\s+/)
+  if (words.length <= limit) return text
+  return words.slice(0, limit).join(' ') + '...'
+}
 </script>
 
 <template>
@@ -204,10 +212,11 @@ const deleteMember = async (id: number) => {
       </div>
       <button 
         @click="openCreateModal"
-        class="px-4 py-2.5 bg-green-700 hover:bg-green-600 text-white font-bold rounded-xl text-sm transition-colors shadow-md inline-flex items-center space-x-1.5"
+        class="px-3 py-2.5 sm:px-4 sm:py-2.5 bg-green-700 hover:bg-green-600 text-white font-bold rounded-xl text-sm transition-colors shadow-md inline-flex items-center justify-center gap-1.5 shrink-0"
+        title="Tambah Anggota Baru"
       >
         <Plus class="w-4 h-4" />
-        <span>Tambah Anggota Baru</span>
+        <span class="hidden sm:inline">Tambah Anggota Baru</span>
       </button>
     </div>
 
@@ -221,64 +230,79 @@ const deleteMember = async (id: number) => {
       <span>{{ errorMsg }}</span>
     </div>
 
-    <!-- Team List -->
-    <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-pulse">
-      <div v-for="n in 4" :key="n" class="bg-white border border-gray-100 rounded-2xl p-6 space-y-4">
-        <div class="w-24 h-24 bg-slate-100 rounded-full mx-auto"></div>
-        <div class="h-6 bg-slate-100 rounded w-3/4 mx-auto"></div>
-        <div class="h-4 bg-slate-100 rounded w-1/2 mx-auto"></div>
+    <!-- Team List Table -->
+    <div class="bg-white border border-gray-100 rounded-3xl p-4 sm:p-8 shadow-sm">
+      <div v-if="pending" class="space-y-3 py-6 animate-pulse">
+        <div class="h-8 bg-slate-100 rounded w-full"></div>
+        <div class="h-8 bg-slate-100 rounded w-full" v-for="i in 4" :key="i"></div>
       </div>
-    </div>
 
-    <div v-else>
-      <div v-if="tims && tims.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div 
-          v-for="item in tims" 
-          :key="item.id"
-          class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between"
-        >
-          <div class="p-6 text-center space-y-4">
-            <div class="w-24 h-24 bg-slate-100 rounded-full overflow-hidden mx-auto border border-gray-100">
-              <img 
-                :src="getImageUrl(item.foto)" 
-                :alt="item.nama" 
-                class="w-full h-full object-cover" 
-              />
-            </div>
-            
-            <div class="space-y-1">
-              <h3 class="font-bold text-slate-800 text-base leading-tight">{{ item.nama }}</h3>
-              <p class="text-green-700 text-xs font-bold uppercase tracking-wider">{{ item.jabatan }}</p>
-              <p v-if="item.deskripsi" class="text-gray-500 text-xs leading-relaxed pt-2">
-                {{ item.deskripsi }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div class="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-center space-x-2">
-            <button 
-              @click="openEditModal(item)"
-              class="p-2 border border-gray-200 hover:bg-slate-50 text-slate-600 rounded-lg transition-colors flex items-center space-x-1 text-xs font-semibold"
-            >
-              <Edit2 class="w-3.5 h-3.5" />
-              <span>Edit</span>
-            </button>
-            <button 
-              @click="deleteMember(item.id)"
-              class="p-2 border border-red-200 hover:bg-red-50 text-red-600 rounded-lg transition-colors flex items-center space-x-1 text-xs font-semibold"
-            >
-              <Trash2 class="w-3.5 h-3.5" />
-              <span>Hapus</span>
-            </button>
-          </div>
+      <div v-else>
+        <div v-if="tims && tims.length > 0" class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <table class="w-full text-left border-collapse min-w-[500px] sm:min-w-full">
+            <thead>
+              <tr class="text-slate-400 text-xs font-bold border-b border-gray-100 uppercase tracking-wider">
+                <th class="pb-3 pr-2 w-12 sm:w-16">Foto</th>
+                <th class="pb-3 pr-2">Nama Lengkap</th>
+                <th class="pb-3 pr-2">Jabatan / Peran</th>
+                <th class="pb-3 pr-2">Deskripsi Ringkas</th>
+                <th class="pb-3 text-center w-24 sm:w-40">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="text-sm divide-y divide-gray-100">
+              <tr 
+                v-for="item in tims" 
+                :key="item.id" 
+                class="hover:bg-slate-50/50"
+              >
+                <td class="py-3.5 pr-2">
+                  <div class="w-8 h-8 sm:w-10 sm:h-10 bg-slate-100 rounded-full overflow-hidden border border-gray-100 shrink-0">
+                    <img 
+                      :src="getImageUrl(item.foto)" 
+                      :alt="item.nama" 
+                      class="w-full h-full object-cover" 
+                    />
+                  </div>
+                </td>
+                <td class="py-3.5 pr-2 font-bold text-slate-800 text-xs sm:text-sm">
+                  {{ item.nama }}
+                </td>
+                <td class="py-3.5 pr-2 font-semibold text-green-700 text-xs sm:text-sm">
+                  {{ item.jabatan }}
+                </td>
+                <td class="py-3.5 pr-2 text-gray-500 text-xs sm:text-sm max-w-[150px] sm:max-w-xs truncate" :title="item.deskripsi">
+                  {{ limitWords(item.deskripsi, 10) }}
+                </td>
+                <td class="py-3.5 text-center">
+                  <div class="flex items-center justify-center space-x-1.5">
+                    <button 
+                      @click="openEditModal(item)"
+                      class="p-1.5 sm:p-2 border border-gray-200 hover:bg-slate-50 text-slate-600 rounded-lg transition-colors flex items-center justify-center gap-1 text-xs font-semibold"
+                      title="Edit Anggota"
+                    >
+                      <Edit2 class="w-3.5 h-3.5" />
+                      <span class="hidden sm:inline">Edit</span>
+                    </button>
+                    <button 
+                      @click="deleteMember(item.id)"
+                      class="p-1.5 sm:p-2 border border-red-200 hover:bg-red-50 text-red-600 rounded-lg transition-colors flex items-center justify-center gap-1 text-xs font-semibold"
+                      title="Hapus Anggota"
+                    >
+                      <Trash2 class="w-3.5 h-3.5" />
+                      <span class="hidden sm:inline">Hapus</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      
-      <div v-else class="text-center py-20 bg-white border border-gray-100 rounded-2xl">
-        <Users class="w-16 h-16 text-slate-300 mx-auto mb-4" />
-        <p class="text-slate-600 font-semibold">Belum ada anggota tim terdaftar.</p>
-        <p class="text-slate-400 text-xs mt-1">Mulai tambahkan profil anggota komite PPKS.</p>
+        
+        <div v-else class="text-center py-20 bg-white border border-gray-100 rounded-2xl">
+          <Users class="w-16 h-16 text-slate-300 mx-auto mb-4" />
+          <p class="text-slate-600 font-semibold">Belum ada anggota tim terdaftar.</p>
+          <p class="text-slate-400 text-xs mt-1">Mulai tambahkan profil anggota komite PPKS.</p>
+        </div>
       </div>
     </div>
 

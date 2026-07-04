@@ -706,63 +706,69 @@ const exportToWord = () => {
         <p class="text-sm text-gray-500 font-bold animate-pulse">Memuat Detail Laporan...</p>
       </div>
 
-      <div v-else-if="report" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div class="flex items-center space-x-3.5 flex-wrap gap-y-2">
-            <h1 class="text-2xl font-black text-slate-800 flex items-center space-x-3">
+      <div v-else-if="report" class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex flex-col w-full lg:w-auto gap-1">
+          <!-- Row 1: Title, Code Badge, and Export Button -->
+          <div class="flex items-center justify-between w-full gap-2">
+            <h1 class="text-base sm:text-2xl font-black text-slate-800 flex items-center space-x-1.5 sm:space-x-3 whitespace-nowrap">
               <span>Detail Laporan</span>
-              <span class="font-mono text-lg font-bold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">{{ report.code }}</span>
+              <span class="font-mono text-xs sm:text-lg font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">{{ report.code }}</span>
             </h1>
+            
             <button
               @click="exportToWord"
-              class="px-3.5 py-1.5 bg-[#eff6ff] hover:bg-blue-650 hover:text-white text-blue-700 border border-blue-200 hover:border-transparent rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
+              class="px-2.5 py-1 bg-[#eff6ff] hover:bg-blue-650 hover:text-white text-blue-700 border border-blue-200 hover:border-transparent rounded-lg text-[10px] sm:text-xs font-bold transition flex items-center space-x-1.5 shadow-sm shrink-0"
             >
-              <i class="fas fa-file-word text-blue-500 mr-0.5"></i>
-              <span>Ekspor Word (DOC)</span>
+              <i class="fas fa-file-word text-blue-500"></i>
+              <span>Ekspor Word</span>
             </button>
           </div>
-          <p class="text-xs text-gray-400 font-semibold mt-1.5">Masuk pada: {{ new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }} WIB</p>
+          
+          <!-- Row 2: Date -->
+          <p class="text-[10px] sm:text-xs text-gray-400 font-semibold">Masuk pada: {{ new Date(report.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }} WIB</p>
         </div>
 
         <!-- Status Controller -->
-        <div class="flex items-center space-x-2 shrink-0">
+        <div class="flex flex-col lg:flex-row lg:items-center gap-2 shrink-0">
           <span class="text-xs font-bold text-slate-500 uppercase mr-1">Ubah Status:</span>
           
-          <button 
-            @click="changeStatus('terlapor')"
-            :disabled="updateStatusLoading || report.status === 'terlapor'"
-            class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
-            :class="report.status === 'terlapor' ? 'bg-yellow-100 border-yellow-200 text-yellow-800' : 'bg-white border-gray-200 hover:bg-yellow-50 text-yellow-700'"
-          >
-            Terlapor
-          </button>
-          
-          <button 
-            @click="changeStatus('diproses')"
-            :disabled="updateStatusLoading || report.status === 'diproses'"
-            class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
-            :class="report.status === 'diproses' ? 'bg-blue-100 border-blue-200 text-blue-800' : 'bg-white border-gray-200 hover:bg-blue-50 text-blue-700'"
-          >
-            Diproses
-          </button>
+          <div class="flex flex-wrap items-center gap-2">
+            <button 
+              @click="changeStatus('terlapor')"
+              :disabled="updateStatusLoading || report.status === 'terlapor'"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+              :class="report.status === 'terlapor' ? 'bg-yellow-100 border-yellow-200 text-yellow-800' : 'bg-white border-gray-200 hover:bg-yellow-50 text-yellow-700'"
+            >
+              Terlapor
+            </button>
+            
+            <button 
+              @click="changeStatus('diproses')"
+              :disabled="updateStatusLoading || report.status === 'diproses'"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+              :class="report.status === 'diproses' ? 'bg-blue-100 border-blue-200 text-blue-800' : 'bg-white border-gray-200 hover:bg-blue-50 text-blue-700'"
+            >
+              Diproses
+            </button>
 
-          <button 
-            @click="changeStatus('selesai')"
-            :disabled="updateStatusLoading || report.status === 'selesai'"
-            class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
-            :class="report.status === 'selesai' ? 'bg-green-100 border-green-200 text-green-800' : 'bg-white border-gray-200 hover:bg-green-50 text-green-700'"
-          >
-            Selesai
-          </button>
+            <button 
+              @click="changeStatus('selesai')"
+              :disabled="updateStatusLoading || report.status === 'selesai'"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+              :class="report.status === 'selesai' ? 'bg-green-100 border-green-200 text-green-800' : 'bg-white border-gray-200 hover:bg-green-50 text-green-700'"
+            >
+              Selesai
+            </button>
 
-          <button 
-            @click="changeStatus('ditolak')"
-            :disabled="updateStatusLoading || report.status === 'ditolak'"
-            class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
-            :class="report.status === 'ditolak' ? 'bg-red-100 border-red-200 text-red-800' : 'bg-white border-gray-200 hover:bg-red-50 text-red-700'"
-          >
-            Ditolak
-          </button>
+            <button 
+              @click="changeStatus('ditolak')"
+              :disabled="updateStatusLoading || report.status === 'ditolak'"
+              class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+              :class="report.status === 'ditolak' ? 'bg-red-100 border-red-200 text-red-800' : 'bg-white border-gray-200 hover:bg-red-50 text-red-700'"
+            >
+              Ditolak
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -784,11 +790,11 @@ const exportToWord = () => {
       <div class="lg:col-span-8 space-y-6">
         
         <!-- Tab Select buttons -->
-        <div class="flex border-b border-gray-200">
+        <div class="flex flex-wrap gap-2 sm:gap-0 sm:border-b sm:border-gray-200 pb-2 sm:pb-0">
           <button 
             @click="activeTab = 'korban'"
-            class="px-5 py-3 text-sm font-bold border-b-2 -mb-px flex items-center space-x-2 transition-all"
-            :class="activeTab === 'korban' ? 'border-green-700 text-green-850' : 'border-transparent text-gray-400 hover:text-gray-600'"
+            class="flex-grow sm:flex-grow-0 px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-none sm:border-b-2 sm:-mb-px flex items-center justify-center sm:justify-start space-x-2 transition-all whitespace-nowrap"
+            :class="activeTab === 'korban' ? 'bg-green-700 sm:bg-transparent text-white sm:text-green-700 sm:border-green-700' : 'bg-slate-50 sm:bg-transparent border border-slate-200 sm:border-transparent text-gray-400 hover:text-gray-600'"
           >
             <User class="w-4 h-4" />
             <span>Klien (Korban)</span>
@@ -796,8 +802,8 @@ const exportToWord = () => {
           
           <button 
             @click="activeTab = 'pelapor'"
-            class="px-5 py-3 text-sm font-bold border-b-2 -mb-px flex items-center space-x-2 transition-all"
-            :class="activeTab === 'pelapor' ? 'border-green-700 text-green-850' : 'border-transparent text-gray-400 hover:text-gray-600'"
+            class="flex-grow sm:flex-grow-0 px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-none sm:border-b-2 sm:-mb-px flex items-center justify-center sm:justify-start space-x-2 transition-all whitespace-nowrap"
+            :class="activeTab === 'pelapor' ? 'bg-green-700 sm:bg-transparent text-white sm:text-green-700 sm:border-green-700' : 'bg-slate-50 sm:bg-transparent border border-slate-200 sm:border-transparent text-gray-400 hover:text-gray-600'"
           >
             <Users class="w-4 h-4" />
             <span>Pelapor</span>
@@ -805,8 +811,8 @@ const exportToWord = () => {
 
           <button 
             @click="activeTab = 'pelaku'"
-            class="px-5 py-3 text-sm font-bold border-b-2 -mb-px flex items-center space-x-2 transition-all"
-            :class="activeTab === 'pelaku' ? 'border-green-700 text-green-850' : 'border-transparent text-gray-400 hover:text-gray-600'"
+            class="flex-grow sm:flex-grow-0 px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-none sm:border-b-2 sm:-mb-px flex items-center justify-center sm:justify-start space-x-2 transition-all whitespace-nowrap"
+            :class="activeTab === 'pelaku' ? 'bg-green-700 sm:bg-transparent text-white sm:text-green-700 sm:border-green-700' : 'bg-slate-50 sm:bg-transparent border border-slate-200 sm:border-transparent text-gray-400 hover:text-gray-600'"
           >
             <HelpCircle class="w-4 h-4" />
             <span>Terlapor (Pelaku)</span>
@@ -814,8 +820,8 @@ const exportToWord = () => {
 
           <button 
             @click="activeTab = 'kejadian'"
-            class="px-5 py-3 text-sm font-bold border-b-2 -mb-px flex items-center space-x-2 transition-all"
-            :class="activeTab === 'kejadian' ? 'border-green-700 text-green-850' : 'border-transparent text-gray-400 hover:text-gray-600'"
+            class="flex-grow sm:flex-grow-0 px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold rounded-xl sm:rounded-none sm:border-b-2 sm:-mb-px flex items-center justify-center sm:justify-start space-x-2 transition-all whitespace-nowrap"
+            :class="activeTab === 'kejadian' ? 'bg-green-700 sm:bg-transparent text-white sm:text-green-700 sm:border-green-700' : 'bg-slate-50 sm:bg-transparent border border-slate-200 sm:border-transparent text-gray-400 hover:text-gray-600'"
           >
             <Calendar class="w-4 h-4" />
             <span>Rincian Kejadian</span>
@@ -825,12 +831,12 @@ const exportToWord = () => {
         <!-- Render active tab details -->
         <div class="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm">
           <!-- Card Header with Edit Button -->
-          <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
-            <h2 class="font-extrabold text-slate-800 text-lg flex items-center space-x-2">
-              <User v-if="activeTab === 'korban'" class="w-5 h-5 text-green-700" />
-              <Users v-else-if="activeTab === 'pelapor'" class="w-5 h-5 text-green-700" />
-              <HelpCircle v-else-if="activeTab === 'pelaku'" class="w-5 h-5 text-green-700" />
-              <Calendar v-else-if="activeTab === 'kejadian'" class="w-5 h-5 text-green-700" />
+          <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-6 gap-2 w-full">
+            <h2 class="font-extrabold text-slate-800 text-sm sm:text-lg flex items-center space-x-1.5 sm:space-x-2 whitespace-nowrap">
+              <User v-if="activeTab === 'korban'" class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" />
+              <Users v-else-if="activeTab === 'pelapor'" class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" />
+              <HelpCircle v-else-if="activeTab === 'pelaku'" class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" />
+              <Calendar v-else-if="activeTab === 'kejadian'" class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" />
               
               <span v-if="activeTab === 'korban'">Detail Korban</span>
               <span v-else-if="activeTab === 'pelapor'">Detail Pelapor</span>
@@ -838,23 +844,25 @@ const exportToWord = () => {
               <span v-else-if="activeTab === 'kejadian'">Detail Kejadian</span>
             </h2>
             
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center gap-2 shrink-0">
               <button 
                 v-if="!isEditing"
                 @click="startEdit"
-                class="px-3.5 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center transition"
+                class="px-2.5 py-1.5 sm:px-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition"
+                title="Edit Laporan"
               >
-                <i class="fas fa-edit text-slate-500 mr-1.5"></i>
-                <span>Edit Laporan</span>
+                <i class="fas fa-edit text-slate-500"></i>
+                <span class="hidden sm:inline">Edit Laporan</span>
               </button>
               <button 
                 v-if="!isEditing"
                 @click="deleteReport"
-                class="px-3.5 py-1.5 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl text-xs font-bold text-red-700 flex items-center transition"
+                class="px-2.5 py-1.5 sm:px-3.5 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl text-xs font-bold text-red-700 flex items-center justify-center gap-1.5 transition"
                 :disabled="updateStatusLoading"
+                title="Hapus Laporan"
               >
-                <Trash2 class="w-3.5 h-3.5 mr-1.5" />
-                <span>Hapus Laporan</span>
+                <Trash2 class="w-3.5 h-3.5" />
+                <span class="hidden sm:inline">Hapus Laporan</span>
               </button>
             </div>
           </div>
@@ -1154,18 +1162,18 @@ const exportToWord = () => {
           </div>
 
           <!-- Save/Cancel edit actions -->
-          <div v-if="isEditing" class="flex justify-end space-x-3 pt-6 mt-6 border-t border-slate-100 animate-fade-in">
+          <div v-if="isEditing" class="flex flex-col sm:flex-row sm:justify-end gap-3 pt-6 mt-6 border-t border-slate-100 animate-fade-in">
             <button 
               @click="cancelEdit"
               :disabled="editLoading"
-              class="px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 transition"
+              class="w-full sm:w-auto px-4 py-2.5 border border-slate-200 hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 transition text-center"
             >
               Batal
             </button>
             <button 
               @click="saveChanges"
               :disabled="editLoading"
-              class="px-5 py-2 bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white font-bold rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm"
+              class="w-full sm:w-auto px-5 py-2.5 bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white font-bold rounded-xl text-xs transition flex items-center justify-center space-x-1.5 shadow-sm"
             >
               <Loader2 v-if="editLoading" class="w-3.5 h-3.5 animate-spin mr-1" />
               <span>{{ editLoading ? 'Menyimpan...' : 'Simpan Perubahan' }}</span>
