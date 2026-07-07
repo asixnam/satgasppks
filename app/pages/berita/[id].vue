@@ -76,7 +76,7 @@ const getImageUrl = (path: string | null) => {
 
         <!-- News content -->
         <div 
-          class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line"
+          class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line text-justify"
           v-html="berita.isi"
         ></div>
 

@@ -80,30 +80,35 @@ const getPdfUrl = (path: string | null) => {
             :class="{ 'lg:col-span-3 md:col-span-2 border-green-300 ring-2 ring-green-100 bg-white': activeEduId === edu.id }"
           >
             <div>
-              <!-- PDF Card Header Cover -->
-              <div class="h-40 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative">
-                <div class="text-center space-y-2">
-                  <FileText class="w-12 h-12 text-red-600 mx-auto" />
-                  <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Dokumen PDF</span>
-                </div>
-              </div>
-              
               <!-- Content Info -->
               <div class="p-6 space-y-3">
                 <span class="inline-block px-2.5 py-1 bg-green-50 text-[#0a5c36] text-xs font-bold rounded-md uppercase tracking-wider">Materi Edukasi</span>
                 <h3 class="text-lg font-bold text-slate-800 hover:text-[#0a5c36] transition-colors">
+                  <!-- Desktop: toggle preview -->
                   <button 
                     @click="toggleActiveEdu(edu.id)"
-                    class="text-left font-bold text-slate-800 hover:text-[#0a5c36] transition-colors focus:outline-none"
+                    class="hidden md:block text-left font-bold text-slate-800 hover:text-[#0a5c36] transition-colors focus:outline-none"
                   >
                     {{ edu.judul }}
                   </button>
+                  <!-- Mobile: open directly in new tab -->
+                  <a 
+                    v-if="edu.konten"
+                    :href="getPdfUrl(edu.konten)"
+                    target="_blank"
+                    class="block md:hidden text-left font-bold text-slate-800 hover:text-[#0a5c36] transition-colors"
+                  >
+                    {{ edu.judul }}
+                  </a>
+                  <span v-else-if="!edu.konten" class="block md:hidden text-left font-bold text-slate-800">
+                    {{ edu.judul }}
+                  </span>
                 </h3>
               </div>
             </div>
 
-            <!-- PDF Viewer directly below card header if active -->
-            <div v-if="activeEduId === edu.id" class="px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50/50">
+            <!-- PDF Viewer directly below card header if active (desktop only) -->
+            <div v-if="activeEduId === edu.id" class="hidden md:block px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50/50">
               <iframe 
                 v-if="edu.konten"
                 :src="getPdfUrl(edu.konten)" 
@@ -116,15 +121,27 @@ const getPdfUrl = (path: string | null) => {
 
             <!-- Card footer actions -->
             <div class="px-6 pb-6 pt-3 border-t border-slate-50 flex items-center justify-between">
+              <!-- Desktop: Toggle preview -->
               <button 
                 @click="toggleActiveEdu(edu.id)" 
-                class="text-[#0a5c36] hover:text-[#074026] text-sm font-semibold inline-flex items-center space-x-1.5 transition-colors focus:outline-none"
+                class="hidden md:inline-flex text-[#0a5c36] hover:text-[#074026] text-sm font-semibold items-center space-x-1.5 transition-colors focus:outline-none"
               >
                 <span v-if="activeEduId === edu.id">Tutup PDF</span>
                 <span v-else>Buka / Baca PDF</span>
                 <ChevronUp v-if="activeEduId === edu.id" class="w-4 h-4" />
                 <ChevronDown v-else class="w-4 h-4" />
               </button>
+
+              <!-- Mobile: Open directly in a new tab -->
+              <a 
+                v-if="edu.konten"
+                :href="getPdfUrl(edu.konten)"
+                target="_blank"
+                class="inline-flex md:hidden text-[#0a5c36] hover:text-[#074026] text-sm font-semibold items-center space-x-1.5 transition-colors"
+              >
+                <span>Buka / Baca PDF</span>
+                <ChevronRight class="w-4 h-4" />
+              </a>
 
               <a 
                 v-if="edu.konten"

@@ -66,7 +66,7 @@ const getPdfUrl = (path: string | null) => {
         <!-- PDF Viewer -->
         <div class="space-y-4">
           <div class="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100">
-            <div class="flex items-center space-x-2 text-sm text-slate-650 font-semibold">
+            <div class="flex items-center space-x-2 text-sm text-slate-600 font-semibold">
               <FileText class="w-5 h-5 text-red-600" />
               <span>Dokumen PDF</span>
             </div>
@@ -81,11 +81,29 @@ const getPdfUrl = (path: string | null) => {
             </a>
           </div>
 
-          <iframe 
-            v-if="edukasi.konten"
-            :src="getPdfUrl(edukasi.konten)" 
-            class="w-full h-[700px] border border-slate-200 rounded-2xl shadow-inner bg-white"
-          ></iframe>
+          <!-- Preview PDF / Open Button -->
+          <div v-if="edukasi.konten" class="space-y-4">
+            <!-- Mobile: Direct open button (since iframe is often broken/unresponsive on phone screens) -->
+            <div class="block md:hidden">
+              <a 
+                :href="getPdfUrl(edukasi.konten)" 
+                target="_blank"
+                class="flex items-center justify-center space-x-2 w-full py-4 bg-[#0a5c36] hover:bg-[#074026] text-white text-sm font-bold rounded-xl transition-colors shadow-md"
+              >
+                <BookOpen class="w-5 h-5" />
+                <span>Buka & Baca PDF Langsung</span>
+              </a>
+              <p class="text-[11px] text-center text-gray-500 mt-2">
+                Klik tombol di atas untuk membuka dokumen PDF langsung di browser Anda tanpa mengunduh.
+              </p>
+            </div>
+
+            <!-- Desktop: Embedded iframe -->
+            <iframe 
+              :src="getPdfUrl(edukasi.konten)" 
+              class="hidden md:block w-full h-[700px] border border-slate-200 rounded-2xl shadow-inner bg-white"
+            ></iframe>
+          </div>
           <div v-else class="text-center py-12 text-gray-400 font-semibold">
             Berkas PDF tidak ditemukan.
           </div>

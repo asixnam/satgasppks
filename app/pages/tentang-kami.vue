@@ -79,7 +79,7 @@ const prevSlide = () => {
             </div>
             <h2 class="text-2xl font-bold text-green-800">VISI</h2>
           </div>
-          <p class="text-gray-700 leading-relaxed whitespace-pre-line">
+          <p class="text-gray-700 leading-relaxed whitespace-pre-line text-justify">
             {{ visiMisi.visi }}
           </p>
         </div>
@@ -96,7 +96,7 @@ const prevSlide = () => {
             <li 
               v-for="(item, idx) in misiItems" 
               :key="idx"
-              class="flex items-start"
+              class="flex items-start text-justify"
             >
               <i class="fas fa-check-circle text-green-500 mt-1 mr-3 shrink-0"></i>
               <span>{{ item }}</span>
@@ -115,7 +115,7 @@ const prevSlide = () => {
             </div>
             <h2 class="text-2xl font-bold text-gray-800">VISI</h2>
           </div>
-          <p class="text-gray-700 leading-relaxed">
+          <p class="text-gray-700 leading-relaxed text-justify">
             Menjadi satuan tugas yang profesional, terpercaya, dan responsif dalam menciptakan lingkungan kampus yang aman, bebas dari kekerasan seksual, serta mendukung terciptanya budaya kampus yang menghormati harkat dan martabat setiap individu di Universitas Nahdlatul Ulama Yogyakarta.
           </p>
         </div>
@@ -129,19 +129,19 @@ const prevSlide = () => {
             <h2 class="text-2xl font-bold text-gray-800">MISI</h2>
           </div>
           <ul class="text-gray-700 leading-relaxed space-y-3">
-            <li class="flex items-start">
+            <li class="flex items-start text-justify">
               <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
               <span>Melakukan pencegahan kekerasan seksual melalui edukasi dan sosialisasi kepada civitas akademika</span>
             </li>
-            <li class="flex items-start">
+            <li class="flex items-start text-justify">
               <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
               <span>Menyediakan layanan pengaduan yang mudah diakses, aman, dan terpercaya</span>
             </li>
-            <li class="flex items-start">
+            <li class="flex items-start text-justify">
               <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
               <span>Menangani kasus kekerasan seksual dengan profesional dan berkeadilan</span>
             </li>
-            <li class="flex items-start">
+            <li class="flex items-start text-justify">
               <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
               <span>Membangun budaya kampus yang menghormati hak asasi manusia</span>
             </li>
