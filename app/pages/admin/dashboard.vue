@@ -86,6 +86,65 @@ const typeStats = computed(() => {
   })
   return stats
 })
+
+// Monthly report trend (last 6 months)
+const monthlyStats = computed(() => {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+  const result = []
+  const today = new Date()
+  
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i, 1)
+    result.push({
+      year: d.getFullYear(),
+      monthIndex: d.getMonth(),
+      monthLabel: months[d.getMonth()] + ' ' + d.getFullYear().toString().substring(2),
+      count: 0
+    })
+  }
+  
+  reports.value?.forEach(r => {
+    const date = new Date(r.created_at)
+    const rYear = date.getFullYear()
+    const rMonth = date.getMonth()
+    
+    const match = result.find(item => item.year === rYear && item.monthIndex === rMonth)
+    if (match) {
+      match.count++
+    }
+  })
+  
+  return result
+})
+
+// Status distribution percentages and SVG stroke values for Donut Chart
+const statusDistribution = computed(() => {
+  const total = totalReports.value
+  const counts = statusCounts.value
+  const items = [
+    { label: 'Selesai', count: counts.selesai, color: '#10b981', bgClass: 'bg-green-500' },
+    { label: 'Diproses', count: counts.diproses, color: '#3b82f6', bgClass: 'bg-blue-500' },
+    { label: 'Terlapor', count: counts.terlapor, color: '#f59e0b', bgClass: 'bg-yellow-500' },
+    { label: 'Ditolak', count: counts.ditolak, color: '#ef4444', bgClass: 'bg-red-500' }
+  ]
+  
+  let currentOffset = 0
+  const circumference = 2 * Math.PI * 35 // radius 35, circumference ~ 219.91
+  
+  return items.map(item => {
+    const percentage = total > 0 ? (item.count / total) * 100 : 0
+    const strokeDasharray = `${(percentage / 100) * circumference} ${circumference}`
+    const strokeDashoffset = circumference - (currentOffset / 100) * circumference
+    currentOffset += percentage
+    
+    return {
+      ...item,
+      percentage: Math.round(percentage),
+      strokeDasharray,
+      strokeDashoffset
+    }
+  })
+})
 </script>
 
 <template>
@@ -174,69 +233,120 @@ const typeStats = computed(() => {
       <!-- Left side: Recent Reports & Demographic tables (Span 8) -->
       <div class="lg:col-span-8 space-y-8">
         
-        <!-- Recent Reports table -->
-        <div class="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+        <!-- Statistics Diagram Section -->
+        <div class="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
           <h3 class="font-bold text-slate-800 text-lg border-b border-gray-100 pb-3 flex items-center space-x-2">
             <FileText class="w-5 h-5 text-green-700" />
-            <span>Laporan Terbaru</span>
+            <span>Grafik & Diagram Laporan</span>
           </h3>
 
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="text-slate-400 text-xs font-bold border-b border-gray-100 uppercase tracking-wider">
-                  <th class="pb-3 pr-2">Kode Tiket</th>
-                  <th class="pb-3 pr-2">Tanggal</th>
-                  <th class="pb-3 pr-2">Korban</th>
-                  <th class="pb-3 pr-2">Kategori</th>
-                  <th class="pb-3 pr-2">Status</th>
-                  <th class="pb-3 text-center">Aksi</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm divide-y divide-gray-100">
-                <tr 
-                  v-for="rep in recentReports" 
-                  :key="rep.id" 
-                  class="hover:bg-slate-50/50"
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left: Monthly Trend Bar Chart (Span 7) -->
+            <div class="md:col-span-7 space-y-4">
+              <h4 class="text-sm font-bold text-slate-700">Tren Laporan Bulanan (6 Bulan Terakhir)</h4>
+              
+              <div class="relative w-full h-[240px]">
+                <svg width="100%" height="240" viewBox="0 0 540 240" class="w-full">
+                  <defs>
+                    <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#059669" />
+                      <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Grid Lines -->
+                  <line x1="30" y1="40" x2="520" y2="40" class="stroke-slate-100" stroke-dasharray="4 4" />
+                  <line x1="30" y1="90" x2="520" y2="90" class="stroke-slate-100" stroke-dasharray="4 4" />
+                  <line x1="30" y1="140" x2="520" y2="140" class="stroke-slate-100" stroke-dasharray="4 4" />
+                  <line x1="30" y1="190" x2="520" y2="190" class="stroke-slate-200" stroke-width="1.5" />
+
+                  <!-- Bars -->
+                  <g v-for="(item, i) in monthlyStats" :key="i">
+                    <rect 
+                      :x="45 + i * 80" 
+                      :y="190 - (item.count / Math.max(...monthlyStats.map(m => m.count), 5)) * 140" 
+                      width="36" 
+                      :height="(item.count / Math.max(...monthlyStats.map(m => m.count), 5)) * 140" 
+                      rx="6" 
+                      fill="url(#bar-grad)" 
+                      class="transition-all duration-300 hover:opacity-90 cursor-pointer"
+                    />
+                    <!-- Value text inside/above bar -->
+                    <text 
+                      :x="45 + i * 80 + 18" 
+                      :y="190 - (item.count / Math.max(...monthlyStats.map(m => m.count), 5)) * 140 - 6" 
+                      text-anchor="middle" 
+                      class="text-[10px] font-extrabold fill-slate-700"
+                    >
+                      {{ item.count }}
+                    </text>
+                    <!-- Label text below bar -->
+                    <text 
+                      :x="45 + i * 80 + 18" 
+                      y="210" 
+                      text-anchor="middle" 
+                      class="text-[10px] font-bold fill-slate-400"
+                    >
+                      {{ item.monthLabel }}
+                    </text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Right: Status Distribution Donut Chart (Span 5) -->
+            <div class="md:col-span-5 flex flex-col items-center space-y-4 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-6">
+              <h4 class="text-sm font-bold text-slate-700 text-center w-full">Distribusi Status Laporan</h4>
+
+              <div class="relative w-40 h-40">
+                <!-- SVG Donut -->
+                <svg width="160" height="160" viewBox="0 0 160 160" class="transform -rotate-90">
+                  <circle 
+                    cx="80" 
+                    cy="80" 
+                    r="35" 
+                    fill="transparent" 
+                    stroke="#f8fafc" 
+                    stroke-width="12" 
+                  />
+                  <circle 
+                    v-for="item in statusDistribution" 
+                    :key="item.label"
+                    cx="80" 
+                    cy="80" 
+                    r="35" 
+                    fill="transparent" 
+                    :stroke="item.color" 
+                    stroke-width="12" 
+                    :stroke-dasharray="item.strokeDasharray" 
+                    :stroke-dashoffset="item.strokeDashoffset" 
+                    stroke-linecap="round"
+                    class="transition-all duration-500 hover:stroke-[14px] cursor-pointer"
+                  />
+                </svg>
+                
+                <!-- Inner Total Text -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <span class="text-2xl font-black text-slate-800">{{ totalReports }}</span>
+                  <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Total Kasus</span>
+                </div>
+              </div>
+
+              <!-- Legends -->
+              <div class="grid grid-cols-2 gap-x-4 gap-y-2 w-full text-xs font-semibold">
+                <div 
+                  v-for="item in statusDistribution" 
+                  :key="item.label"
+                  class="flex items-center space-x-2"
                 >
-                  <td class="py-3.5 pr-2 font-mono font-bold text-slate-700">{{ rep.code }}</td>
-                  <td class="py-3.5 pr-2 text-gray-500 whitespace-nowrap">
-                    {{ new Date(rep.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) }}
-                  </td>
-                  <td class="py-3.5 pr-2 font-medium text-slate-800">{{ rep.client?.nama_lengkap }}</td>
-                  <td class="py-3.5 pr-2 text-gray-600 truncate max-w-[150px]">
-                    {{ rep.violence?.bentuk_kekerasan?.join(', ') || '-' }}
-                  </td>
-                  <td class="py-3.5 pr-2">
-                    <span 
-                      class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                      :class="{
-                        'bg-yellow-100 text-yellow-800': rep.status === 'terlapor',
-                        'bg-blue-100 text-blue-800': rep.status === 'diproses',
-                        'bg-green-100 text-green-800': rep.status === 'selesai',
-                        'bg-red-100 text-red-800': rep.status === 'ditolak',
-                      }"
-                    >
-                      {{ rep.status }}
-                    </span>
-                  </td>
-                  <td class="py-3.5 text-center">
-                    <NuxtLink 
-                      :to="`/admin/violence-reports/${rep.id}`"
-                      class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-600 inline-flex items-center"
-                      title="Lihat Detail"
-                    >
-                      <Eye class="w-4 h-4 text-green-700" />
-                    </NuxtLink>
-                  </td>
-                </tr>
-                <tr v-if="recentReports.length === 0">
-                  <td colspan="6" class="text-center py-10 text-gray-400 font-semibold">
-                    Belum ada data laporan masuk.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <span class="w-3 h-3 rounded-full shrink-0" :style="{ backgroundColor: item.color }"></span>
+                  <span class="text-slate-650 truncate">{{ item.label }}:</span>
+                  <span class="text-slate-800 font-bold ml-auto">{{ item.count }} ({{ item.percentage }}%)</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 

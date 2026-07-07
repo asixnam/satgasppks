@@ -6,7 +6,7 @@ import {
   Trash2, 
   Edit2, 
   X, 
-  Image as ImageIcon, 
+  FileText, 
   Save, 
   RefreshCw,
   AlertCircle,
@@ -31,10 +31,8 @@ const modalMode = ref<'create' | 'edit'>('create')
 // Form model
 const formId = ref<number | null>(null)
 const formTitle = ref('')
-const formContent = ref('')
+const formContent = ref('') // stores current/existing PDF path
 const selectedFile = ref<File | null>(null)
-const imagePreview = ref('')
-const existingImage = ref<string | null>(null)
 
 // Fetch educational materials
 const { data: edukasis, pending, refresh } = useLazyAsyncData<Edukasi[]>('admin-edukasis-list', async () => {
@@ -45,10 +43,10 @@ const { data: edukasis, pending, refresh } = useLazyAsyncData<Edukasi[]>('admin-
   return (data as Edukasi[]) || []
 }, { default: () => [] })
 
-// Image helper
-const getImageUrl = (path: string | null) => {
-  if (!path) return '/images/placeholder.jpg'
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('images/') || path.startsWith('image/')) {
+// PDF URL Helper
+const getPdfUrl = (path: string | null) => {
+  if (!path) return ''
+  if (path.startsWith('http://') || path.startsWith('https://')) {
     return path
   }
   const { data } = supabase.storage.from('public-assets').getPublicUrl(path)
@@ -59,12 +57,15 @@ const handleFileChange = (e: Event) => {
   const target = e.target as HTMLInputElement
   if (target.files && target.files[0]) {
     const file = target.files[0]
-    if (file.size > 2 * 1024 * 1024) {
-      alert('Ukuran file maksimal 2MB')
+    if (file.type !== 'application/pdf') {
+      alert('Format berkas harus PDF')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Ukuran berkas PDF maksimal 5MB')
       return
     }
     selectedFile.value = file
-    imagePreview.value = URL.createObjectURL(file)
   }
 }
 
@@ -75,8 +76,6 @@ const openCreateModal = () => {
   formTitle.value = ''
   formContent.value = ''
   selectedFile.value = null
-  imagePreview.value = ''
-  existingImage.value = null
   isModalOpen.value = true
 }
 
@@ -86,8 +85,6 @@ const openEditModal = (edu: Edukasi) => {
   formTitle.value = edu.judul
   formContent.value = edu.konten
   selectedFile.value = null
-  imagePreview.value = ''
-  existingImage.value = edu.gambar
   isModalOpen.value = true
 }
 
@@ -95,12 +92,11 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
-// Upload image to public-assets bucket
-const uploadImage = async (): Promise<string | null> => {
+// Upload PDF to public-assets bucket
+const uploadPdf = async (): Promise<string | null> => {
   if (!selectedFile.value) return null
   
-  const ext = selectedFile.value.name.split('.').pop()
-  const path = `education/edu_${Date.now()}.${ext}`
+  const path = `education/edu_${Date.now()}.pdf`
   
   const { data, error } = await supabase.storage
     .from('public-assets')
@@ -112,8 +108,12 @@ const uploadImage = async (): Promise<string | null> => {
 
 // Save Education (Create/Update)
 const saveEdukasi = async () => {
-  if (!formTitle.value.trim() || !formContent.value.trim()) {
-    errorMsg.value = 'Judul dan konten edukasi wajib diisi.'
+  if (!formTitle.value.trim()) {
+    errorMsg.value = 'Judul materi wajib diisi.'
+    return
+  }
+  if (modalMode.value === 'create' && !selectedFile.value) {
+    errorMsg.value = 'Berkas PDF wajib diunggah.'
     return
   }
 
@@ -122,11 +122,11 @@ const saveEdukasi = async () => {
   errorMsg.value = ''
 
   try {
-    let imagePath = existingImage.value
+    let pdfPath = formContent.value
 
     if (selectedFile.value) {
-      const uploaded = await uploadImage()
-      if (uploaded) imagePath = uploaded
+      const uploaded = await uploadPdf()
+      if (uploaded) pdfPath = uploaded
     }
 
     if (modalMode.value === 'create') {
@@ -134,8 +134,8 @@ const saveEdukasi = async () => {
         .from('edukasis')
         .insert({
           judul: formTitle.value,
-          konten: formContent.value,
-          gambar: imagePath
+          konten: pdfPath,
+          gambar: null
         })
       if (error) throw error
       successMsg.value = 'Materi edukasi berhasil diterbitkan!'
@@ -144,8 +144,8 @@ const saveEdukasi = async () => {
         .from('edukasis')
         .update({
           judul: formTitle.value,
-          konten: formContent.value,
-          gambar: imagePath,
+          konten: pdfPath,
+          gambar: null,
           updated_at: new Date().toISOString()
         })
         .eq('id', formId.value)
@@ -234,22 +234,24 @@ const deleteEdukasi = async (id: number) => {
           class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between"
         >
           <div>
-            <div class="h-40 bg-gradient-to-br from-green-600 to-emerald-800 text-white flex items-center justify-center overflow-hidden relative">
-              <img 
-                v-if="item.gambar"
-                :src="getImageUrl(item.gambar)" 
-                :alt="item.judul" 
-                class="w-full h-full object-cover" 
-              />
-              <BookOpen v-else class="w-16 h-16 opacity-75" />
+            <div class="h-40 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative">
+              <div class="text-center space-y-2">
+                <FileText class="w-12 h-12 text-red-600 mx-auto" />
+                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Dokumen PDF</span>
+              </div>
             </div>
             
             <div class="p-5 space-y-2">
-              <span class="inline-block px-2.5 py-1 bg-green-50 text-green-800 text-[10px] font-bold rounded-md uppercase tracking-wider">Materi</span>
+              <span class="inline-block px-2.5 py-1 bg-green-50 text-green-800 text-[10px] font-bold rounded-md uppercase tracking-wider">Materi Edukasi</span>
               <h3 class="font-bold text-slate-800 text-base line-clamp-2">{{ item.judul }}</h3>
-              <p class="text-gray-500 text-xs line-clamp-3 leading-relaxed">
-                {{ item.konten.replace(/<[^>]*>/g, '') }}
-              </p>
+              <a 
+                v-if="item.konten"
+                :href="getPdfUrl(item.konten)" 
+                target="_blank" 
+                class="inline-flex items-center space-x-1 text-xs text-blue-600 hover:text-blue-850 hover:underline font-semibold"
+              >
+                <span>Buka Berkas PDF</span>
+              </a>
             </div>
           </div>
 
@@ -309,42 +311,32 @@ const deleteEdukasi = async (id: number) => {
             />
           </div>
 
-          <div class="space-y-1.5">
-            <label class="block font-bold text-gray-700">Isi / Konten Materi</label>
-            <textarea 
-              v-model="formContent" 
-              placeholder="Masukkan isi konten lengkap materi edukasi..."
-              rows="8"
-              class="w-full p-3 border border-gray-200 rounded-xl text-slate-800 focus:outline-none focus:border-green-600 transition-colors"
-              required
-            ></textarea>
-          </div>
-
-          <!-- Image selector -->
+          <!-- PDF Selector -->
           <div class="space-y-2">
-            <label class="block font-bold text-gray-700">Gambar Cover</label>
+            <label class="block font-bold text-gray-700">Berkas PDF Materi (Max 5MB)</label>
             <div class="flex items-center space-x-4">
-              <!-- Preview -->
-              <div class="w-24 h-24 bg-slate-100 border border-gray-200 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
-                <img v-if="imagePreview" :src="imagePreview" alt="Preview" class="w-full h-full object-cover" />
-                <img v-else-if="existingImage" :src="getImageUrl(existingImage)" alt="Cover" class="w-full h-full object-cover" />
-                <ImageIcon class="w-8 h-8 text-gray-300" />
+              <div class="w-16 h-16 bg-red-50 border border-red-100 rounded-xl flex items-center justify-center shrink-0">
+                <FileText class="w-8 h-8 text-red-600" />
               </div>
               <div class="space-y-1">
                 <input 
                   type="file" 
-                  id="image-input-edu"
-                  accept="image/*"
+                  id="pdf-input-edu"
+                  accept="application/pdf"
                   class="hidden"
                   @change="handleFileChange"
                 />
                 <label 
-                  for="image-input-edu"
+                  for="pdf-input-edu"
                   class="px-4 py-2 border border-gray-200 rounded-xl hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-all cursor-pointer inline-block"
                 >
-                  Pilih Berkas Gambar
+                  {{ selectedFile ? 'Ganti Berkas PDF' : 'Pilih Berkas PDF' }}
                 </label>
-                <p class="text-[10px] text-gray-400">JPG, PNG atau WEBP. Maksimal 2MB.</p>
+                <p class="text-[10px] text-gray-400">
+                  <span v-if="selectedFile" class="text-green-600 font-semibold block">Terpilih: {{ selectedFile.name }}</span>
+                  <span v-else-if="formContent" class="text-slate-600 font-semibold block">Sudah ada berkas terunggah</span>
+                  Format berkas wajib PDF. Ukuran maksimal 5MB.
+                </p>
               </div>
             </div>
           </div>

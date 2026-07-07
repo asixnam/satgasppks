@@ -54,7 +54,7 @@ const getImageUrl = (path: string | null) => {
     <div v-if="berita" class="grid grid-cols-1 lg:grid-cols-12 gap-10">
       
       <!-- Left side: News body (Span 8) -->
-      <article class="lg:col-span-8 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
+      <article class="lg:col-span-8 bg-white border border-slate-100 p-6 sm:p-8 space-y-6 shadow-sm">
         
         <header class="space-y-4">
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight">
@@ -66,7 +66,7 @@ const getImageUrl = (path: string | null) => {
           </div>
         </header>
 
-        <div v-if="berita.gambar" class="h-64 sm:h-96 rounded-2xl overflow-hidden shadow-inner">
+        <div v-if="berita.gambar" class="h-64 sm:h-96 overflow-hidden shadow-inner">
           <img 
             :src="getImageUrl(berita.gambar)" 
             :alt="berita.judul" 
@@ -76,7 +76,7 @@ const getImageUrl = (path: string | null) => {
 
         <!-- News content -->
         <div 
-          class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base space-y-4"
+          class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line"
           v-html="berita.isi"
         ></div>
 
@@ -121,7 +121,7 @@ const getImageUrl = (path: string | null) => {
         </div>
 
         <!-- Safe Space Info widget -->
-        <div class="bg-gradient-to-br from-[#074026] to-[#0a5c36] text-white rounded-3xl p-6 space-y-4 shadow-sm">
+        <div class="bg-gradient-to-br from-[#074026] to-[#0a5c36] text-white p-6 space-y-4 shadow-sm">
           <h3 class="font-bold text-yellow-300 text-base leading-tight">Keamanan & Kerahasiaan</h3>
           <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
             Menghadapi tindakan kekerasan memerlukan keberanian besar. SATGAS PPKS menjamin kerahasiaan identitas dan data laporan Anda 100%. Jangan ragu untuk melapor jika Anda atau rekan Anda membutuhkan perlindungan.

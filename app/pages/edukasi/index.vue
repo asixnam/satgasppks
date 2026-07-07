@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { BookOpen, BookOpenCheck, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { ref, computed } from 'vue'
+import { BookOpen, BookOpenCheck, FileText, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import type { Edukasi } from '~/types/database'
 
 const supabase = useSupabaseClient()
 const page = ref(1)
 const itemsPerPage = 6
+const activeEduId = ref<number | null>(null)
 
 const { data: result, pending } = useLazyAsyncData('edukasi-list', async () => {
   const from = (page.value - 1) * itemsPerPage
@@ -30,9 +31,17 @@ const totalPages = computed(() => {
   return Math.ceil(result.value.total / itemsPerPage)
 })
 
-const getImageUrl = (path: string | null) => {
-  if (!path) return '/images/placeholder.jpg'
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('images/') || path.startsWith('image/')) {
+const toggleActiveEdu = (id: number) => {
+  if (activeEduId.value === id) {
+    activeEduId.value = null
+  } else {
+    activeEduId.value = id
+  }
+}
+
+const getPdfUrl = (path: string | null) => {
+  if (!path) return ''
+  if (path.startsWith('http://') || path.startsWith('https://')) {
     return path
   }
   const { data } = supabase.storage.from('public-assets').getPublicUrl(path)
@@ -67,38 +76,65 @@ const getImageUrl = (path: string | null) => {
           <div 
             v-for="edu in result.list" 
             :key="edu.id" 
-            class="clean-card overflow-hidden flex flex-col justify-between group"
+            class="clean-card overflow-hidden flex flex-col justify-between group transition-all duration-305"
+            :class="{ 'lg:col-span-3 md:col-span-2 border-green-300 ring-2 ring-green-100 bg-white': activeEduId === edu.id }"
           >
             <div>
-              <div class="h-48 bg-gradient-to-br from-[#074026] to-[#0a5c36] text-white flex items-center justify-center overflow-hidden relative">
-                <img 
-                  v-if="edu.gambar" 
-                  :src="getImageUrl(edu.gambar)" 
-                  alt="Edukasi image" 
-                  class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500" 
-                />
-                <BookOpenCheck v-else class="w-16 h-16 opacity-75" />
+              <!-- PDF Card Header Cover -->
+              <div class="h-40 bg-slate-50 flex items-center justify-center border-b border-slate-100 relative">
+                <div class="text-center space-y-2">
+                  <FileText class="w-12 h-12 text-red-600 mx-auto" />
+                  <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Dokumen PDF</span>
+                </div>
               </div>
               
+              <!-- Content Info -->
               <div class="p-6 space-y-3">
-                <span class="inline-block px-2.5 py-1 bg-green-50 text-[#0a5c36] text-xs font-bold rounded-md uppercase tracking-wider">Materi</span>
-                <h3 class="text-lg font-bold text-slate-800 group-hover:text-[#0a5c36] transition-colors line-clamp-2">
-                  <NuxtLink :to="`/edukasi/${edu.id}`">{{ edu.judul }}</NuxtLink>
+                <span class="inline-block px-2.5 py-1 bg-green-50 text-[#0a5c36] text-xs font-bold rounded-md uppercase tracking-wider">Materi Edukasi</span>
+                <h3 class="text-lg font-bold text-slate-800 hover:text-[#0a5c36] transition-colors">
+                  <button 
+                    @click="toggleActiveEdu(edu.id)"
+                    class="text-left font-bold text-slate-800 hover:text-[#0a5c36] transition-colors focus:outline-none"
+                  >
+                    {{ edu.judul }}
+                  </button>
                 </h3>
-                <p class="text-gray-500 text-sm line-clamp-3 leading-relaxed">
-                  {{ edu.konten.replace(/<[^>]*>/g, '') }}
-                </p>
               </div>
             </div>
 
-            <div class="px-6 pb-6 pt-2">
-              <NuxtLink 
-                :to="`/edukasi/${edu.id}`" 
-                class="text-[#0a5c36] hover:text-[#074026] text-sm font-semibold inline-flex items-center space-x-1"
+            <!-- PDF Viewer directly below card header if active -->
+            <div v-if="activeEduId === edu.id" class="px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50/50">
+              <iframe 
+                v-if="edu.konten"
+                :src="getPdfUrl(edu.konten)" 
+                class="w-full h-[600px] border border-slate-200 rounded-2xl shadow-inner bg-white"
+              ></iframe>
+              <div v-else class="text-center py-8 text-gray-400 font-semibold">
+                Berkas PDF tidak ditemukan.
+              </div>
+            </div>
+
+            <!-- Card footer actions -->
+            <div class="px-6 pb-6 pt-3 border-t border-slate-50 flex items-center justify-between">
+              <button 
+                @click="toggleActiveEdu(edu.id)" 
+                class="text-[#0a5c36] hover:text-[#074026] text-sm font-semibold inline-flex items-center space-x-1.5 transition-colors focus:outline-none"
               >
-                <span>Pelajari Detail</span>
-                <ArrowRight class="w-4 h-4" />
-              </NuxtLink>
+                <span v-if="activeEduId === edu.id">Tutup PDF</span>
+                <span v-else>Buka / Baca PDF</span>
+                <ChevronUp v-if="activeEduId === edu.id" class="w-4 h-4" />
+                <ChevronDown v-else class="w-4 h-4" />
+              </button>
+
+              <a 
+                v-if="edu.konten"
+                :href="getPdfUrl(edu.konten)" 
+                download
+                target="_blank"
+                class="text-xs text-slate-500 hover:text-slate-700 hover:underline font-semibold"
+              >
+                Unduh PDF
+              </a>
             </div>
           </div>
         </div>

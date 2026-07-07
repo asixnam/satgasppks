@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { BookOpen, BookOpenCheck, ChevronLeft } from 'lucide-vue-next'
+import { BookOpen, FileText, ChevronLeft } from 'lucide-vue-next'
 import type { Edukasi } from '~/types/database'
 
 const route = useRoute()
@@ -28,9 +28,9 @@ const { data: related } = useLazyAsyncData<Edukasi[]>(`edukasi-related-${eduId}`
   return (data as Edukasi[]) || []
 })
 
-const getImageUrl = (path: string | null) => {
+const getPdfUrl = (path: string | null) => {
   if (!path) return ''
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('images/') || path.startsWith('image/')) {
+  if (path.startsWith('http://') || path.startsWith('https://')) {
     return path
   }
   const { data } = supabase.storage.from('public-assets').getPublicUrl(path)
@@ -63,23 +63,33 @@ const getImageUrl = (path: string | null) => {
           <div class="h-0.5 bg-slate-50 w-full"></div>
         </header>
 
-        <!-- Image Banner -->
-        <div v-if="getImageUrl(edukasi.gambar)" class="h-64 sm:h-96 rounded-2xl overflow-hidden shadow-inner">
-          <img 
-            :src="getImageUrl(edukasi.gambar)" 
-            :alt="edukasi.judul" 
-            class="w-full h-full object-cover" 
-          />
-        </div>
-        <div v-else class="h-48 bg-gradient-to-br from-[#074026] to-[#0a5c36] rounded-2xl flex items-center justify-center text-white">
-          <BookOpenCheck class="w-16 h-16 opacity-75" />
-        </div>
+        <!-- PDF Viewer -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <div class="flex items-center space-x-2 text-sm text-slate-650 font-semibold">
+              <FileText class="w-5 h-5 text-red-600" />
+              <span>Dokumen PDF</span>
+            </div>
+            <a 
+              v-if="edukasi.konten"
+              :href="getPdfUrl(edukasi.konten)" 
+              download
+              target="_blank"
+              class="px-4 py-2 bg-[#0a5c36] hover:bg-[#074026] text-white text-xs font-bold rounded-lg transition-colors shadow-sm"
+            >
+              Unduh PDF
+            </a>
+          </div>
 
-        <!-- Contents -->
-        <div 
-          class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base space-y-4"
-          v-html="edukasi.konten"
-        ></div>
+          <iframe 
+            v-if="edukasi.konten"
+            :src="getPdfUrl(edukasi.konten)" 
+            class="w-full h-[700px] border border-slate-200 rounded-2xl shadow-inner bg-white"
+          ></iframe>
+          <div v-else class="text-center py-12 text-gray-400 font-semibold">
+            Berkas PDF tidak ditemukan.
+          </div>
+        </div>
       </article>
 
       <!-- Sidebar (Span 4) -->
@@ -95,14 +105,8 @@ const getImageUrl = (path: string | null) => {
               :key="item.id" 
               class="flex space-x-3 group"
             >
-              <div class="w-16 h-16 bg-slate-100 rounded-xl overflow-hidden shrink-0 flex items-center justify-center">
-                <img 
-                  v-if="item.gambar" 
-                  :src="getImageUrl(item.gambar)" 
-                  :alt="item.judul" 
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" 
-                />
-                <BookOpenCheck v-else class="w-8 h-8 text-[#0a5c36] opacity-60" />
+              <div class="w-16 h-16 bg-red-50 rounded-xl shrink-0 flex items-center justify-center">
+                <FileText class="w-8 h-8 text-red-650" />
               </div>
               <div class="space-y-1">
                 <h4 class="font-bold text-slate-700 text-sm leading-snug group-hover:text-[#0a5c36] transition-colors line-clamp-2">
